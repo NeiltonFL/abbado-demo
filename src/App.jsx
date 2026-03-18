@@ -131,10 +131,12 @@ const Icon = ({ name, size = 18, color = T.textTertiary, style: s }) => (
 // ---- MOCK DATA STORE (simulates API responses) ----
 const DB = {
   users: [
+    { id: "u0", firstName: "Neilton", lastName: "Meewes", email: "nmeewes@founderslaw.com", role: "admin", hourlyRate: null },
     { id: "u1", firstName: "Sarah", lastName: "Chen", email: "sarah.chen@founderslaw.com", role: "partner", hourlyRate: 450, barNumber: "CA-12345" },
     { id: "u2", firstName: "Marcus", lastName: "Williams", email: "marcus.williams@founderslaw.com", role: "associate", hourlyRate: 325, barNumber: "CA-67890" },
     { id: "u3", firstName: "Priya", lastName: "Patel", email: "priya.patel@founderslaw.com", role: "paralegal", hourlyRate: 175 },
     { id: "u4", firstName: "David", lastName: "Kim", email: "david.kim@founderslaw.com", role: "associate", hourlyRate: 300, barNumber: "CA-54321" },
+    { id: "u5", firstName: "Terrence", lastName: "Budnik", email: "tebudnik@founderslaw.com", role: "billing_manager", hourlyRate: null },
   ],
   clients: [
     { id: "c1", type: "entity", name: "TechVenture Inc.", email: "legal@techventure.com", phone: "(415) 555-0100", status: "active", originatingAttorneyId: "u1", notes: "Series B startup. Primary contact: CEO Jamie Park.", address: { street1: "100 Innovation Way", city: "San Francisco", state: "CA", zip: "94105" }, createdAt: "2025-08-10" },
@@ -152,16 +154,84 @@ const DB = {
     { id: "m6", clientId: "c3", matterNumber: "FL-2025-0012", name: "Property Acquisition — Palo Alto", description: "Acquisition of commercial property at 200 University Ave.", practiceArea: "real_estate", status: "closed", billingType: "hourly", responsibleAttorneyId: "u1", openDate: "2025-09-01", closeDate: "2026-01-20", tags: ["acquisition", "commercial"] },
   ],
   documents: [
-    { id: "d1", matterId: "m1", title: "Series B Term Sheet (Markup v3)", category: "contract", description: "Third markup of Sequoia term sheet with board composition revisions.", tags: ["term-sheet", "markup", "sequoia"], createdById: "u1", currentVersion: { versionNumber: 3, fileName: "TermSheet_v3_markup.docx", fileSize: 245000, createdAt: "2026-03-10" }, versionCount: 3, commentCount: 5, updatedAt: "2026-03-10" },
-    { id: "d2", matterId: "m1", title: "Stock Purchase Agreement", category: "contract", description: "Draft SPA covering sections 1-8.", tags: ["spa", "draft", "financing"], createdById: "u2", currentVersion: { versionNumber: 2, fileName: "SPA_v2_draft.docx", fileSize: 520000, createdAt: "2026-03-08" }, versionCount: 2, commentCount: 3, updatedAt: "2026-03-08" },
-    { id: "d3", matterId: "m1", title: "Investor Rights Agreement", category: "contract", description: "IRA with registration rights and information rights.", tags: ["ira", "investor-rights"], createdById: "u1", currentVersion: { versionNumber: 1, fileName: "IRA_draft.docx", fileSize: 380000, createdAt: "2026-03-05" }, versionCount: 1, commentCount: 0, updatedAt: "2026-03-05" },
-    { id: "d4", matterId: "m1", title: "Due Diligence Memo", category: "memo", description: "Summary of corporate formation and IP assignment due diligence findings.", tags: ["due-diligence", "memo", "ip"], createdById: "u3", currentVersion: { versionNumber: 1, fileName: "DD_Memo_TechVenture.pdf", fileSize: 890000, createdAt: "2026-03-04" }, versionCount: 1, commentCount: 1, updatedAt: "2026-03-04" },
-    { id: "d5", matterId: "m1", title: "Cap Table (Pre/Post)", category: "other", description: "Cap table showing pre and post Series B ownership.", tags: ["cap-table", "ownership"], createdById: "u3", currentVersion: { versionNumber: 4, fileName: "CapTable_SeriesB_v4.xlsx", fileSize: 125000, createdAt: "2026-03-09" }, versionCount: 4, commentCount: 2, updatedAt: "2026-03-09" },
-    { id: "d6", matterId: "m2", title: "I-140 Petition", category: "filing", description: "Immigration petition for EB-2 NIW classification.", tags: ["i-140", "petition", "niw"], createdById: "u2", currentVersion: { versionNumber: 1, fileName: "I140_Petition_Sharma.pdf", fileSize: 1200000, createdAt: "2026-03-05" }, versionCount: 1, commentCount: 0, updatedAt: "2026-03-05" },
-    { id: "d7", matterId: "m2", title: "Support Letter — Dr. Wilson", category: "correspondence", description: "Expert recommendation letter from Stanford professor.", tags: ["support-letter", "recommendation"], createdById: "u2", currentVersion: { versionNumber: 2, fileName: "SupportLetter_Wilson_v2.pdf", fileSize: 340000, createdAt: "2026-03-07" }, versionCount: 2, commentCount: 1, updatedAt: "2026-03-07" },
-    { id: "d8", matterId: "m3", title: "Lease Agreement (Draft)", category: "contract", description: "Initial draft of 10-year commercial lease at 500 Howard.", tags: ["lease", "draft", "commercial"], createdById: "u1", currentVersion: { versionNumber: 1, fileName: "Lease_500Howard_Draft.docx", fileSize: 450000, createdAt: "2026-03-06" }, versionCount: 1, commentCount: 0, updatedAt: "2026-03-06" },
-    { id: "d9", matterId: "m3", title: "Environmental Assessment", category: "other", description: "Phase I environmental site assessment report.", tags: ["environmental", "assessment", "phase-1"], createdById: "u3", currentVersion: { versionNumber: 1, fileName: "EnvAssessment_500Howard.pdf", fileSize: 2100000, createdAt: "2026-02-28" }, versionCount: 1, commentCount: 0, updatedAt: "2026-02-28" },
-    { id: "d10", matterId: "m4", title: "VP Engineering Employment Agreement", category: "contract", description: "Executive employment agreement with equity provisions.", tags: ["employment", "executive", "equity"], createdById: "u4", currentVersion: { versionNumber: 2, fileName: "EmpAgreement_VPEng_v2.docx", fileSize: 290000, createdAt: "2026-03-11" }, versionCount: 2, commentCount: 1, updatedAt: "2026-03-11" },
+    { id: "d1", matterId: "m1", title: "Series B Term Sheet (Markup v3)", category: "contract", docStatus: "review", confidentiality: "confidential", description: "Third markup of Sequoia term sheet with board composition revisions.", tags: ["term-sheet", "markup", "sequoia", "board-composition"], createdById: "u1",
+      entityLinks: [{ entityId: "e1", entityName: "TechVenture Inc." }], peopleLinks: [{ name: "Jamie Park", role: "Reviewer" }, { name: "Sarah Chen", role: "Author" }], relatedDocIds: ["d2", "d5"],
+      checkedOut: { userId: "u1", userName: "Sarah Chen", since: "2026-03-11T09:00:00Z" },
+      currentVersion: { versionNumber: 3, fileName: "TermSheet_v3_markup.docx", fileSize: 245000, createdAt: "2026-03-10" }, versionCount: 3, commentCount: 5, updatedAt: "2026-03-10",
+      versions: [
+        { versionNumber: 1, fileName: "TermSheet_v1.docx", fileSize: 198000, uploadedBy: "u1", uploadedByName: "Sarah Chen", uploadedAt: "2026-03-03", changeNote: "Initial term sheet from Sequoia" },
+        { versionNumber: 2, fileName: "TermSheet_v2_markup.docx", fileSize: 228000, uploadedBy: "u1", uploadedByName: "Sarah Chen", uploadedAt: "2026-03-07", changeNote: "Added anti-dilution and protective provisions markup" },
+        { versionNumber: 3, fileName: "TermSheet_v3_markup.docx", fileSize: 245000, uploadedBy: "u1", uploadedByName: "Sarah Chen", uploadedAt: "2026-03-10", changeNote: "Board composition revisions — 5-seat structure (2/2/1)" },
+      ] },
+    { id: "d2", matterId: "m1", title: "Stock Purchase Agreement", category: "contract", docStatus: "draft", confidentiality: "confidential", description: "Draft SPA covering sections 1-8 including representations and warranties.", tags: ["spa", "draft", "financing", "reps-warranties"], createdById: "u2",
+      entityLinks: [{ entityId: "e1", entityName: "TechVenture Inc." }], peopleLinks: [{ name: "Marcus Williams", role: "Author" }, { name: "Sarah Chen", role: "Reviewer" }], relatedDocIds: ["d1", "d3"],
+      checkedOut: null,
+      currentVersion: { versionNumber: 2, fileName: "SPA_v2_draft.docx", fileSize: 520000, createdAt: "2026-03-08" }, versionCount: 2, commentCount: 3, updatedAt: "2026-03-08",
+      versions: [
+        { versionNumber: 1, fileName: "SPA_v1_draft.docx", fileSize: 420000, uploadedBy: "u2", uploadedByName: "Marcus Williams", uploadedAt: "2026-03-05", changeNote: "Initial draft — sections 1-4 (definitions, purchase/sale)" },
+        { versionNumber: 2, fileName: "SPA_v2_draft.docx", fileSize: 520000, uploadedBy: "u2", uploadedByName: "Marcus Williams", uploadedAt: "2026-03-08", changeNote: "Added sections 5-8 (representations & warranties)" },
+      ] },
+    { id: "d3", matterId: "m1", title: "Investor Rights Agreement", category: "contract", docStatus: "draft", confidentiality: "confidential", description: "IRA with registration rights, information rights, and pro-rata rights.", tags: ["ira", "investor-rights", "registration-rights", "pro-rata"], createdById: "u1",
+      entityLinks: [{ entityId: "e1", entityName: "TechVenture Inc." }], peopleLinks: [{ name: "Sarah Chen", role: "Author" }], relatedDocIds: ["d1", "d2"],
+      checkedOut: null,
+      currentVersion: { versionNumber: 1, fileName: "IRA_draft.docx", fileSize: 380000, createdAt: "2026-03-05" }, versionCount: 1, commentCount: 0, updatedAt: "2026-03-05",
+      versions: [
+        { versionNumber: 1, fileName: "IRA_draft.docx", fileSize: 380000, uploadedBy: "u1", uploadedByName: "Sarah Chen", uploadedAt: "2026-03-05", changeNote: "Initial draft with standard Series B IRA provisions" },
+      ] },
+    { id: "d4", matterId: "m1", title: "Due Diligence Memo", category: "memo", docStatus: "final", confidentiality: "privileged", description: "Summary of corporate formation and IP assignment due diligence findings.", tags: ["due-diligence", "memo", "ip", "corporate-formation"], createdById: "u3",
+      entityLinks: [{ entityId: "e1", entityName: "TechVenture Inc." }, { entityId: "e2", entityName: "TechVenture IP Holdings LLC" }], peopleLinks: [{ name: "Priya Patel", role: "Author" }, { name: "Jamie Park", role: "Subject" }], relatedDocIds: [],
+      checkedOut: null,
+      currentVersion: { versionNumber: 1, fileName: "DD_Memo_TechVenture.pdf", fileSize: 890000, createdAt: "2026-03-04" }, versionCount: 1, commentCount: 1, updatedAt: "2026-03-04",
+      versions: [
+        { versionNumber: 1, fileName: "DD_Memo_TechVenture.pdf", fileSize: 890000, uploadedBy: "u3", uploadedByName: "Priya Patel", uploadedAt: "2026-03-04", changeNote: "Complete due diligence findings — all clear" },
+      ] },
+    { id: "d5", matterId: "m1", title: "Cap Table (Pre/Post Series B)", category: "other", docStatus: "review", confidentiality: "confidential", description: "Cap table showing pre and post Series B ownership with option pool expansion.", tags: ["cap-table", "ownership", "option-pool", "dilution"], createdById: "u3",
+      entityLinks: [{ entityId: "e1", entityName: "TechVenture Inc." }], peopleLinks: [{ name: "Priya Patel", role: "Author" }, { name: "Riley Chen", role: "Reviewer" }], relatedDocIds: ["d1"],
+      checkedOut: null,
+      currentVersion: { versionNumber: 4, fileName: "CapTable_SeriesB_v4.xlsx", fileSize: 125000, createdAt: "2026-03-09" }, versionCount: 4, commentCount: 2, updatedAt: "2026-03-09",
+      versions: [
+        { versionNumber: 1, fileName: "CapTable_PreB.xlsx", fileSize: 85000, uploadedBy: "u3", uploadedByName: "Priya Patel", uploadedAt: "2026-02-28", changeNote: "Pre-Series B cap table baseline" },
+        { versionNumber: 2, fileName: "CapTable_v2.xlsx", fileSize: 95000, uploadedBy: "u3", uploadedByName: "Priya Patel", uploadedAt: "2026-03-03", changeNote: "Added Series B investor allocations" },
+        { versionNumber: 3, fileName: "CapTable_v3.xlsx", fileSize: 110000, uploadedBy: "u3", uploadedByName: "Priya Patel", uploadedAt: "2026-03-06", changeNote: "Option pool expansion to 10% post-money" },
+        { versionNumber: 4, fileName: "CapTable_SeriesB_v4.xlsx", fileSize: 125000, uploadedBy: "u3", uploadedByName: "Priya Patel", uploadedAt: "2026-03-09", changeNote: "Final pre/post comparison with founder dilution table" },
+      ] },
+    { id: "d6", matterId: "m2", title: "I-140 Petition", category: "filing", docStatus: "executed", confidentiality: "confidential", description: "Immigration petition for EB-2 NIW classification.", tags: ["i-140", "petition", "niw", "eb-2", "immigration"], createdById: "u2",
+      entityLinks: [], peopleLinks: [{ name: "Amir Sharma", role: "Petitioner" }, { name: "Marcus Williams", role: "Author" }], relatedDocIds: ["d7"],
+      checkedOut: null,
+      currentVersion: { versionNumber: 1, fileName: "I140_Petition_Sharma.pdf", fileSize: 1200000, createdAt: "2026-03-05" }, versionCount: 1, commentCount: 0, updatedAt: "2026-03-05",
+      versions: [
+        { versionNumber: 1, fileName: "I140_Petition_Sharma.pdf", fileSize: 1200000, uploadedBy: "u2", uploadedByName: "Marcus Williams", uploadedAt: "2026-03-05", changeNote: "Final petition — ready for filing" },
+      ] },
+    { id: "d7", matterId: "m2", title: "Support Letter — Dr. Wilson", category: "correspondence", docStatus: "final", confidentiality: "internal", description: "Expert recommendation letter from Stanford professor for NIW petition.", tags: ["support-letter", "recommendation", "expert", "stanford"], createdById: "u2",
+      entityLinks: [], peopleLinks: [{ name: "Dr. James Wilson", role: "Author" }, { name: "Amir Sharma", role: "Subject" }], relatedDocIds: ["d6"],
+      checkedOut: null,
+      currentVersion: { versionNumber: 2, fileName: "SupportLetter_Wilson_v2.pdf", fileSize: 340000, createdAt: "2026-03-07" }, versionCount: 2, commentCount: 1, updatedAt: "2026-03-07",
+      versions: [
+        { versionNumber: 1, fileName: "SupportLetter_Wilson_v1.pdf", fileSize: 310000, uploadedBy: "u2", uploadedByName: "Marcus Williams", uploadedAt: "2026-03-04", changeNote: "Draft letter from Dr. Wilson — needs signature" },
+        { versionNumber: 2, fileName: "SupportLetter_Wilson_v2.pdf", fileSize: 340000, uploadedBy: "u2", uploadedByName: "Marcus Williams", uploadedAt: "2026-03-07", changeNote: "Final signed version received" },
+      ] },
+    { id: "d8", matterId: "m3", title: "Lease Agreement (Draft)", category: "contract", docStatus: "draft", confidentiality: "confidential", description: "Initial draft of 10-year commercial lease at 500 Howard St.", tags: ["lease", "draft", "commercial", "10-year"], createdById: "u1",
+      entityLinks: [{ entityId: "e3", entityName: "GreenLeaf Properties LLC" }], peopleLinks: [{ name: "Sarah Chen", role: "Author" }, { name: "David Greenfield", role: "Reviewer" }], relatedDocIds: ["d9"],
+      checkedOut: { userId: "u1", userName: "Sarah Chen", since: "2026-03-12T14:00:00Z" },
+      currentVersion: { versionNumber: 1, fileName: "Lease_500Howard_Draft.docx", fileSize: 450000, createdAt: "2026-03-06" }, versionCount: 1, commentCount: 0, updatedAt: "2026-03-06",
+      versions: [
+        { versionNumber: 1, fileName: "Lease_500Howard_Draft.docx", fileSize: 450000, uploadedBy: "u1", uploadedByName: "Sarah Chen", uploadedAt: "2026-03-06", changeNote: "Initial lease draft — tenant improvement and renewal terms TBD" },
+      ] },
+    { id: "d9", matterId: "m3", title: "Environmental Assessment", category: "other", docStatus: "final", confidentiality: "internal", description: "Phase I environmental site assessment report for 500 Howard St.", tags: ["environmental", "assessment", "phase-1", "site-assessment"], createdById: "u3",
+      entityLinks: [{ entityId: "e3", entityName: "GreenLeaf Properties LLC" }], peopleLinks: [{ name: "Priya Patel", role: "Uploaded by" }], relatedDocIds: ["d8"],
+      checkedOut: null,
+      currentVersion: { versionNumber: 1, fileName: "EnvAssessment_500Howard.pdf", fileSize: 2100000, createdAt: "2026-02-28" }, versionCount: 1, commentCount: 0, updatedAt: "2026-02-28",
+      versions: [
+        { versionNumber: 1, fileName: "EnvAssessment_500Howard.pdf", fileSize: 2100000, uploadedBy: "u3", uploadedByName: "Priya Patel", uploadedAt: "2026-02-28", changeNote: "Phase I assessment — no recognized environmental conditions" },
+      ] },
+    { id: "d10", matterId: "m4", title: "VP Engineering Employment Agreement", category: "contract", docStatus: "draft", confidentiality: "confidential", description: "Executive employment agreement with equity cliff/vesting provisions and IP assignment.", tags: ["employment", "executive", "equity", "vesting", "ip-assignment", "non-compete"], createdById: "u4",
+      entityLinks: [{ entityId: "e1", entityName: "TechVenture Inc." }], peopleLinks: [{ name: "David Kim", role: "Author" }, { name: "Jamie Park", role: "Reviewer" }], relatedDocIds: [],
+      checkedOut: { userId: "u4", userName: "David Kim", since: "2026-03-11T16:00:00Z" },
+      currentVersion: { versionNumber: 2, fileName: "EmpAgreement_VPEng_v2.docx", fileSize: 290000, createdAt: "2026-03-11" }, versionCount: 2, commentCount: 1, updatedAt: "2026-03-11",
+      versions: [
+        { versionNumber: 1, fileName: "EmpAgreement_VPEng_v1.docx", fileSize: 240000, uploadedBy: "u4", uploadedByName: "David Kim", uploadedAt: "2026-03-09", changeNote: "Initial draft based on firm standard template" },
+        { versionNumber: 2, fileName: "EmpAgreement_VPEng_v2.docx", fileSize: 290000, uploadedBy: "u4", uploadedByName: "David Kim", uploadedAt: "2026-03-11", changeNote: "Added equity provisions — 0.5% with 4yr/1yr cliff, CA non-compete language" },
+      ] },
   ],
   timeEntries: [
     { id: "t1", matterId: "m1", userId: "u1", date: "2026-03-11", durationMinutes: 120, description: "Reviewed and revised investor rights agreement anti-dilution provisions", billable: true, status: "draft", rateAtEntry: 450 },
@@ -174,6 +244,50 @@ const DB = {
     { id: "t8", matterId: "m1", userId: "u1", date: "2026-03-06", durationMinutes: 60, description: "Due diligence coordination call with client CFO", billable: true, status: "approved", rateAtEntry: 450 },
     { id: "t9", matterId: "m3", userId: "u1", date: "2026-03-05", durationMinutes: 45, description: "Review environmental assessment report findings", billable: true, status: "approved", rateAtEntry: 450 },
     { id: "t10", matterId: "m4", userId: "u4", date: "2026-03-10", durationMinutes: 120, description: "Research California non-compete enforceability post-2024 changes", billable: true, status: "submitted", rateAtEntry: 300 },
+  ],
+  expenses: [
+    { id: "exp1", matterId: "m1", userId: "u3", date: "2026-03-02", category: "filing_fee", description: "DE Secretary of State — Certified copy of Certificate of Incorporation", amount: 50, billable: true, status: "approved", receipt: "receipt_001.pdf" },
+    { id: "exp2", matterId: "m1", userId: "u1", date: "2026-03-04", category: "research", description: "PitchBook data subscription — Series B comp analysis", amount: 275, billable: true, status: "approved" },
+    { id: "exp3", matterId: "m2", userId: "u2", date: "2026-02-28", category: "filing_fee", description: "USCIS I-140 filing fee", amount: 700, billable: true, status: "billed" },
+    { id: "exp4", matterId: "m3", userId: "u1", date: "2026-03-06", category: "other", description: "Environmental assessment report — Phase I", amount: 2500, billable: true, status: "approved" },
+    { id: "exp5", matterId: "m1", userId: "u3", date: "2026-03-09", category: "copies", description: "Board presentation copies (color, bound)", amount: 85, billable: false, status: "approved" },
+    { id: "exp6", matterId: "m4", userId: "u4", date: "2026-03-11", category: "research", description: "Westlaw research — CA non-compete case law", amount: 125, billable: true, status: "draft" },
+  ],
+  trustAccounts: [
+    { id: "ta1", name: "Firm IOLTA Account", bank: "First Republic Bank", accountLast4: "4567", balance: 85000 },
+  ],
+  trustTransactions: [
+    { id: "tt1", accountId: "ta1", clientId: "c1", type: "deposit", amount: 25000, date: "2025-08-15", reference: "Wire #8891", description: "Initial retainer — Series B engagement", balance: 25000 },
+    { id: "tt2", accountId: "ta1", clientId: "c1", type: "withdrawal", amount: -12500, date: "2026-02-28", reference: "Applied to INV-2026-0001", description: "Partial payment of Series B invoice", balance: 12500 },
+    { id: "tt3", accountId: "ta1", clientId: "c3", type: "deposit", amount: 15000, date: "2025-12-10", reference: "Check #4412", description: "Retainer — Commercial lease matter", balance: 27500 },
+    { id: "tt4", accountId: "ta1", clientId: "c3", type: "withdrawal", amount: -10400, date: "2026-03-02", reference: "Applied to INV-2026-0003", description: "Full payment from trust", balance: 17100 },
+    { id: "tt5", accountId: "ta1", clientId: "c2", type: "deposit", amount: 8500, date: "2026-02-01", reference: "Wire #9102", description: "Flat fee — H-1B/EB-2 engagement", balance: 25600 },
+    { id: "tt6", accountId: "ta1", clientId: "c2", type: "withdrawal", amount: -8500, date: "2026-02-15", reference: "Applied to INV-2026-0002", description: "Full payment of immigration invoice", balance: 17100 },
+    { id: "tt7", accountId: "ta1", clientId: "c1", type: "deposit", amount: 50000, date: "2026-03-01", reference: "Wire #9350", description: "Additional retainer — Series B close", balance: 67100 },
+    { id: "tt8", accountId: "ta1", clientId: "c5", type: "deposit", amount: 5000, date: "2026-01-20", reference: "Check #5590", description: "General retainer", balance: 72100 },
+  ],
+  payments: [
+    { id: "pay1", invoiceId: "i1", amount: 12500, method: "trust", date: "2026-02-28", reference: "Trust application" },
+    { id: "pay2", invoiceId: "i1", amount: 7250, method: "wire", date: "2026-03-10", reference: "Wire #9401" },
+    { id: "pay3", invoiceId: "i2", amount: 8500, method: "trust", date: "2026-02-15", reference: "Trust application" },
+    { id: "pay4", invoiceId: "i3", amount: 10400, method: "trust", date: "2026-03-02", reference: "Trust application" },
+    { id: "pay5", invoiceId: "i5", amount: 48000, method: "wire", date: "2025-11-05", reference: "Wire #7820" },
+    { id: "pay6", invoiceId: "i6", amount: 22500, method: "check", date: "2026-02-20", reference: "Check #4489" },
+  ],
+  calendarEvents: [
+    { id: "cal1", type: "compliance", title: "CA Statement of Information — TechVenture Inc.", date: "2026-06-01", matterId: null, clientId: "c1", entityId: "e1" },
+    { id: "cal2", type: "compliance", title: "DE LLC Annual Tax — TechVenture IP Holdings", date: "2026-06-01", matterId: null, clientId: "c1", entityId: "e2" },
+    { id: "cal3", type: "compliance", title: "CA LLC Annual Tax — GreenLeaf Properties", date: "2026-04-15", matterId: null, clientId: "c3", entityId: "e3" },
+    { id: "cal4", type: "compliance", title: "FL Annual Report — GreenLeaf Properties", date: "2026-05-01", matterId: null, clientId: "c3", entityId: "e3" },
+    { id: "cal5", type: "deadline", title: "Series B Closing — Target Date", date: "2026-04-15", matterId: "m1", clientId: "c1" },
+    { id: "cal6", type: "deadline", title: "Lease Signing Deadline", date: "2026-03-31", matterId: "m3", clientId: "c3" },
+    { id: "cal7", type: "deadline", title: "I-140 Premium Processing — 15 Business Days", date: "2026-03-28", matterId: "m2", clientId: "c2" },
+    { id: "cal8", type: "meeting", title: "TechVenture Cap Table Call", date: "2026-03-18", matterId: "m1", clientId: "c1", time: "2:00 PM" },
+    { id: "cal9", type: "meeting", title: "Sequoia Counsel — Term Sheet Final", date: "2026-03-20", matterId: "m1", clientId: "c1", time: "10:00 AM" },
+    { id: "cal10", type: "meeting", title: "GreenLeaf — Lease Walkthrough", date: "2026-03-22", matterId: "m3", clientId: "c3", time: "3:00 PM" },
+    { id: "cal11", type: "deadline", title: "VP Eng Offer Letter — Send to Candidate", date: "2026-03-25", matterId: "m4", clientId: "c1" },
+    { id: "cal12", type: "billing", title: "Monthly Pre-Bills Due", date: "2026-04-01" },
+    { id: "cal13", type: "billing", title: "Invoice Review Deadline", date: "2026-04-03" },
   ],
   invoices: [
     { id: "i1", invoiceNumber: "INV-2026-0001", matterId: "m1", clientId: "c1", status: "sent", issueDate: "2026-02-28", dueDate: "2026-03-30", total: 32250, amountPaid: 19750, balanceDue: 12500 },
@@ -247,12 +361,23 @@ const DB = {
     { id: "pu3", clientId: "c2", email: "amir.sharma@gmail.com", firstName: "Amir", lastName: "Sharma", title: "", status: "active" },
     { id: "pu4", clientId: "c3", email: "david@greenleafprops.com", firstName: "David", lastName: "Greenfield", title: "Managing Partner", status: "active" },
   ],
+  matterRateOverrides: [
+    { matterId: "m2", userId: "u2", overrideRate: 275, reason: "Pro bono reduced rate — immigration referral", setBy: "u1", setAt: "2026-02-01" },
+    { matterId: "m3", userId: "u1", overrideRate: 400, reason: "Longstanding client discount", setBy: "u1", setAt: "2025-12-15" },
+  ],
   firmSettings: {
     name: "Founders Law", address: { street1: "1 Market St, Suite 400", city: "San Francisco", state: "CA", zip: "94105" },
     phone: "(415) 555-9000", website: "founderslaw.com", ein: "**-***1234",
     billingDefaults: { paymentTerms: 30, invoicePrefix: "INV", trustBankName: "First Republic Bank" },
     integrations: { gavel: { status: "connected", workspace: "cofounderkitllc.gavel.io" }, stripe: { status: "connected" }, qbo: { status: "not_connected" }, singlefile: { status: "connected", lastSync: "2026-03-15T08:00:00Z" } },
   },
+  calendarConnections: [
+    { userId: "u0", provider: "google", email: "nmeewes@founderslaw.com", status: "connected", calendarName: "Founders Law", lastSync: "2026-03-18T08:30:00Z", syncDirection: "two_way" },
+    { userId: "u1", provider: "google", email: "sarah.chen@gmail.com", status: "connected", calendarName: "Work", lastSync: "2026-03-18T08:15:00Z", syncDirection: "two_way" },
+    { userId: "u1", provider: "apple", email: "sarah.chen@icloud.com", status: "connected", calendarName: "iCloud Calendar", lastSync: "2026-03-18T08:15:00Z", syncDirection: "subscribe" },
+    { userId: "u2", provider: "google", email: "marcus.williams@gmail.com", status: "connected", calendarName: "Founders Law", lastSync: "2026-03-18T07:45:00Z", syncDirection: "two_way" },
+    { userId: "u4", provider: "google", email: "david.kim@founderslaw.com", status: "disconnected", calendarName: null, lastSync: null, syncDirection: null },
+  ],
 };
 
 // ---- DATA HELPERS (simulate API queries) ----
@@ -289,10 +414,31 @@ const Q = {
   unreadConvs: (matterId) => DB.conversations.filter(c => c.matterId === matterId && c.status === "open").length,
   unassignedConvs: () => DB.conversations.filter(c => !c.matterId),
   portalUsersForClient: (clientId) => DB.portalUsers.filter(pu => pu.clientId === clientId),
+  rateOverridesForMatter: (matterId) => DB.matterRateOverrides.filter(r => r.matterId === matterId),
+  effectiveRate: (matterId, userId) => {
+    const override = DB.matterRateOverrides.find(r => r.matterId === matterId && r.userId === userId);
+    if (override) return override.overrideRate;
+    const user = DB.users.find(u => u.id === userId);
+    return user?.hourlyRate || 0;
+  },
+  expensesForMatter: (matterId) => DB.expenses.filter(e => e.matterId === matterId),
+  expensesForClient: (clientId) => { const mIds = DB.matters.filter(m => m.clientId === clientId).map(m => m.id); return DB.expenses.filter(e => mIds.includes(e.matterId)); },
+  trustForClient: (clientId) => DB.trustTransactions.filter(t => t.clientId === clientId),
+  trustBalance: (clientId) => DB.trustTransactions.filter(t => t.clientId === clientId).reduce((s, t) => s + t.amount, 0),
+  paymentsForInvoice: (invoiceId) => DB.payments.filter(p => p.invoiceId === invoiceId),
+  calendarEventsInRange: (start, end) => DB.calendarEvents.filter(e => e.date >= start && e.date <= end),
   tierForRole: (role) => DB.compensationTiers.find(t => t.roles.includes(role)),
   originationForMatter: (matterId) => DB.originationSplits.find(o => o.matterId === matterId),
   userOriginationMatters: (userId) => DB.originationSplits.filter(o => o.splits.some(s => s.userId === userId)),
-  isAdmin: (role) => ["admin", "partner", "billing_manager"].includes(role),
+  isAdmin: (role) => role === "admin",
+  isBillingTier: (role) => ["admin", "billing_manager"].includes(role),
+  canSeeAdminNav: (role) => role === "admin", // Users, Settings
+  canSeeBillingNav: (role) => ["admin", "billing_manager"].includes(role), // Reports, Trust, Pre-Bills (full view)
+  canViewTimeOnMatter: (userId, role, matterId) => {
+    if (role === "admin" || role === "billing_manager") return true;
+    const matter = DB.matters.find(m => m.id === matterId);
+    return matter?.responsibleAttorneyId === userId;
+  },
   // Compensation calculation
   computeUserComp: (userId) => {
     const user = DB.users.find(u => u.id === userId);
@@ -351,6 +497,7 @@ const fmt = {
   initials: (name) => name ? name.split(" ").map(w => w[0]).join("").toUpperCase().slice(0, 2) : "?",
   role: (r) => ({ admin: "Admin", partner: "Partner", associate: "Associate", paralegal: "Paralegal", billing_manager: "Billing" })[r] || r,
   mins: (entries) => entries.reduce((s, e) => s + e.durationMinutes, 0),
+  relative: (d) => { if (!d) return "—"; const diff = (new Date() - new Date(d)) / 86400000; if (diff < 0.04) return "Just now"; if (diff < 1) return "Today"; if (diff < 2) return "Yesterday"; if (diff < 7) return `${Math.floor(diff)} days ago`; return fmt.date(d.split("T")[0]); },
 };
 
 // ============================================================
@@ -612,16 +759,31 @@ const AiPanel = ({ open, onClose, nav }) => {
 // ============================================================
 // PAGE: CLIENT DETAIL (deeply linked)
 // ============================================================
-const ClientDetailPage = ({ clientId, nav }) => {
+const ClientDetailPage = ({ clientId, nav, currentUser }) => {
   const [tab, setTab] = useState("overview");
   const client = Q.client(clientId);
   if (!client) return <div style={{ padding: 40, color: T.textTertiary }}>Client not found</div>;
 
+  const isBT = Q.isBillingTier(currentUser.role);
   const attorney = Q.user(client.originatingAttorneyId);
   const matters = Q.mattersForClient(clientId);
   const docs = Q.docsForClient(clientId);
-  const timeEntries = Q.timeForClient(clientId);
-  const invoices = Q.invoicesForClient(clientId);
+
+  // Scope time entries: admin/billing sees all, responsible attorney sees their matters, others see own only
+  const allTimeEntries = Q.timeForClient(clientId);
+  const timeEntries = isBT ? allTimeEntries : allTimeEntries.filter(e => {
+    if (e.userId === currentUser.id) return true;
+    const matter = DB.matters.find(m => m.id === e.matterId);
+    return matter?.responsibleAttorneyId === currentUser.id;
+  });
+
+  // Scope invoices: admin/billing sees all, responsible attorney sees their matters' invoices, others see nothing
+  const allInvoices = Q.invoicesForClient(clientId);
+  const invoices = isBT ? allInvoices : allInvoices.filter(i => {
+    const matter = DB.matters.find(m => m.id === i.matterId);
+    return matter?.responsibleAttorneyId === currentUser.id;
+  });
+
   const timeThisMonth = Q.timeThisMonth(timeEntries);
 
   return (
@@ -644,13 +806,14 @@ const ClientDetailPage = ({ clientId, nav }) => {
         <Btn variant="ghost" size="sm"><Icon name="edit" size={13} color={T.textSecondary} /> Edit</Btn>
       </div>
 
-      {/* Stats row */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 12, marginBottom: 24 }}>
-        <Card style={{ padding: "14px 16px" }}><Stat label="Total Billed" value={fmt.currency(Q.totalBilled(invoices))} /></Card>
-        <Card style={{ padding: "14px 16px" }}><Stat label="Paid" value={fmt.currency(Q.totalPaid(invoices))} color={T.green} /></Card>
-        <Card style={{ padding: "14px 16px" }}><Stat label="Outstanding" value={fmt.currency(Q.totalOutstanding(invoices))} color={Q.totalOutstanding(invoices) > 0 ? T.orange : T.green} /></Card>
-        <Card style={{ padding: "14px 16px" }}><Stat label="Unbilled" value={fmt.currency(Q.unbilledAmount(timeEntries))} color={T.blue} /></Card>
-        <Card style={{ padding: "14px 16px" }}><Stat label="This Month" value={`${fmt.hoursDecimal(fmt.mins(timeThisMonth))}h`} sub={`${timeThisMonth.length} entries`} /></Card>
+      {/* Stats row — scoped by permissions */}
+      <div style={{ display: "grid", gridTemplateColumns: `repeat(${isBT ? 5 : 3}, 1fr)`, gap: 12, marginBottom: 24 }}>
+        {isBT && <Card style={{ padding: "14px 16px" }}><Stat label="Total Billed" value={fmt.currency(Q.totalBilled(invoices))} /></Card>}
+        {isBT && <Card style={{ padding: "14px 16px" }}><Stat label="Paid" value={fmt.currency(Q.totalPaid(invoices))} color={T.green} /></Card>}
+        {isBT && <Card style={{ padding: "14px 16px" }}><Stat label="Outstanding" value={fmt.currency(Q.totalOutstanding(invoices))} color={Q.totalOutstanding(invoices) > 0 ? T.orange : T.green} /></Card>}
+        <Card style={{ padding: "14px 16px" }}><Stat label={isBT ? "Unbilled" : "My Unbilled"} value={fmt.currency(Q.unbilledAmount(timeEntries))} color={T.blue} /></Card>
+        <Card style={{ padding: "14px 16px" }}><Stat label="My Time" value={`${(allTimeEntries.filter(e => e.userId === currentUser.id).reduce((s, e) => s + e.durationMinutes, 0) / 60).toFixed(1)}h`} sub={`${allTimeEntries.filter(e => e.userId === currentUser.id).length} entries`} /></Card>
+        {!isBT && <Card style={{ padding: "14px 16px" }}><Stat label="Matters" value={matters.length} /></Card>}
       </div>
 
       <TabBar tabs={[
@@ -658,8 +821,8 @@ const ClientDetailPage = ({ clientId, nav }) => {
         { id: "matters", label: "Matters", count: matters.length },
         { id: "entities", label: "Entities", count: Q.entitiesForClient(clientId).length },
         { id: "documents", label: "Documents", count: docs.length },
-        { id: "billing", label: "Billing", count: invoices.length },
-        { id: "time", label: "Time", count: timeEntries.length },
+        ...(isBT || invoices.length > 0 ? [{ id: "billing", label: "Billing", count: invoices.length }] : []),
+        { id: "time", label: timeEntries.length === allTimeEntries.length ? "Time" : "My Time", count: timeEntries.length },
       ]} active={tab} onSelect={setTab} />
 
       {tab === "overview" && (
@@ -723,15 +886,22 @@ const ClientDetailPage = ({ clientId, nav }) => {
       )}
 
       {tab === "time" && (
-        <Table data={timeEntries} columns={[
-          { header: "Date", render: r => fmt.dateShort(r.date), nowrap: true },
-          { header: "Matter", render: r => <span style={{ fontFamily: T.mono, fontSize: "11px" }}>{DB.matters.find(m => m.id === r.matterId)?.matterNumber}</span> },
-          { header: "Attorney", render: r => { const u = Q.user(r.userId); return u ? `${u.firstName} ${u.lastName}` : "—"; } },
-          { header: "Description", render: r => <div style={{ maxWidth: 300, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{r.description}</div> },
-          { header: "Hours", render: r => <span style={{ fontFamily: T.mono, fontWeight: 600 }}>{fmt.hoursDecimal(r.durationMinutes)}</span>, align: "right", nowrap: true },
-          { header: "Amount", render: r => <span style={{ fontFamily: T.mono }}>{fmt.currency((r.durationMinutes / 60) * r.rateAtEntry)}</span>, align: "right", nowrap: true },
-          { header: "Status", render: r => <StatusBadge status={r.status} />, nowrap: true },
-        ]} />
+        <div>
+          <Table data={timeEntries} columns={[
+            { header: "Date", render: r => fmt.dateShort(r.date), nowrap: true },
+            { header: "Matter", render: r => <span style={{ fontFamily: T.mono, fontSize: "11px" }}>{DB.matters.find(m => m.id === r.matterId)?.matterNumber}</span> },
+            { header: "Attorney", render: r => { const u = Q.user(r.userId); return u ? <span>{u.firstName} {u.lastName}{r.userId === currentUser.id ? <Badge color="#3F7653" bg={T.accentBg} style={{ marginLeft: 6, fontSize: "9px" }}>You</Badge> : ""}</span> : "—"; } },
+            { header: "Description", render: r => <div style={{ maxWidth: 300, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{r.description}</div> },
+            { header: "Hours", render: r => <span style={{ fontFamily: T.mono, fontWeight: 600 }}>{fmt.hoursDecimal(r.durationMinutes)}</span>, align: "right", nowrap: true },
+            { header: "Amount", render: r => <span style={{ fontFamily: T.mono }}>{fmt.currency((r.durationMinutes / 60) * r.rateAtEntry)}</span>, align: "right", nowrap: true },
+            { header: "Status", render: r => <StatusBadge status={r.status} />, nowrap: true },
+          ]} />
+          {!isBT && timeEntries.length < allTimeEntries.length && (
+            <div style={{ marginTop: 10, padding: "8px 12px", background: T.surfaceRaised, borderRadius: T.radius, fontSize: "11.5px", color: T.textTertiary, lineHeight: 1.5 }}>
+              Showing your entries and entries on matters where you are the responsible attorney. The billing team can view all entries.
+            </div>
+          )}
+        </div>
       )}
 
       {tab === "entities" && (
@@ -905,17 +1075,29 @@ const MatterConversations = ({ matterId, client }) => {
 // ============================================================
 // PAGE: MATTER DETAIL (deeply linked)
 // ============================================================
-const MatterDetailPage = ({ matterId, nav }) => {
+const MatterDetailPage = ({ matterId, nav, currentUser }) => {
   const [tab, setTab] = useState("overview");
   const matter = DB.matters.find(m => m.id === matterId);
   if (!matter) return <div style={{ padding: 40, color: T.textTertiary }}>Matter not found</div>;
 
+  const isBT = Q.isBillingTier(currentUser.role);
+  const isResponsible = matter.responsibleAttorneyId === currentUser.id;
+  const canSeeAllTime = isBT || isResponsible; // Admin, billing_manager, or responsible attorney
+
   const client = Q.client(matter.clientId);
   const attorney = Q.user(matter.responsibleAttorneyId);
   const docs = Q.docsForMatter(matterId);
-  const timeEntries = Q.timeForMatter(matterId);
-  const invoices = Q.invoicesForMatter(matterId);
+
+  // Scope time entries
+  const allTimeEntries = Q.timeForMatter(matterId);
+  const timeEntries = canSeeAllTime ? allTimeEntries : allTimeEntries.filter(e => e.userId === currentUser.id);
+
+  // Scope invoices: only billing tier or responsible attorney
+  const allInvoices = Q.invoicesForMatter(matterId);
+  const invoices = (isBT || isResponsible) ? allInvoices : [];
+
   const timeThisMonth = Q.timeThisMonth(timeEntries);
+  const canSeeBilling = isBT || isResponsible;
 
   return (
     <div>
@@ -937,20 +1119,21 @@ const MatterDetailPage = ({ matterId, nav }) => {
         </div>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 12, marginBottom: 24 }}>
-        <Card style={{ padding: "14px 16px" }}><Stat label="Total Billed" value={fmt.currency(Q.totalBilled(invoices))} /></Card>
-        <Card style={{ padding: "14px 16px" }}><Stat label="Outstanding" value={fmt.currency(Q.totalOutstanding(invoices))} color={Q.totalOutstanding(invoices) > 0 ? T.orange : T.green} /></Card>
-        <Card style={{ padding: "14px 16px" }}><Stat label="Unbilled Time" value={`${fmt.hoursDecimal(fmt.mins(Q.unbilledTime(timeEntries)))}h`} color={T.blue} /></Card>
-        <Card style={{ padding: "14px 16px" }}><Stat label="Unbilled $" value={fmt.currency(Q.unbilledAmount(timeEntries))} color={T.blue} /></Card>
-        <Card style={{ padding: "14px 16px" }}><Stat label="This Month" value={`${fmt.hoursDecimal(fmt.mins(timeThisMonth))}h`} sub={`${timeThisMonth.length} entries`} /></Card>
+      <div style={{ display: "grid", gridTemplateColumns: `repeat(${canSeeBilling ? 5 : 3}, 1fr)`, gap: 12, marginBottom: 24 }}>
+        {canSeeBilling && <Card style={{ padding: "14px 16px" }}><Stat label="Total Billed" value={fmt.currency(Q.totalBilled(invoices))} /></Card>}
+        {canSeeBilling && <Card style={{ padding: "14px 16px" }}><Stat label="Outstanding" value={fmt.currency(Q.totalOutstanding(invoices))} color={Q.totalOutstanding(invoices) > 0 ? T.orange : T.green} /></Card>}
+        <Card style={{ padding: "14px 16px" }}><Stat label={canSeeAllTime ? "Unbilled Time" : "My Unbilled"} value={`${(timeEntries.filter(e => e.status !== "billed").reduce((s, e) => s + e.durationMinutes, 0) / 60).toFixed(1)}h`} color={T.blue} /></Card>
+        <Card style={{ padding: "14px 16px" }}><Stat label={canSeeAllTime ? "Total Hours" : "My Hours"} value={`${(timeEntries.reduce((s, e) => s + e.durationMinutes, 0) / 60).toFixed(1)}h`} sub={`${timeEntries.length} entries`} /></Card>
+        {canSeeBilling && <Card style={{ padding: "14px 16px" }}><Stat label="Unbilled $" value={fmt.currency(Q.unbilledAmount(timeEntries))} color={T.blue} /></Card>}
       </div>
 
       <TabBar tabs={[
         { id: "overview", label: "Overview" },
         { id: "conversations", label: "Conversations", count: Q.convsForMatter(matterId).length },
+        { id: "rates", label: "Rates" },
         { id: "documents", label: "Documents", count: docs.length },
-        { id: "time", label: "Time", count: timeEntries.length },
-        { id: "billing", label: "Billing", count: invoices.length },
+        { id: "time", label: canSeeAllTime ? "Time" : "My Time", count: timeEntries.length },
+        ...(canSeeBilling ? [{ id: "billing", label: "Billing", count: invoices.length }] : []),
       ]} active={tab} onSelect={setTab} />
 
       {tab === "overview" && (
@@ -995,6 +1178,73 @@ const MatterDetailPage = ({ matterId, nav }) => {
 
       {tab === "conversations" && <MatterConversations matterId={matterId} client={client} />}
 
+      {tab === "rates" && (() => {
+        // Derive matter team: responsible attorney + anyone with time entries
+        const teamIds = new Set([matter.responsibleAttorneyId, ...DB.timeEntries.filter(t => t.matterId === matterId).map(t => t.userId)].filter(Boolean));
+        const team = [...teamIds].map(uid => {
+          const user = Q.user(uid);
+          if (!user) return null;
+          const override = DB.matterRateOverrides.find(r => r.matterId === matterId && r.userId === uid);
+          const hours = DB.timeEntries.filter(t => t.matterId === matterId && t.userId === uid).reduce((s, t) => s + t.durationMinutes, 0) / 60;
+          return { ...user, defaultRate: user.hourlyRate, overrideRate: override?.overrideRate || null, effectiveRate: override?.overrideRate || user.hourlyRate, reason: override?.reason || null, setBy: override?.setBy ? Q.user(override.setBy) : null, hours };
+        }).filter(Boolean);
+
+        return (
+          <div>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+              <div>
+                <div style={{ fontSize: "14px", fontWeight: 700, color: T.text }}>Billing Rates</div>
+                <div style={{ fontSize: "12px", color: T.textTertiary }}>Override standard rates for this matter. Changes apply to new time entries only.</div>
+              </div>
+              <Btn size="sm" variant="ghost"><Icon name="plus" size={13} color={T.textSecondary} /> Add Person</Btn>
+            </div>
+
+            <Card style={{ padding: 0 }}>
+              <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr 1fr 2fr 80px", padding: "10px 18px", borderBottom: `1px solid ${T.border}`, fontSize: "10px", fontWeight: 700, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.5px" }}>
+                <span>Person</span><span style={{ textAlign: "right" }}>Standard Rate</span><span style={{ textAlign: "right" }}>Matter Rate</span><span style={{ textAlign: "right" }}>Effective</span><span style={{ textAlign: "right" }}>Hours</span><span style={{ paddingLeft: 14 }}>Reason</span><span></span>
+              </div>
+              {team.map(person => (
+                <div key={person.id} style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr 1fr 2fr 80px", padding: "14px 18px", borderBottom: `1px solid ${T.borderSubtle}`, alignItems: "center" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                    <div style={{ width: 32, height: 32, borderRadius: "50%", background: T.accentBg, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "11px", fontWeight: 800, color: "#3F7653" }}>{person.firstName[0]}{person.lastName[0]}</div>
+                    <div>
+                      <div style={{ fontSize: "13px", fontWeight: 600, color: T.text }}>{person.firstName} {person.lastName}</div>
+                      <div style={{ fontSize: "11px", color: T.textTertiary }}>{fmt.role(person.role)}{matter.responsibleAttorneyId === person.id ? " · Lead" : ""}</div>
+                    </div>
+                  </div>
+                  <div style={{ textAlign: "right", fontFamily: T.mono, fontSize: "13px", color: T.textTertiary }}>{fmt.currency(person.defaultRate)}/hr</div>
+                  <div style={{ textAlign: "right" }}>
+                    {person.overrideRate ? (
+                      <span style={{ fontFamily: T.mono, fontSize: "13px", fontWeight: 700, color: "#D4851F" }}>{fmt.currency(person.overrideRate)}/hr</span>
+                    ) : (
+                      <span style={{ fontSize: "12px", color: T.textDim }}>—</span>
+                    )}
+                  </div>
+                  <div style={{ textAlign: "right", fontFamily: T.mono, fontSize: "14px", fontWeight: 700, color: person.overrideRate ? "#D4851F" : "#3F7653" }}>{fmt.currency(person.effectiveRate)}/hr</div>
+                  <div style={{ textAlign: "right", fontFamily: T.mono, fontSize: "12px", color: T.textTertiary }}>{person.hours.toFixed(1)}h</div>
+                  <div style={{ paddingLeft: 14 }}>
+                    {person.reason ? (
+                      <div style={{ fontSize: "11.5px", color: T.textSecondary, fontStyle: "italic", background: T.surfaceRaised, padding: "4px 8px", borderRadius: 4 }}>{person.reason}</div>
+                    ) : (
+                      <span style={{ fontSize: "11px", color: T.textDim }}>No override</span>
+                    )}
+                  </div>
+                  <div style={{ textAlign: "right" }}>
+                    <Btn variant="ghost" size="sm">{person.overrideRate ? "Edit" : "Set Rate"}</Btn>
+                  </div>
+                </div>
+              ))}
+            </Card>
+
+            {team.some(p => p.overrideRate) && (
+              <div style={{ marginTop: 12, padding: "10px 14px", background: T.surfaceRaised, borderRadius: T.radius, fontSize: "11.5px", color: T.textTertiary, lineHeight: 1.5 }}>
+                <strong style={{ color: T.textSecondary }}>Note:</strong> Rate overrides apply to time entries recorded after the override was set. Existing time entries retain their original rate. The "Effective" column shows the rate that will be used for new entries.
+              </div>
+            )}
+          </div>
+        );
+      })()}
+
       {tab === "documents" && (
         <div>
           <div style={{ marginBottom: 14, display: "flex", justifyContent: "flex-end" }}>
@@ -1013,15 +1263,22 @@ const MatterDetailPage = ({ matterId, nav }) => {
       )}
 
       {tab === "time" && (
-        <Table data={timeEntries} columns={[
-          { header: "Date", render: r => fmt.dateShort(r.date), nowrap: true },
-          { header: "Attorney", render: r => { const u = Q.user(r.userId); return u ? `${u.firstName} ${u.lastName}` : "—"; } },
-          { header: "Description", render: r => <div style={{ maxWidth: 320, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{r.description}</div> },
-          { header: "Hours", render: r => <span style={{ fontFamily: T.mono, fontWeight: 600 }}>{fmt.hoursDecimal(r.durationMinutes)}</span>, align: "right", nowrap: true },
-          { header: "Rate", render: r => <span style={{ fontFamily: T.mono }}>{fmt.currency(r.rateAtEntry)}/hr</span>, align: "right", nowrap: true },
-          { header: "Amount", render: r => <span style={{ fontFamily: T.mono }}>{fmt.currency((r.durationMinutes / 60) * r.rateAtEntry)}</span>, align: "right", nowrap: true },
-          { header: "Status", render: r => <StatusBadge status={r.status} />, nowrap: true },
-        ]} />
+        <div>
+          <Table data={timeEntries} columns={[
+            { header: "Date", render: r => fmt.dateShort(r.date), nowrap: true },
+            { header: "Attorney", render: r => { const u = Q.user(r.userId); return u ? <span>{u.firstName} {u.lastName}{r.userId === currentUser.id ? <Badge color="#3F7653" bg={T.accentBg} style={{ marginLeft: 6, fontSize: "9px" }}>You</Badge> : ""}</span> : "—"; } },
+            { header: "Description", render: r => <div style={{ maxWidth: 320, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{r.description}</div> },
+            { header: "Hours", render: r => <span style={{ fontFamily: T.mono, fontWeight: 600 }}>{fmt.hoursDecimal(r.durationMinutes)}</span>, align: "right", nowrap: true },
+            { header: "Rate", render: r => <span style={{ fontFamily: T.mono }}>{fmt.currency(r.rateAtEntry)}/hr</span>, align: "right", nowrap: true },
+            { header: "Amount", render: r => <span style={{ fontFamily: T.mono }}>{fmt.currency((r.durationMinutes / 60) * r.rateAtEntry)}</span>, align: "right", nowrap: true },
+            { header: "Status", render: r => <StatusBadge status={r.status} />, nowrap: true },
+          ]} />
+          {!canSeeAllTime && (
+            <div style={{ marginTop: 10, padding: "8px 12px", background: T.surfaceRaised, borderRadius: T.radius, fontSize: "11.5px", color: T.textTertiary, lineHeight: 1.5 }}>
+              Showing only your time entries on this matter. The responsible attorney and billing team can view all entries.
+            </div>
+          )}
+        </div>
       )}
 
       {tab === "billing" && (
@@ -1047,70 +1304,305 @@ const DocumentsPage = ({ nav }) => {
   const [filterMatter, setFilterMatter] = useState("all");
   const [filterClient, setFilterClient] = useState("all");
   const [filterCategory, setFilterCategory] = useState("all");
-  const [filterAttorney, setFilterAttorney] = useState("all");
+  const [filterStatus, setFilterStatus] = useState("all");
+  const [filterConfidentiality, setFilterConfidentiality] = useState("all");
   const [filterTag, setFilterTag] = useState("all");
   const [showFilters, setShowFilters] = useState(false);
+  const [selectedDocId, setSelectedDocId] = useState(null);
+  const [detailTab, setDetailTab] = useState("info");
 
   const allTags = [...new Set(DB.documents.flatMap(d => d.tags || []))].sort();
   const clientMatters = filterClient !== "all" ? DB.matters.filter(m => m.clientId === filterClient) : DB.matters;
+  const confColors = { public: [T.green, T.greenBg], internal: [T.blue, T.blueBg], confidential: [T.orange, T.orangeBg], privileged: [T.red, T.redBg] };
+  const statusColors = { draft: [T.textTertiary, T.surfaceRaised], review: [T.blue, T.blueBg], final: [T.green, T.greenBg], executed: ["#3F7653", T.accentBg], superseded: [T.textDim, "rgba(69,73,102,0.1)"], archived: [T.textDim, "rgba(69,73,102,0.1)"] };
 
   const filtered = DB.documents.filter(d => {
-    if (search && !d.title.toLowerCase().includes(search.toLowerCase()) && !(d.tags || []).some(t => t.includes(search.toLowerCase())) && !(d.description || "").toLowerCase().includes(search.toLowerCase())) return false;
+    if (search) {
+      const q = search.toLowerCase();
+      const inTitle = d.title.toLowerCase().includes(q);
+      const inDesc = (d.description || "").toLowerCase().includes(q);
+      const inTags = (d.tags || []).some(t => t.includes(q));
+      const inPeople = (d.peopleLinks || []).some(p => p.name.toLowerCase().includes(q));
+      const inEntity = (d.entityLinks || []).some(e => e.entityName.toLowerCase().includes(q));
+      if (!inTitle && !inDesc && !inTags && !inPeople && !inEntity) return false;
+    }
     if (filterMatter !== "all" && d.matterId !== filterMatter) return false;
     if (filterClient !== "all") { const mIds = DB.matters.filter(m => m.clientId === filterClient).map(m => m.id); if (!mIds.includes(d.matterId)) return false; }
     if (filterCategory !== "all" && d.category !== filterCategory) return false;
-    if (filterAttorney !== "all" && d.createdById !== filterAttorney) return false;
+    if (filterStatus !== "all" && d.docStatus !== filterStatus) return false;
+    if (filterConfidentiality !== "all" && d.confidentiality !== filterConfidentiality) return false;
     if (filterTag !== "all" && !(d.tags || []).includes(filterTag)) return false;
     return true;
   });
 
+  const selectedDoc = selectedDocId ? DB.documents.find(d => d.id === selectedDocId) : null;
+
   return (
     <div>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
-        <div><h1 style={{ margin: 0, fontSize: "22px", fontWeight: 700, color: T.text }}>Documents</h1><p style={{ margin: "2px 0 0", fontSize: "13px", color: T.textTertiary }}>{DB.documents.length} documents · {filtered.length} shown</p></div>
-        <Btn size="sm"><Icon name="upload" size={13} color={T.bg} /> Upload</Btn>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+        <div>
+          <h1 style={{ margin: 0, fontSize: "22px", fontWeight: 700, color: T.text }}>Document Management</h1>
+          <p style={{ margin: "2px 0 0", fontSize: "13px", color: T.textTertiary }}>{DB.documents.length} documents · {DB.documents.filter(d => d.checkedOut).length} checked out · {filtered.length} shown</p>
+        </div>
+        <div style={{ display: "flex", gap: 8 }}>
+          <Btn variant="ghost" size="sm"><Icon name="download" size={13} color={T.textSecondary} /> Abbado Drive</Btn>
+          <Btn size="sm"><Icon name="upload" size={13} color={T.bg} /> Upload</Btn>
+        </div>
       </div>
 
-      {/* Search + Filter toggle */}
-      <div style={{ display: "flex", gap: 10, marginBottom: 12 }}>
-        <Input value={search} onChange={setSearch} placeholder="Search by title, description, or tag..." icon="search" style={{ flex: 1 }} />
+      {/* Search + Filters */}
+      <div style={{ display: "flex", gap: 10, marginBottom: 10 }}>
+        <Input value={search} onChange={setSearch} placeholder="Search by title, description, tag, person, or entity..." icon="search" style={{ flex: 1 }} />
         <Btn variant={showFilters ? "gold" : "ghost"} size="sm" onClick={() => setShowFilters(!showFilters)}>
-          <Icon name="filter" size={13} color={showFilters ? T.bg : T.textSecondary} /> Filters {(filterMatter !== "all" || filterClient !== "all" || filterCategory !== "all" || filterAttorney !== "all" || filterTag !== "all") && <span style={{ width: 6, height: 6, borderRadius: "50%", background: T.gold }} />}
+          <Icon name="filter" size={13} color={showFilters ? T.bg : T.textSecondary} /> Filters
         </Btn>
       </div>
-
-      {/* Filter panel */}
       {showFilters && (
-        <Card style={{ padding: "14px 16px", marginBottom: 16 }}>
-          <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
+        <Card style={{ padding: "12px 16px", marginBottom: 12 }}>
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
             <Select value={filterClient} onChange={v => { setFilterClient(v); setFilterMatter("all"); }} options={[{ value: "all", label: "All Clients" }, ...DB.clients.map(c => ({ value: c.id, label: c.name }))]} />
             <Select value={filterMatter} onChange={setFilterMatter} options={[{ value: "all", label: "All Matters" }, ...clientMatters.map(m => ({ value: m.id, label: `${m.matterNumber} — ${m.name}` }))]} />
-            <Select value={filterCategory} onChange={setFilterCategory} options={[{ value: "all", label: "All Categories" }, ...["contract","memo","filing","correspondence","other"].map(c => ({ value: c, label: c.charAt(0).toUpperCase() + c.slice(1) }))]} />
-            <Select value={filterAttorney} onChange={setFilterAttorney} options={[{ value: "all", label: "All Authors" }, ...DB.users.map(u => ({ value: u.id, label: `${u.firstName} ${u.lastName}` }))]} />
+            <Select value={filterCategory} onChange={setFilterCategory} options={[{ value: "all", label: "All Types" }, ...["contract","memo","filing","correspondence","other"].map(c => ({ value: c, label: c.charAt(0).toUpperCase() + c.slice(1) }))]} />
+            <Select value={filterStatus} onChange={setFilterStatus} options={[{ value: "all", label: "All Statuses" }, ...["draft","review","final","executed","superseded","archived"].map(s => ({ value: s, label: s.charAt(0).toUpperCase() + s.slice(1) }))]} />
+            <Select value={filterConfidentiality} onChange={setFilterConfidentiality} options={[{ value: "all", label: "All Levels" }, ...["public","internal","confidential","privileged"].map(c => ({ value: c, label: c.charAt(0).toUpperCase() + c.slice(1) }))]} />
             <Select value={filterTag} onChange={setFilterTag} options={[{ value: "all", label: "All Tags" }, ...allTags.map(t => ({ value: t, label: t }))]} />
-            {(filterMatter !== "all" || filterClient !== "all" || filterCategory !== "all" || filterAttorney !== "all" || filterTag !== "all") && (
-              <Btn variant="subtle" size="sm" onClick={() => { setFilterMatter("all"); setFilterClient("all"); setFilterCategory("all"); setFilterAttorney("all"); setFilterTag("all"); }}>Clear all</Btn>
-            )}
+            <Btn variant="subtle" size="sm" onClick={() => { setFilterMatter("all"); setFilterClient("all"); setFilterCategory("all"); setFilterStatus("all"); setFilterConfidentiality("all"); setFilterTag("all"); }}>Clear</Btn>
           </div>
         </Card>
       )}
 
-      <Card style={{ padding: 0 }}>
-        <Table data={filtered} columns={[
-          { header: "Document", render: r => (
-            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-              <Icon name="documents" size={15} color={T.gold} />
-              <div><div style={{ fontWeight: 600, fontSize: "13px" }}>{r.title}</div><div style={{ fontSize: "11px", color: T.textTertiary }}>{r.currentVersion.fileName} · {fmt.fileSize(r.currentVersion.fileSize)}</div></div>
+      <div style={{ display: "grid", gridTemplateColumns: selectedDoc ? "1fr 380px" : "1fr", gap: 16 }}>
+        {/* Document list */}
+        <Card style={{ padding: 0 }}>
+          <Table data={filtered} onRowClick={d => { setSelectedDocId(d.id); setDetailTab("info"); }} columns={[
+            { header: "Document", render: r => (
+              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <div style={{ position: "relative" }}>
+                  <Icon name="documents" size={16} color={r.checkedOut ? T.orange : T.gold} />
+                  {r.checkedOut && <div style={{ position: "absolute", top: -2, right: -2, width: 7, height: 7, borderRadius: "50%", background: T.orange, border: "1.5px solid #fff" }} />}
+                </div>
+                <div>
+                  <div style={{ fontWeight: 600, fontSize: "12.5px", color: selectedDocId === r.id ? "#3F7653" : T.text }}>{r.title}</div>
+                  <div style={{ fontSize: "10.5px", color: T.textTertiary }}>{r.currentVersion.fileName} · {fmt.fileSize(r.currentVersion.fileSize)}</div>
+                </div>
+              </div>
+            )},
+            { header: "Matter", render: r => { const m = DB.matters.find(mm => mm.id === r.matterId); return <span style={{ fontFamily: T.mono, fontSize: "10.5px", color: T.textTertiary }}>{m?.matterNumber}</span>; }, nowrap: true },
+            { header: "Status", render: r => { const [c, bg] = statusColors[r.docStatus] || [T.textTertiary, T.surfaceRaised]; return <Badge color={c} bg={bg}>{r.docStatus}</Badge>; }, nowrap: true },
+            { header: "Conf.", render: r => { const [c, bg] = confColors[r.confidentiality] || [T.textTertiary, T.surfaceRaised]; return <Badge color={c} bg={bg}>{r.confidentiality.slice(0, 4)}</Badge>; }, nowrap: true },
+            { header: "Ver", render: r => <span style={{ fontFamily: T.mono, fontSize: "11px" }}>v{r.currentVersion.versionNumber}</span>, align: "center", nowrap: true },
+            { header: "Modified", render: r => <span style={{ fontSize: "11px" }}>{fmt.dateShort(r.updatedAt)}</span>, nowrap: true },
+          ]} />
+        </Card>
+
+        {/* Detail panel */}
+        {selectedDoc && (
+          <div style={{ maxHeight: "80vh", overflow: "auto" }}>
+            {/* Header */}
+            <Card style={{ padding: 16, marginBottom: 10 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10 }}>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontSize: "15px", fontWeight: 700, color: T.text, lineHeight: 1.3 }}>{selectedDoc.title}</div>
+                  <div style={{ fontSize: "11px", color: T.textTertiary, marginTop: 3 }}>
+                    {DB.matters.find(m => m.id === selectedDoc.matterId)?.matterNumber} · {Q.client(DB.matters.find(m => m.id === selectedDoc.matterId)?.clientId)?.name}
+                  </div>
+                </div>
+                <Btn variant="ghost" size="sm" onClick={() => setSelectedDocId(null)} style={{ padding: "4px 8px" }}>✕</Btn>
+              </div>
+              <div style={{ display: "flex", gap: 5, flexWrap: "wrap", marginBottom: 10 }}>
+                {(() => { const [c, bg] = statusColors[selectedDoc.docStatus] || []; return <Badge color={c} bg={bg}>{selectedDoc.docStatus}</Badge>; })()}
+                {(() => { const [c, bg] = confColors[selectedDoc.confidentiality] || []; return <Badge color={c} bg={bg}>{selectedDoc.confidentiality}</Badge>; })()}
+                <Badge color={T.textTertiary} bg={T.surfaceRaised}>{selectedDoc.category}</Badge>
+              </div>
+
+              {/* Check-out status */}
+              {selectedDoc.checkedOut ? (
+                <div style={{ padding: "8px 12px", background: T.orangeBg, borderRadius: T.radius, border: "1px solid rgba(212,133,31,0.2)", marginBottom: 10 }}>
+                  <div style={{ fontSize: "11px", fontWeight: 700, color: T.orange, textTransform: "uppercase", letterSpacing: "0.3px" }}>Checked Out</div>
+                  <div style={{ fontSize: "12px", color: T.textSecondary, marginTop: 2 }}>By {selectedDoc.checkedOut.userName} · since {fmt.relative(selectedDoc.checkedOut.since)}</div>
+                  <Btn size="sm" style={{ marginTop: 8, fontSize: "11px" }}>Check In (New Version)</Btn>
+                </div>
+              ) : (
+                <div style={{ display: "flex", gap: 6 }}>
+                  <Btn size="sm" style={{ fontSize: "11px" }}><Icon name="download" size={12} color={T.bg} /> Check Out</Btn>
+                  <Btn variant="ghost" size="sm" style={{ fontSize: "11px" }}><Icon name="download" size={12} color={T.textSecondary} /> Download (Read Only)</Btn>
+                </div>
+              )}
+            </Card>
+
+            {/* Tabs */}
+            <div style={{ display: "flex", gap: 0, marginBottom: 10 }}>
+              {[{ id: "info", label: "Metadata" }, { id: "versions", label: `Versions (${selectedDoc.versionCount})` }, { id: "related", label: "Related" }].map(t => (
+                <div key={t.id} onClick={() => setDetailTab(t.id)} style={{ padding: "8px 14px", fontSize: "11.5px", fontWeight: detailTab === t.id ? 700 : 500, color: detailTab === t.id ? "#3F7653" : T.textTertiary, borderBottom: `2px solid ${detailTab === t.id ? "#3F7653" : "transparent"}`, cursor: "pointer" }}>{t.label}</div>
+              ))}
             </div>
-          )},
-          { header: "Client / Matter", render: r => { const m = DB.matters.find(mm => mm.id === r.matterId); const c = m ? Q.client(m.clientId) : null; return (<div><div style={{ fontSize: "12px", color: T.textSecondary, cursor: "pointer" }} onClick={e => { e.stopPropagation(); if (c) nav("client", c.id); }}>{c?.name}</div><div style={{ fontSize: "11px", color: T.textTertiary, fontFamily: T.mono, cursor: "pointer" }} onClick={e => { e.stopPropagation(); if (m) nav("matter", m.id); }}>{m?.matterNumber}</div></div>); }},
-          { header: "Type", render: r => <Badge color={T.textTertiary} bg={T.surfaceRaised}>{r.category}</Badge>, nowrap: true },
-          { header: "Tags", render: r => <div style={{ display: "flex", gap: 3, flexWrap: "wrap" }}>{(r.tags || []).slice(0, 3).map(t => <Badge key={t} color={T.textDim} bg={T.surface} style={{ fontSize: "9px" }}>{t}</Badge>)}</div> },
-          { header: "Ver", render: r => (<div style={{ display: "flex", alignItems: "center", gap: 3 }}><Icon name="version" size={12} color={T.textDim} /><span style={{ fontFamily: T.mono, fontSize: "12px" }}>v{r.currentVersion.versionNumber}</span></div>), align: "center", nowrap: true },
-          { header: "Author", render: r => { const u = Q.user(r.createdById); return u ? `${u.firstName} ${u.lastName[0]}.` : "—"; } },
-          { header: "Modified", render: r => fmt.dateShort(r.updatedAt), nowrap: true },
-        ]} />
-      </Card>
+
+            {/* Metadata tab */}
+            {detailTab === "info" && (
+              <Card style={{ padding: 16 }}>
+                <div style={{ fontSize: "12px", color: T.textSecondary, lineHeight: 1.6, marginBottom: 14 }}>{selectedDoc.description}</div>
+
+                {/* Tags */}
+                <div style={{ marginBottom: 14 }}>
+                  <div style={{ fontSize: "10px", fontWeight: 700, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 5 }}>Tags</div>
+                  <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
+                    {(selectedDoc.tags || []).map(t => <Badge key={t} color={T.purple} bg={T.purpleBg} style={{ fontSize: "10px", cursor: "pointer" }} onClick={() => { setFilterTag(t); setShowFilters(true); }}>{t}</Badge>)}
+                    <Badge color={T.textDim} bg="transparent" style={{ border: `1px dashed ${T.border}`, cursor: "pointer", fontSize: "10px" }}>+ Add</Badge>
+                  </div>
+                </div>
+
+                {/* Entity Links */}
+                {(selectedDoc.entityLinks || []).length > 0 && (
+                  <div style={{ marginBottom: 14 }}>
+                    <div style={{ fontSize: "10px", fontWeight: 700, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 5 }}>Linked Entities</div>
+                    {selectedDoc.entityLinks.map((e, i) => (
+                      <div key={i} style={{ display: "flex", alignItems: "center", gap: 6, padding: "4px 0" }}>
+                        <Icon name="building" size={12} color="#3F7653" />
+                        <span style={{ fontSize: "12px", fontWeight: 600, color: T.text }}>{e.entityName}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {/* People Links */}
+                {(selectedDoc.peopleLinks || []).length > 0 && (
+                  <div style={{ marginBottom: 14 }}>
+                    <div style={{ fontSize: "10px", fontWeight: 700, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 5 }}>People</div>
+                    {selectedDoc.peopleLinks.map((p, i) => (
+                      <div key={i} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "4px 0" }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                          <div style={{ width: 20, height: 20, borderRadius: "50%", background: T.accentBg, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "8px", fontWeight: 800, color: "#3F7653" }}>{p.name.split(" ").map(w => w[0]).join("")}</div>
+                          <span style={{ fontSize: "12px", color: T.text }}>{p.name}</span>
+                        </div>
+                        <span style={{ fontSize: "10px", color: T.textTertiary }}>{p.role}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {/* File info */}
+                <div style={{ borderTop: `1px solid ${T.borderSubtle}`, paddingTop: 10 }}>
+                  <div style={{ fontSize: "10px", fontWeight: 700, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 5 }}>File Info</div>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6, fontSize: "11.5px" }}>
+                    <div><span style={{ color: T.textTertiary }}>Filename:</span> <span style={{ color: T.text, fontFamily: T.mono, fontSize: "10.5px" }}>{selectedDoc.currentVersion.fileName}</span></div>
+                    <div><span style={{ color: T.textTertiary }}>Size:</span> <span style={{ color: T.text }}>{fmt.fileSize(selectedDoc.currentVersion.fileSize)}</span></div>
+                    <div><span style={{ color: T.textTertiary }}>Created by:</span> <span style={{ color: T.text }}>{Q.user(selectedDoc.createdById)?.firstName} {Q.user(selectedDoc.createdById)?.lastName}</span></div>
+                    <div><span style={{ color: T.textTertiary }}>Modified:</span> <span style={{ color: T.text }}>{fmt.dateShort(selectedDoc.updatedAt)}</span></div>
+                    <div><span style={{ color: T.textTertiary }}>Comments:</span> <span style={{ color: T.text }}>{selectedDoc.commentCount}</span></div>
+                  </div>
+                </div>
+              </Card>
+            )}
+
+            {/* Versions tab */}
+            {detailTab === "versions" && (
+              <Card style={{ padding: 16 }}>
+                {/* Word integration note */}
+                <div style={{ padding: "10px 12px", background: "rgba(74,153,167,0.06)", border: "1px solid rgba(74,153,167,0.15)", borderRadius: T.radius, marginBottom: 14 }}>
+                  <div style={{ fontSize: "11px", fontWeight: 700, color: T.blue }}>Abbado Drive Integration</div>
+                  <div style={{ fontSize: "11px", color: T.textSecondary, lineHeight: 1.5, marginTop: 2 }}>When saving in Word/Excel via Abbado Drive, you'll be prompted: <strong>"Save as new version?"</strong> — choose Yes to create a versioned checkpoint, or No to save without versioning. This prevents version clutter while keeping important changes tracked.</div>
+                </div>
+
+                {/* Version timeline */}
+                {(selectedDoc.versions || []).slice().reverse().map((v, i) => (
+                  <div key={v.versionNumber} style={{ display: "flex", gap: 12, marginBottom: i < selectedDoc.versions.length - 1 ? 0 : 0 }}>
+                    {/* Timeline line */}
+                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: 20 }}>
+                      <div style={{ width: 10, height: 10, borderRadius: "50%", background: i === 0 ? "#3F7653" : T.border, border: i === 0 ? "2px solid rgba(63,118,83,0.3)" : "none", flexShrink: 0 }} />
+                      {i < selectedDoc.versions.length - 1 && <div style={{ width: 1.5, flex: 1, background: T.border, minHeight: 40 }} />}
+                    </div>
+                    {/* Version detail */}
+                    <div style={{ flex: 1, paddingBottom: 16 }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                          <span style={{ fontFamily: T.mono, fontWeight: 700, fontSize: "12px", color: i === 0 ? "#3F7653" : T.text }}>v{v.versionNumber}</span>
+                          {i === 0 && <Badge color="#3F7653" bg={T.accentBg} style={{ fontSize: "9px" }}>Current</Badge>}
+                        </div>
+                        <span style={{ fontSize: "10px", color: T.textDim }}>{fmt.dateShort(v.uploadedAt)}</span>
+                      </div>
+                      <div style={{ fontSize: "12px", color: T.text, marginTop: 3, lineHeight: 1.5 }}>{v.changeNote}</div>
+                      <div style={{ fontSize: "10.5px", color: T.textTertiary, marginTop: 2 }}>
+                        {v.uploadedByName} · {v.fileName} · {fmt.fileSize(v.fileSize)}
+                      </div>
+                      {i > 0 && (
+                        <div style={{ display: "flex", gap: 6, marginTop: 6 }}>
+                          <Btn variant="ghost" size="sm" style={{ fontSize: "10px", padding: "3px 8px" }}>Download</Btn>
+                          <Btn variant="ghost" size="sm" style={{ fontSize: "10px", padding: "3px 8px" }}>Revert to this</Btn>
+                          {i === 1 && <Btn variant="ghost" size="sm" style={{ fontSize: "10px", padding: "3px 8px" }}>Compare with current</Btn>}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </Card>
+            )}
+
+            {/* Related tab */}
+            {detailTab === "related" && (
+              <Card style={{ padding: 16 }}>
+                {/* Related documents */}
+                {(selectedDoc.relatedDocIds || []).length > 0 && (
+                  <div style={{ marginBottom: 16 }}>
+                    <div style={{ fontSize: "10px", fontWeight: 700, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 }}>Related Documents</div>
+                    {selectedDoc.relatedDocIds.map(rid => {
+                      const rd = DB.documents.find(d => d.id === rid);
+                      if (!rd) return null;
+                      return (
+                        <div key={rid} onClick={() => { setSelectedDocId(rid); setDetailTab("info"); }} style={{ display: "flex", alignItems: "center", gap: 8, padding: "8px 10px", borderRadius: T.radius, cursor: "pointer", marginBottom: 3 }}
+                          onMouseEnter={e => e.currentTarget.style.background = T.surfaceHover}
+                          onMouseLeave={e => e.currentTarget.style.background = "transparent"}>
+                          <Icon name="documents" size={14} color={T.gold} />
+                          <div>
+                            <div style={{ fontSize: "12px", fontWeight: 600, color: T.text }}>{rd.title}</div>
+                            <div style={{ fontSize: "10px", color: T.textTertiary }}>v{rd.currentVersion.versionNumber} · {rd.category}</div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+
+                {/* Find Precedent */}
+                <div style={{ borderTop: (selectedDoc.relatedDocIds || []).length > 0 ? `1px solid ${T.borderSubtle}` : "none", paddingTop: (selectedDoc.relatedDocIds || []).length > 0 ? 14 : 0 }}>
+                  <div style={{ fontSize: "10px", fontWeight: 700, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 }}>Find Precedent</div>
+                  <div style={{ fontSize: "11.5px", color: T.textSecondary, lineHeight: 1.5, marginBottom: 10 }}>Find similar documents across all matters based on document type, tags, and metadata.</div>
+                  {(() => {
+                    const similar = DB.documents.filter(d => d.id !== selectedDoc.id && (d.category === selectedDoc.category || (d.tags || []).some(t => (selectedDoc.tags || []).includes(t))));
+                    if (similar.length === 0) return <div style={{ fontSize: "12px", color: T.textDim }}>No similar documents found</div>;
+                    return similar.map(sd => {
+                      const matchingTags = (sd.tags || []).filter(t => (selectedDoc.tags || []).includes(t));
+                      const m = DB.matters.find(mm => mm.id === sd.matterId);
+                      return (
+                        <div key={sd.id} onClick={() => { setSelectedDocId(sd.id); setDetailTab("info"); }} style={{ padding: "8px 10px", borderRadius: T.radius, cursor: "pointer", marginBottom: 3, border: `1px solid ${T.borderSubtle}` }}
+                          onMouseEnter={e => e.currentTarget.style.background = T.surfaceHover}
+                          onMouseLeave={e => e.currentTarget.style.background = "transparent"}>
+                          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                            <div style={{ flex: 1 }}>
+                              <div style={{ fontSize: "12px", fontWeight: 600, color: T.text }}>{sd.title}</div>
+                              <div style={{ fontSize: "10px", color: T.textTertiary }}>{m?.matterNumber} · {m?.name}</div>
+                            </div>
+                            <Badge color={T.textTertiary} bg={T.surfaceRaised} style={{ fontSize: "9px" }}>{sd.category}</Badge>
+                          </div>
+                          {matchingTags.length > 0 && (
+                            <div style={{ display: "flex", gap: 3, marginTop: 4 }}>
+                              <span style={{ fontSize: "9px", color: T.textDim }}>Matching:</span>
+                              {matchingTags.map(t => <Badge key={t} color={T.purple} bg={T.purpleBg} style={{ fontSize: "9px" }}>{t}</Badge>)}
+                            </div>
+                          )}
+                        </div>
+                      );
+                    });
+                  })()}
+                </div>
+
+                <div style={{ marginTop: 14 }}>
+                  <Btn variant="ghost" size="sm" style={{ fontSize: "11px" }}><Icon name="plus" size={12} color={T.textSecondary} /> Link Related Document</Btn>
+                </div>
+              </Card>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
@@ -1187,24 +1679,53 @@ const MattersListPage = ({ nav }) => {
   );
 };
 
-const TimeKeepingPage = () => {
+const TimeKeepingPage = ({ currentUser }) => {
   const [timerActive, setTimerActive] = useState(true);
   const [elapsed, setElapsed] = useState(0);
   useEffect(() => { if (!timerActive) return; const iv = setInterval(() => setElapsed(e => e + 1), 1000); return () => clearInterval(iv); }, [timerActive]);
   const elapsedStr = `${Math.floor(elapsed / 3600)}:${String(Math.floor((elapsed % 3600) / 60)).padStart(2, "0")}:${String(elapsed % 60).padStart(2, "0")}`;
 
+  const isBillingTier = Q.isBillingTier(currentUser.role);
+
+  // Visibility: admin/billing_manager sees all, responsible attorney sees their matters' time, everyone else sees own only
+  const visibleEntries = isBillingTier
+    ? DB.timeEntries
+    : DB.timeEntries.filter(e => {
+        if (e.userId === currentUser.id) return true; // Own entries always visible
+        const matter = DB.matters.find(m => m.id === e.matterId);
+        return matter?.responsibleAttorneyId === currentUser.id; // Responsible attorney sees all time on their matters
+      });
+
+  const myEntries = DB.timeEntries.filter(e => e.userId === currentUser.id);
+  const myHours = myEntries.reduce((s, e) => s + e.durationMinutes, 0) / 60;
+  const myBillable = myEntries.filter(e => e.billable).reduce((s, e) => s + (e.durationMinutes / 60) * e.rateAtEntry, 0);
+
   return (
     <div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
-        <h1 style={{ margin: 0, fontSize: "22px", fontWeight: 700, color: T.text }}>Timekeeping</h1>
+        <div>
+          <h1 style={{ margin: 0, fontSize: "22px", fontWeight: 700, color: T.text }}>Timekeeping</h1>
+          <p style={{ margin: "2px 0 0", fontSize: "13px", color: T.textTertiary }}>
+            {isBillingTier ? `${DB.timeEntries.length} total entries` : `${visibleEntries.length} entries visible · ${myEntries.length} mine`}
+          </p>
+        </div>
         <Btn size="sm"><Icon name="plus" size={13} color={T.bg} /> New Entry</Btn>
       </div>
+
+      {/* Personal summary */}
+      <div style={{ display: "grid", gridTemplateColumns: isBillingTier ? "repeat(4, 1fr)" : "repeat(3, 1fr)", gap: 12, marginBottom: 20 }}>
+        <Card style={{ padding: "14px 16px" }}><Stat label="My Hours" value={`${myHours.toFixed(1)}h`} /></Card>
+        <Card style={{ padding: "14px 16px" }}><Stat label="My Billable $" value={fmt.currency(myBillable)} color={T.green} /></Card>
+        <Card style={{ padding: "14px 16px" }}><Stat label="My Entries" value={myEntries.length} /></Card>
+        {isBillingTier && <Card style={{ padding: "14px 16px" }}><Stat label="Firm Unbilled" value={fmt.currency(Q.unbilledAmount(DB.timeEntries))} color={T.orange} /></Card>}
+      </div>
+
       <Card style={{ padding: "14px 20px", marginBottom: 20, border: `1px solid rgba(63,118,83,0.3)`, background: "rgba(63,118,83,0.06)" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <div>
             <div style={{ fontSize: "10.5px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.6px", color: T.gold, marginBottom: 2 }}>Timer Running</div>
             <div style={{ fontSize: "13px", color: T.text, fontWeight: 500 }}>Drafting VP Engineering employment agreement</div>
-            <div style={{ fontSize: "11px", color: T.textTertiary, marginTop: 2 }}>FL-2026-0004 — Employment Agreements · Marcus Williams</div>
+            <div style={{ fontSize: "11px", color: T.textTertiary, marginTop: 2 }}>FL-2026-0004 — Employment Agreements</div>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
             <span style={{ fontSize: "28px", fontWeight: 700, fontFamily: T.mono, color: T.gold }}>{elapsedStr}</span>
@@ -1213,16 +1734,21 @@ const TimeKeepingPage = () => {
         </div>
       </Card>
       <Card style={{ padding: 0 }}>
-        <Table data={DB.timeEntries} columns={[
+        <Table data={visibleEntries} columns={[
           { header: "Date", render: r => fmt.dateShort(r.date), nowrap: true },
           { header: "Matter", render: r => <span style={{ fontFamily: T.mono, fontSize: "11px" }}>{DB.matters.find(m => m.id === r.matterId)?.matterNumber}</span> },
-          { header: "Attorney", render: r => { const u = Q.user(r.userId); return u ? `${u.firstName} ${u.lastName[0]}.` : "—"; } },
+          { header: "Attorney", render: r => { const u = Q.user(r.userId); return u ? <span>{u.firstName} {u.lastName[0]}.{r.userId === currentUser.id ? <Badge color="#3F7653" bg={T.accentBg} style={{ marginLeft: 6, fontSize: "9px" }}>You</Badge> : ""}</span> : "—"; } },
           { header: "Description", render: r => <div style={{ maxWidth: 300, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{r.description}</div> },
           { header: "Hours", render: r => <span style={{ fontFamily: T.mono, fontWeight: 600 }}>{fmt.hoursDecimal(r.durationMinutes)}</span>, align: "right", nowrap: true },
           { header: "Amount", render: r => <span style={{ fontFamily: T.mono }}>{fmt.currency((r.durationMinutes / 60) * r.rateAtEntry)}</span>, align: "right", nowrap: true },
           { header: "Status", render: r => <StatusBadge status={r.status} />, nowrap: true },
         ]} />
       </Card>
+      {!isBillingTier && (
+        <div style={{ marginTop: 10, padding: "8px 12px", background: T.surfaceRaised, borderRadius: T.radius, fontSize: "11.5px", color: T.textTertiary, lineHeight: 1.5 }}>
+          Showing your time entries{visibleEntries.length > myEntries.length ? ` plus entries on matters where you are the responsible attorney` : ""}. Contact admin for firm-wide time reports.
+        </div>
+      )}
     </div>
   );
 };
@@ -1262,6 +1788,7 @@ const BillingPage = () => {
 
 const DashboardPage = ({ nav, currentUser }) => {
   const isAdmin = Q.isAdmin(currentUser.role);
+  const isBillingTier = Q.isBillingTier(currentUser.role);
   const myComp = Q.computeUserComp(currentUser.id);
   const totalRevenue = DB.invoices.reduce((s, i) => s + i.amountPaid, 0);
   const outstanding = DB.invoices.reduce((s, i) => s + i.balanceDue, 0);
@@ -1277,12 +1804,12 @@ const DashboardPage = ({ nav, currentUser }) => {
   return (
     <div>
       <div style={{ marginBottom: 24 }}>
-        <h1 style={{ margin: 0, fontSize: "22px", fontWeight: 700, color: T.text }}>{isAdmin ? "Firm Dashboard" : "My Dashboard"}</h1>
+        <h1 style={{ margin: 0, fontSize: "22px", fontWeight: 700, color: T.text }}>{isBillingTier ? "Firm Dashboard" : "My Dashboard"}</h1>
         <p style={{ margin: "2px 0 0", fontSize: "13px", color: T.textTertiary }}>March 12, 2026 · {CONFIG.firm.name}</p>
       </div>
 
-      {/* ── ADMIN: Firm-wide stats ── */}
-      {isAdmin && (
+      {/* ── BILLING TIER: Firm-wide stats ── */}
+      {isBillingTier && (
         <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 12, marginBottom: 24 }}>
           <Card style={{ padding: "14px 16px" }}><Stat label="Revenue YTD" value={fmt.currency(totalRevenue)} /></Card>
           <Card style={{ padding: "14px 16px" }}><Stat label="Outstanding" value={fmt.currency(outstanding)} color={T.orange} /></Card>
@@ -1293,7 +1820,7 @@ const DashboardPage = ({ nav, currentUser }) => {
       )}
 
       {/* ── EMPLOYEE: Personal stats ── */}
-      {!isAdmin && (
+      {!isBillingTier && (
         <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12, marginBottom: 24 }}>
           <Card style={{ padding: "14px 16px" }}><Stat label="My Hours (Mar)" value={`${myHoursMonth.toFixed(1)}h`} sub={`${myTimeThisMonth.length} entries`} /></Card>
           <Card style={{ padding: "14px 16px" }}><Stat label="My Matters" value={myMatters.length} sub="Active" /></Card>
@@ -1329,12 +1856,12 @@ const DashboardPage = ({ nav, currentUser }) => {
         </Card>
       )}
 
-      <div style={{ display: "grid", gridTemplateColumns: isAdmin ? "1fr 1fr 1fr" : "1fr 1fr", gap: 16 }}>
-        {/* ── ADMIN: Attorney performance ── */}
-        {isAdmin && (
+      <div style={{ display: "grid", gridTemplateColumns: isBillingTier ? "1fr 1fr 1fr" : "1fr 1fr", gap: 16 }}>
+        {/* ── BILLING TIER: Attorney performance ── */}
+        {isBillingTier && (
           <Card style={{ padding: 18 }}>
             <div style={{ fontSize: "13px", fontWeight: 700, color: T.text, marginBottom: 14 }}>Attorney Performance</div>
-            {DB.users.filter(u => u.role !== "admin").map(u => {
+            {DB.users.filter(u => !["admin", "billing_manager"].includes(u.role)).map(u => {
               const comp = Q.computeUserComp(u.id);
               const hours = DB.timeEntries.filter(t => t.userId === u.id).reduce((s, t) => s + t.durationMinutes, 0) / 60;
               return (
@@ -1354,8 +1881,8 @@ const DashboardPage = ({ nav, currentUser }) => {
         )}
 
         <Card style={{ padding: 18 }}>
-          <div style={{ fontSize: "13px", fontWeight: 700, color: T.text, marginBottom: 14 }}>{isAdmin ? "Active Matters" : "My Matters"}</div>
-          {(isAdmin ? DB.matters.filter(m => m.status === "open") : myMatters).map(m => (
+          <div style={{ fontSize: "13px", fontWeight: 700, color: T.text, marginBottom: 14 }}>{isBillingTier ? "Active Matters" : "My Matters"}</div>
+          {(isBillingTier ? DB.matters.filter(m => m.status === "open") : myMatters).map(m => (
             <div key={m.id} onClick={() => nav("matter", m.id)} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 10px", borderRadius: T.radius, cursor: "pointer", marginBottom: 3 }}
               onMouseEnter={e => e.currentTarget.style.background = T.surfaceHover}
               onMouseLeave={e => e.currentTarget.style.background = "transparent"}>
@@ -2075,6 +2602,7 @@ const GavelPage = ({ nav }) => {
 // ============================================================
 const PreBillPage = ({ currentUser }) => {
   const isAdmin = Q.isAdmin(currentUser.role);
+  const isBillingTier = Q.isBillingTier(currentUser.role);
   const [activeTab, setActiveTab] = useState("pending");
   const [selectedBill, setSelectedBill] = useState(null);
   const [editingEntry, setEditingEntry] = useState(null);
@@ -2106,7 +2634,7 @@ const PreBillPage = ({ currentUser }) => {
   ];
 
   // Filter pre-bills by role
-  const visibleBills = isAdmin ? preBills : preBills.filter(pb => pb.responsibleAttyId === currentUser.id);
+  const visibleBills = isBillingTier ? preBills : preBills.filter(pb => pb.responsibleAttyId === currentUser.id);
 
   const pb = selectedBill ? preBills.find(b => b.id === selectedBill) : null;
   const pbTotal = pb ? pb.entries.filter(e => e.included).reduce((s, e) => s + e.amount, 0) : 0;
@@ -2118,7 +2646,7 @@ const PreBillPage = ({ currentUser }) => {
           <h1 style={{ margin: 0, fontSize: "22px", fontWeight: 700, color: T.text }}>Pre-Bill Review</h1>
           <p style={{ margin: "2px 0 0", fontSize: "13px", color: T.textTertiary }}>Monthly billing cycle · {visibleBills.length} pre-bills awaiting review</p>
         </div>
-        {isAdmin && <Btn size="sm"><Icon name="plus" size={13} color={T.bg} /> Generate Pre-Bills</Btn>}
+        {isBillingTier && <Btn size="sm"><Icon name="plus" size={13} color={T.bg} /> Generate Pre-Bills</Btn>}
       </div>
 
       <TabBar tabs={[
@@ -2228,7 +2756,7 @@ const PreBillPage = ({ currentUser }) => {
             { header: "Client", render: r => r.clientName },
             { header: "Total", render: r => <span style={{ fontFamily: T.mono, fontWeight: 700 }}>{fmt.currency(r.total)}</span>, align: "right", nowrap: true },
             { header: "Approved", render: r => <span style={{ fontSize: "12px" }}>{fmt.dateShort(r.approvedAt)} by {r.approvedBy}</span>, nowrap: true },
-            { header: "", render: () => isAdmin ? (
+            { header: "", render: () => isBillingTier ? (
               <div style={{ display: "flex", gap: 6 }}>
                 <Btn size="sm" variant="ghost">Edit</Btn>
                 <Btn size="sm">Finalize & Send</Btn>
@@ -2357,25 +2885,72 @@ const SettingsPage = () => {
       )}
 
       {activeTab === "integrations" && (
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
-          {Object.entries(fs.integrations).map(([key, int]) => (
-            <Card key={key} style={{ padding: 20 }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
-                <div style={{ fontSize: "15px", fontWeight: 700, color: T.text, textTransform: "capitalize" }}>{key === "qbo" ? "QuickBooks Online" : key}</div>
-                <Badge color={int.status === "connected" ? "#3F7653" : T.orange} bg={int.status === "connected" ? T.accentBg : T.orangeBg}>{int.status === "connected" ? "Connected" : "Not Connected"}</Badge>
+        <div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 20 }}>
+            {Object.entries(fs.integrations).map(([key, int]) => (
+              <Card key={key} style={{ padding: 20 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+                  <div style={{ fontSize: "15px", fontWeight: 700, color: T.text, textTransform: "capitalize" }}>{key === "qbo" ? "QuickBooks Online" : key}</div>
+                  <Badge color={int.status === "connected" ? "#3F7653" : T.orange} bg={int.status === "connected" ? T.accentBg : T.orangeBg}>{int.status === "connected" ? "Connected" : "Not Connected"}</Badge>
+                </div>
+                {int.workspace && <div style={{ fontSize: "12px", color: T.textTertiary, marginBottom: 8 }}>{int.workspace}</div>}
+                {int.lastSync && <div style={{ fontSize: "11px", color: T.textDim }}>Last synced: {fmt.dateShort(int.lastSync.split("T")[0])}</div>}
+                <div style={{ marginTop: 12 }}>
+                  <Btn variant={int.status === "connected" ? "ghost" : "gold"} size="sm">
+                    {int.status === "connected" ? "Configure" : "Connect"}
+                  </Btn>
+                </div>
+              </Card>
+            ))}
+          </div>
+
+          {/* Calendar integrations — admin enables/disables, users connect from Calendar page */}
+          <div style={{ fontSize: "12px", fontWeight: 700, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 10 }}>Calendar Integrations</div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+            <Card style={{ padding: 20 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                  <div style={{ width: 36, height: 36, borderRadius: 8, background: "#fff", border: `1px solid ${T.border}`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "18px", fontWeight: 700, color: "#4285F4" }}>G</div>
+                  <div>
+                    <div style={{ fontSize: "14px", fontWeight: 700, color: T.text }}>Google Calendar</div>
+                    <div style={{ fontSize: "11px", color: T.textTertiary }}>Two-way sync via OAuth 2.0</div>
+                  </div>
+                </div>
+                <div style={{ width: 42, height: 24, borderRadius: 12, background: "#3F7653", position: "relative", cursor: "pointer" }}>
+                  <div style={{ width: 20, height: 20, borderRadius: "50%", background: "#fff", position: "absolute", top: 2, left: 20, boxShadow: "0 1px 3px rgba(0,0,0,0.15)" }} />
+                </div>
               </div>
-              {int.workspace && <div style={{ fontSize: "12px", color: T.textTertiary, marginBottom: 8 }}>{int.workspace}</div>}
-              {int.lastSync && <div style={{ fontSize: "11px", color: T.textDim }}>Last synced: {fmt.dateShort(int.lastSync.split("T")[0])}</div>}
-              <div style={{ marginTop: 12 }}>
-                <Btn variant={int.status === "connected" ? "ghost" : "gold"} size="sm">
-                  {int.status === "connected" ? "Configure" : "Connect"}
-                </Btn>
+              <div style={{ fontSize: "12px", color: T.textSecondary, lineHeight: 1.6, marginBottom: 10 }}>When enabled, attorneys can connect their Google Calendar from the Calendar page. Events sync both directions every 15 minutes.</div>
+              <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                <Badge color="#3F7653" bg={T.accentBg}>Enabled</Badge>
+                <span style={{ fontSize: "11px", color: T.textTertiary }}>{DB.calendarConnections.filter(c => c.provider === "google" && c.status === "connected").length} users connected</span>
               </div>
             </Card>
-          ))}
+            <Card style={{ padding: 20 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                  <div style={{ width: 36, height: 36, borderRadius: 8, background: "#fff", border: `1px solid ${T.border}`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "18px" }}>🍎</div>
+                  <div>
+                    <div style={{ fontSize: "14px", fontWeight: 700, color: T.text }}>Apple Calendar</div>
+                    <div style={{ fontSize: "11px", color: T.textTertiary }}>Subscribe feed (.ics) + CalDAV</div>
+                  </div>
+                </div>
+                <div style={{ width: 42, height: 24, borderRadius: 12, background: "#3F7653", position: "relative", cursor: "pointer" }}>
+                  <div style={{ width: 20, height: 20, borderRadius: "50%", background: "#fff", position: "absolute", top: 2, left: 20, boxShadow: "0 1px 3px rgba(0,0,0,0.15)" }} />
+                </div>
+              </div>
+              <div style={{ fontSize: "12px", color: T.textSecondary, lineHeight: 1.6, marginBottom: 10 }}>When enabled, attorneys can subscribe to an Abbado calendar feed from their Apple Calendar, or connect via CalDAV for two-way sync.</div>
+              <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                <Badge color="#3F7653" bg={T.accentBg}>Enabled</Badge>
+                <span style={{ fontSize: "11px", color: T.textTertiary }}>{DB.calendarConnections.filter(c => c.provider === "apple" && c.status === "connected").length} users connected</span>
+              </div>
+            </Card>
+          </div>
+          <div style={{ marginTop: 12, padding: "8px 12px", background: T.surfaceRaised, borderRadius: T.radius, fontSize: "11.5px", color: T.textTertiary }}>
+            Disabling an integration disconnects all users and stops syncing. Users connect their own calendars from the Calendar page.
+          </div>
         </div>
       )}
-
       {activeTab === "comp" && (
         <Card style={{ padding: 0 }}>
           <div style={{ padding: "14px 18px", borderBottom: `1px solid ${T.border}`, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
@@ -2402,6 +2977,11 @@ const SettingsPage = () => {
 // PAGE: FIRM REPORTS (Admin only)
 // ============================================================
 const ReportsPage = () => {
+  const [activeReport, setActiveReport] = useState("revenue");
+  const [dateRange, setDateRange] = useState("ytd");
+  const [groupBy, setGroupBy] = useState("month");
+  const [filterAtty, setFilterAtty] = useState("all");
+
   const totalRevenue = DB.invoices.reduce((s, i) => s + i.amountPaid, 0);
   const totalBilled = DB.invoices.reduce((s, i) => s + i.total, 0);
   const outstanding = DB.invoices.reduce((s, i) => s + i.balanceDue, 0);
@@ -2409,88 +2989,909 @@ const ReportsPage = () => {
   const totalHours = DB.timeEntries.filter(e => e.billable).reduce((s, e) => s + e.durationMinutes, 0) / 60;
   const billedHours = DB.timeEntries.filter(e => e.status === "billed").reduce((s, e) => s + e.durationMinutes, 0) / 60;
   const utilization = totalHours > 0 ? (billedHours / totalHours * 100).toFixed(1) : 0;
+  const totalExpenses = DB.expenses.filter(e => e.billable).reduce((s, e) => s + e.amount, 0);
+  const avgDaysToPay = 22; // Mock
 
-  const overdue = DB.invoices.filter(i => i.status === "overdue");
-  const aging = [
-    { range: "0-30 days", amount: outstanding * 0.55 },
-    { range: "31-60 days", amount: outstanding * 0.25 },
-    { range: "61-90 days", amount: outstanding * 0.15 },
-    { range: "90+ days", amount: outstanding * 0.05 },
+  const reportCategories = [
+    { id: "financial", label: "Financial", reports: [
+      { id: "revenue", label: "Revenue Summary" }, { id: "revenue_client", label: "Revenue by Client" }, { id: "revenue_practice", label: "Revenue by Practice Area" }, { id: "collected_vs_billed", label: "Collected vs Billed" },
+    ]},
+    { id: "billing", label: "Billing", reports: [
+      { id: "ar_aging", label: "AR Aging" }, { id: "unbilled", label: "Unbilled Time & Expenses" }, { id: "invoice_status", label: "Invoice Status" }, { id: "writeoffs", label: "Write-Offs & Discounts" }, { id: "avg_payment", label: "Avg Days to Payment" },
+    ]},
+    { id: "productivity", label: "Productivity", reports: [
+      { id: "utilization", label: "Utilization by Attorney" }, { id: "hours_attorney", label: "Hours by Attorney" }, { id: "hours_practice", label: "Hours by Practice Area" }, { id: "billable_nonbillable", label: "Billable vs Non-Billable" },
+    ]},
+    { id: "comp", label: "Compensation", reports: [
+      { id: "origination_board", label: "Origination Leaderboard" }, { id: "production_board", label: "Production by Attorney" },
+    ]},
+    { id: "client_reports", label: "Client", reports: [
+      { id: "client_profit", label: "Client Profitability" }, { id: "client_acquisition", label: "Client Acquisition" },
+    ]},
+    { id: "trust_reports", label: "Trust", reports: [
+      { id: "trust_balances", label: "Trust Balances by Client" }, { id: "trust_transactions", label: "Trust Transaction History" },
+    ]},
   ];
+
+  const aging = [{ range: "0-30 days", amount: outstanding * 0.55, color: "#3F7653" }, { range: "31-60 days", amount: outstanding * 0.25, color: "#D4851F" }, { range: "61-90 days", amount: outstanding * 0.15, color: "#E07B39" }, { range: "90+ days", amount: outstanding * 0.05, color: "#C0392B" }];
+
+  return (
+    <div>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 24 }}>
+        <div><h1 style={{ margin: 0, fontSize: "22px", fontWeight: 700, color: T.text }}>Reports</h1><p style={{ margin: "2px 0 0", fontSize: "13px", color: T.textTertiary }}>Financial analytics and firm performance</p></div>
+        <div style={{ display: "flex", gap: 8 }}>
+          <Select value={dateRange} onChange={setDateRange} options={[{ value: "ytd", label: "Year to Date" }, { value: "q1", label: "Q1 2026" }, { value: "last_month", label: "Last Month" }, { value: "last_quarter", label: "Last Quarter" }, { value: "custom", label: "Custom Range" }]} />
+          <Btn variant="ghost" size="sm"><Icon name="download" size={13} color={T.textSecondary} /> Export</Btn>
+        </div>
+      </div>
+
+      {/* KPI Cards */}
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: 10, marginBottom: 20 }}>
+        <Card style={{ padding: "12px 14px" }}><Stat label="Revenue" value={fmt.currency(totalRevenue)} /></Card>
+        <Card style={{ padding: "12px 14px" }}><Stat label="Billed" value={fmt.currency(totalBilled)} /></Card>
+        <Card style={{ padding: "12px 14px" }}><Stat label="Outstanding" value={fmt.currency(outstanding)} color={T.orange} /></Card>
+        <Card style={{ padding: "12px 14px" }}><Stat label="Realization" value={`${realization}%`} color={parseFloat(realization) > 80 ? T.green : T.orange} /></Card>
+        <Card style={{ padding: "12px 14px" }}><Stat label="Utilization" value={`${utilization}%`} /></Card>
+        <Card style={{ padding: "12px 14px" }}><Stat label="Avg Days Pay" value={avgDaysToPay} /></Card>
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "220px 1fr", gap: 16 }}>
+        {/* Report nav */}
+        <Card style={{ padding: 0, alignSelf: "start" }}>
+          {reportCategories.map(cat => (
+            <div key={cat.id}>
+              <div style={{ padding: "10px 16px 4px", fontSize: "10px", fontWeight: 700, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.6px" }}>{cat.label}</div>
+              {cat.reports.map(r => (
+                <div key={r.id} onClick={() => setActiveReport(r.id)} style={{ padding: "7px 16px", fontSize: "12.5px", cursor: "pointer", fontWeight: activeReport === r.id ? 700 : 400, color: activeReport === r.id ? "#3F7653" : T.textSecondary, background: activeReport === r.id ? T.accentBg : "transparent" }}
+                  onMouseEnter={e => { if (activeReport !== r.id) e.currentTarget.style.background = T.surfaceRaised; }}
+                  onMouseLeave={e => { if (activeReport !== r.id) e.currentTarget.style.background = "transparent"; }}>
+                  {r.label}
+                </div>
+              ))}
+            </div>
+          ))}
+        </Card>
+
+        {/* Report content */}
+        <div>
+          {/* Filters bar */}
+          <div style={{ display: "flex", gap: 8, marginBottom: 14 }}>
+            <Select value={filterAtty} onChange={setFilterAtty} options={[{ value: "all", label: "All Attorneys" }, ...DB.users.map(u => ({ value: u.id, label: `${u.firstName} ${u.lastName}` }))]} />
+            <Select value={groupBy} onChange={setGroupBy} options={[{ value: "month", label: "Group by Month" }, { value: "client", label: "Group by Client" }, { value: "attorney", label: "Group by Attorney" }, { value: "practice", label: "Group by Practice Area" }]} />
+          </div>
+
+          {activeReport === "revenue" && (
+            <div>
+              {/* Simple bar chart */}
+              <Card style={{ padding: 20, marginBottom: 16 }}>
+                <div style={{ fontSize: "14px", fontWeight: 700, color: T.text, marginBottom: 16 }}>Revenue by Month</div>
+                <div style={{ display: "flex", alignItems: "flex-end", gap: 12, height: 160 }}>
+                  {[{ month: "Jan", amt: 48000 }, { month: "Feb", amt: 31000 }, { month: "Mar", amt: 19750 }].map((m, i) => (
+                    <div key={i} style={{ flex: 1, textAlign: "center" }}>
+                      <div style={{ background: `linear-gradient(180deg, #3F7653, #213B2B)`, height: `${(m.amt / 50000) * 140}px`, borderRadius: "4px 4px 0 0", minHeight: 20, display: "flex", alignItems: "flex-start", justifyContent: "center", paddingTop: 6 }}>
+                        <span style={{ fontSize: "11px", fontFamily: T.mono, fontWeight: 700, color: "#FCF8F1" }}>{fmt.currency(m.amt)}</span>
+                      </div>
+                      <div style={{ fontSize: "12px", color: T.textTertiary, marginTop: 6 }}>{m.month}</div>
+                    </div>
+                  ))}
+                </div>
+              </Card>
+              <Card style={{ padding: 0 }}>
+                <Table data={DB.users.filter(u => u.role !== "admin")} columns={[
+                  { header: "Attorney", render: r => <span style={{ fontWeight: 600 }}>{r.firstName} {r.lastName}</span> },
+                  { header: "Role", render: r => <Badge color={T.textTertiary} bg={T.surfaceRaised}>{fmt.role(r.role)}</Badge> },
+                  { header: "Hours", render: r => { const h = DB.timeEntries.filter(t => t.userId === r.id && t.billable).reduce((s, t) => s + t.durationMinutes, 0) / 60; return <span style={{ fontFamily: T.mono }}>{h.toFixed(1)}</span>; }, align: "right" },
+                  { header: "Billed", render: r => { const b = DB.timeEntries.filter(t => t.userId === r.id && t.billable).reduce((s, t) => s + (t.durationMinutes / 60) * t.rateAtEntry, 0); return <span style={{ fontFamily: T.mono }}>{fmt.currency(b)}</span>; }, align: "right" },
+                  { header: "Comp", render: r => { const c = Q.computeUserComp(r.id); return <span style={{ fontFamily: T.mono, fontWeight: 700, color: "#3F7653" }}>{fmt.currency(c?.total || 0)}</span>; }, align: "right" },
+                ]} />
+              </Card>
+            </div>
+          )}
+
+          {activeReport === "ar_aging" && (
+            <Card style={{ padding: 20 }}>
+              <div style={{ fontSize: "14px", fontWeight: 700, color: T.text, marginBottom: 16 }}>Accounts Receivable Aging</div>
+              {/* Pie-style visualization */}
+              <div style={{ display: "flex", gap: 20, marginBottom: 20 }}>
+                <div style={{ display: "flex", gap: 4, height: 32, flex: 1, borderRadius: T.radius, overflow: "hidden" }}>
+                  {aging.map((a, i) => <div key={i} style={{ width: `${(a.amount / outstanding * 100)}%`, background: a.color, position: "relative" }} title={`${a.range}: ${fmt.currency(a.amount)}`} />)}
+                </div>
+              </div>
+              {aging.map((a, i) => (
+                <div key={i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 0", borderBottom: `1px solid ${T.borderSubtle}` }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                    <div style={{ width: 12, height: 12, borderRadius: 3, background: a.color }} />
+                    <span style={{ fontSize: "13px", color: T.textSecondary }}>{a.range}</span>
+                  </div>
+                  <span style={{ fontFamily: T.mono, fontWeight: 700, color: T.text }}>{fmt.currency(a.amount)}</span>
+                </div>
+              ))}
+              <div style={{ display: "flex", justifyContent: "space-between", padding: "12px 0 0", borderTop: `2px solid ${T.border}`, marginTop: 4, fontSize: "14px", fontWeight: 700 }}>
+                <span>Total Outstanding</span><span style={{ fontFamily: T.mono }}>{fmt.currency(outstanding)}</span>
+              </div>
+            </Card>
+          )}
+
+          {activeReport === "unbilled" && (
+            <Card style={{ padding: 0 }}>
+              <div style={{ padding: "14px 18px", borderBottom: `1px solid ${T.border}`, fontSize: "14px", fontWeight: 700, color: T.text }}>Unbilled Time & Expenses</div>
+              <Table data={DB.timeEntries.filter(e => e.status !== "billed").map(e => ({ ...e, matter: DB.matters.find(m => m.id === e.matterId), user: Q.user(e.userId) }))} columns={[
+                { header: "Attorney", render: r => <span style={{ fontWeight: 600 }}>{r.user?.firstName} {r.user?.lastName}</span> },
+                { header: "Matter", render: r => <span style={{ fontSize: "12px" }}>{r.matter?.matterNumber}</span> },
+                { header: "Date", render: r => fmt.dateShort(r.date), nowrap: true },
+                { header: "Description", render: r => <span style={{ fontSize: "12px", color: T.textSecondary }}>{r.description.slice(0, 60)}...</span> },
+                { header: "Hours", render: r => <span style={{ fontFamily: T.mono }}>{(r.durationMinutes / 60).toFixed(1)}</span>, align: "right" },
+                { header: "Amount", render: r => <span style={{ fontFamily: T.mono, fontWeight: 600 }}>{fmt.currency((r.durationMinutes / 60) * r.rateAtEntry)}</span>, align: "right" },
+                { header: "Status", render: r => <StatusBadge status={r.status} />, nowrap: true },
+              ]} />
+            </Card>
+          )}
+
+          {activeReport === "trust_balances" && (
+            <Card style={{ padding: 0 }}>
+              <div style={{ padding: "14px 18px", borderBottom: `1px solid ${T.border}`, fontSize: "14px", fontWeight: 700, color: T.text }}>Trust Balances by Client</div>
+              <Table data={DB.clients.map(c => ({ ...c, trustBal: Q.trustBalance(c.id), txnCount: Q.trustForClient(c.id).length })).filter(c => c.txnCount > 0)} columns={[
+                { header: "Client", render: r => <span style={{ fontWeight: 600 }}>{r.name}</span> },
+                { header: "Transactions", render: r => <span style={{ fontFamily: T.mono }}>{r.txnCount}</span>, align: "center" },
+                { header: "Current Balance", render: r => <span style={{ fontFamily: T.mono, fontWeight: 700, color: r.trustBal > 0 ? "#3F7653" : T.red }}>{fmt.currency(r.trustBal)}</span>, align: "right" },
+              ]} />
+            </Card>
+          )}
+
+          {activeReport === "utilization" && (
+            <Card style={{ padding: 20 }}>
+              <div style={{ fontSize: "14px", fontWeight: 700, color: T.text, marginBottom: 16 }}>Utilization by Attorney</div>
+              {DB.users.filter(u => u.role !== "admin").map(u => {
+                const billable = DB.timeEntries.filter(t => t.userId === u.id && t.billable).reduce((s, t) => s + t.durationMinutes, 0) / 60;
+                const nonBillable = DB.timeEntries.filter(t => t.userId === u.id && !t.billable).reduce((s, t) => s + t.durationMinutes, 0) / 60;
+                const total = billable + nonBillable || 1;
+                const pct = (billable / Math.max(total, 1) * 100).toFixed(0);
+                return (
+                  <div key={u.id} style={{ display: "flex", alignItems: "center", gap: 14, padding: "10px 0", borderBottom: `1px solid ${T.borderSubtle}` }}>
+                    <div style={{ width: 130 }}><span style={{ fontSize: "13px", fontWeight: 600, color: T.text }}>{u.firstName} {u.lastName}</span></div>
+                    <div style={{ flex: 1, height: 22, background: T.surfaceRaised, borderRadius: T.radius, overflow: "hidden", display: "flex" }}>
+                      <div style={{ width: `${pct}%`, background: `linear-gradient(90deg, #3F7653, #4A99A7)`, borderRadius: T.radius, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                        {parseInt(pct) > 20 && <span style={{ fontSize: "10px", fontWeight: 700, color: "#fff" }}>{billable.toFixed(1)}h</span>}
+                      </div>
+                    </div>
+                    <span style={{ fontFamily: T.mono, fontWeight: 700, color: parseInt(pct) > 70 ? "#3F7653" : T.orange, width: 45, textAlign: "right" }}>{pct}%</span>
+                  </div>
+                );
+              })}
+            </Card>
+          )}
+
+          {activeReport === "revenue_client" && (
+            <Card style={{ padding: 0 }}>
+              <div style={{ padding: "14px 18px", borderBottom: `1px solid ${T.border}`, fontSize: "14px", fontWeight: 700, color: T.text }}>Revenue by Client</div>
+              <Table data={DB.clients.map(c => {
+                const inv = Q.invoicesForClient(c.id);
+                return { ...c, billed: inv.reduce((s, i) => s + i.total, 0), collected: inv.reduce((s, i) => s + i.amountPaid, 0), outstanding: inv.reduce((s, i) => s + i.balanceDue, 0), matters: Q.mattersForClient(c.id).length };
+              }).sort((a, b) => b.collected - a.collected)} columns={[
+                { header: "Client", render: r => <span style={{ fontWeight: 600 }}>{r.name}</span> },
+                { header: "Matters", render: r => <span style={{ fontFamily: T.mono }}>{r.matters}</span>, align: "center" },
+                { header: "Billed", render: r => <span style={{ fontFamily: T.mono }}>{fmt.currency(r.billed)}</span>, align: "right" },
+                { header: "Collected", render: r => <span style={{ fontFamily: T.mono, color: T.green }}>{fmt.currency(r.collected)}</span>, align: "right" },
+                { header: "Outstanding", render: r => <span style={{ fontFamily: T.mono, color: r.outstanding > 0 ? T.orange : T.green }}>{fmt.currency(r.outstanding)}</span>, align: "right" },
+                { header: "% of Revenue", render: r => { const pct = totalRevenue > 0 ? (r.collected / totalRevenue * 100).toFixed(0) : 0; return <div style={{ display: "flex", alignItems: "center", gap: 8 }}><div style={{ flex: 1, height: 8, background: T.surfaceRaised, borderRadius: 4, overflow: "hidden" }}><div style={{ width: `${pct}%`, height: "100%", background: "#3F7653", borderRadius: 4 }} /></div><span style={{ fontFamily: T.mono, fontSize: "11px", width: 32 }}>{pct}%</span></div>; }, align: "right" },
+              ]} />
+            </Card>
+          )}
+
+          {activeReport === "revenue_practice" && (
+            <Card style={{ padding: 20 }}>
+              <div style={{ fontSize: "14px", fontWeight: 700, color: T.text, marginBottom: 16 }}>Revenue by Practice Area</div>
+              {(() => {
+                const areas = {};
+                DB.matters.forEach(m => { if (!areas[m.practiceArea]) areas[m.practiceArea] = { billed: 0, collected: 0, matters: 0 }; areas[m.practiceArea].matters++; const inv = Q.invoicesForMatter(m.id); inv.forEach(i => { areas[m.practiceArea].billed += i.total; areas[m.practiceArea].collected += i.amountPaid; }); });
+                const sorted = Object.entries(areas).sort((a, b) => b[1].collected - a[1].collected);
+                const maxAmt = Math.max(...sorted.map(([, v]) => v.collected), 1);
+                return sorted.map(([area, data]) => (
+                  <div key={area} style={{ display: "flex", alignItems: "center", gap: 14, padding: "12px 0", borderBottom: `1px solid ${T.borderSubtle}` }}>
+                    <div style={{ width: 140 }}><Badge color={T.purple} bg={T.purpleBg}>{fmt.practiceArea(area)}</Badge></div>
+                    <div style={{ flex: 1, height: 24, background: T.surfaceRaised, borderRadius: T.radius, overflow: "hidden" }}>
+                      <div style={{ width: `${(data.collected / maxAmt * 100)}%`, height: "100%", background: `linear-gradient(90deg, #3F7653, #4A99A7)`, borderRadius: T.radius, display: "flex", alignItems: "center", paddingLeft: 8 }}>
+                        {data.collected > maxAmt * 0.15 && <span style={{ fontSize: "10px", fontWeight: 700, color: "#fff" }}>{fmt.currency(data.collected)}</span>}
+                      </div>
+                    </div>
+                    <div style={{ width: 100, textAlign: "right" }}>
+                      <div style={{ fontFamily: T.mono, fontWeight: 700, fontSize: "13px" }}>{fmt.currency(data.collected)}</div>
+                      <div style={{ fontSize: "10px", color: T.textTertiary }}>{data.matters} matter{data.matters !== 1 ? "s" : ""}</div>
+                    </div>
+                  </div>
+                ));
+              })()}
+            </Card>
+          )}
+
+          {activeReport === "collected_vs_billed" && (
+            <Card style={{ padding: 20 }}>
+              <div style={{ fontSize: "14px", fontWeight: 700, color: T.text, marginBottom: 16 }}>Collected vs Billed</div>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 16, marginBottom: 20 }}>
+                <Card style={{ padding: 14, background: T.surfaceRaised }}><Stat label="Total Billed" value={fmt.currency(totalBilled)} /></Card>
+                <Card style={{ padding: 14, background: T.surfaceRaised }}><Stat label="Total Collected" value={fmt.currency(totalRevenue)} color={T.green} /></Card>
+                <Card style={{ padding: 14, background: T.surfaceRaised }}><Stat label="Realization Rate" value={`${realization}%`} color={parseFloat(realization) > 80 ? T.green : T.orange} /></Card>
+              </div>
+              <div style={{ display: "flex", alignItems: "flex-end", gap: 16, height: 180 }}>
+                {[{ month: "Jan", billed: 52000, collected: 48000 }, { month: "Feb", billed: 38000, collected: 31000 }, { month: "Mar", billed: 28000, collected: 19750 }].map((m, i) => (
+                  <div key={i} style={{ flex: 1, display: "flex", gap: 4, alignItems: "flex-end" }}>
+                    <div style={{ flex: 1, textAlign: "center" }}>
+                      <div style={{ background: "rgba(63,118,83,0.2)", height: `${(m.billed / 55000) * 160}px`, borderRadius: "4px 4px 0 0", display: "flex", alignItems: "flex-start", justifyContent: "center", paddingTop: 4 }}>
+                        <span style={{ fontSize: "9px", fontFamily: T.mono, color: T.textTertiary }}>{fmt.currency(m.billed)}</span>
+                      </div>
+                    </div>
+                    <div style={{ flex: 1, textAlign: "center" }}>
+                      <div style={{ background: "#3F7653", height: `${(m.collected / 55000) * 160}px`, borderRadius: "4px 4px 0 0", display: "flex", alignItems: "flex-start", justifyContent: "center", paddingTop: 4 }}>
+                        <span style={{ fontSize: "9px", fontFamily: T.mono, color: "#fff" }}>{fmt.currency(m.collected)}</span>
+                      </div>
+                    </div>
+                    <div style={{ position: "absolute", marginTop: 4, width: "100%" }}></div>
+                  </div>
+                ))}
+              </div>
+              <div style={{ display: "flex", justifyContent: "center", gap: 20, marginTop: 10 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: "11px", color: T.textTertiary }}><div style={{ width: 12, height: 12, background: "rgba(63,118,83,0.2)", borderRadius: 2 }} /> Billed</div>
+                <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: "11px", color: T.textTertiary }}><div style={{ width: 12, height: 12, background: "#3F7653", borderRadius: 2 }} /> Collected</div>
+              </div>
+            </Card>
+          )}
+
+          {activeReport === "invoice_status" && (
+            <Card style={{ padding: 0 }}>
+              <div style={{ padding: "14px 18px", borderBottom: `1px solid ${T.border}` }}>
+                <div style={{ fontSize: "14px", fontWeight: 700, color: T.text }}>Invoice Status Summary</div>
+                <div style={{ display: "flex", gap: 12, marginTop: 10 }}>
+                  {["paid", "sent", "draft", "overdue", "void"].map(status => {
+                    const count = DB.invoices.filter(i => i.status === status).length;
+                    const amt = DB.invoices.filter(i => i.status === status).reduce((s, i) => s + i.total, 0);
+                    return count > 0 ? <Card key={status} style={{ padding: "8px 14px", flex: 1, background: T.surfaceRaised }}><div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}><StatusBadge status={status} /><span style={{ fontFamily: T.mono, fontWeight: 700 }}>{count}</span></div><div style={{ fontSize: "11px", fontFamily: T.mono, color: T.textTertiary, marginTop: 2 }}>{fmt.currency(amt)}</div></Card> : null;
+                  })}
+                </div>
+              </div>
+              <Table data={DB.invoices.sort((a, b) => b.issueDate.localeCompare(a.issueDate))} columns={[
+                { header: "Invoice", render: r => <span style={{ fontFamily: T.mono, fontWeight: 600, color: T.gold }}>{r.invoiceNumber}</span>, nowrap: true },
+                { header: "Client", render: r => Q.client(r.clientId)?.name },
+                { header: "Status", render: r => <StatusBadge status={r.status} />, nowrap: true },
+                { header: "Issued", render: r => fmt.dateShort(r.issueDate), nowrap: true },
+                { header: "Due", render: r => fmt.dateShort(r.dueDate), nowrap: true },
+                { header: "Total", render: r => <span style={{ fontFamily: T.mono }}>{fmt.currency(r.total)}</span>, align: "right" },
+                { header: "Paid", render: r => <span style={{ fontFamily: T.mono, color: T.green }}>{fmt.currency(r.amountPaid)}</span>, align: "right" },
+                { header: "Balance", render: r => <span style={{ fontFamily: T.mono, fontWeight: 600, color: r.balanceDue > 0 ? T.orange : T.green }}>{fmt.currency(r.balanceDue)}</span>, align: "right" },
+              ]} />
+            </Card>
+          )}
+
+          {activeReport === "writeoffs" && (
+            <Card style={{ padding: 20 }}>
+              <div style={{ fontSize: "14px", fontWeight: 700, color: T.text, marginBottom: 4 }}>Write-Offs & Discounts</div>
+              <div style={{ fontSize: "12px", color: T.textTertiary, marginBottom: 16 }}>YTD summary of written-off time and invoice discounts</div>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 16, marginBottom: 20 }}>
+                <Card style={{ padding: 14, background: T.surfaceRaised }}><Stat label="Time Write-Offs" value={fmt.currency(2450)} color={T.red} /><div style={{ fontSize: "10px", color: T.textTertiary, marginTop: 2 }}>3.5h across 2 matters</div></Card>
+                <Card style={{ padding: 14, background: T.surfaceRaised }}><Stat label="Invoice Discounts" value={fmt.currency(1200)} color={T.orange} /><div style={{ fontSize: "10px", color: T.textTertiary, marginTop: 2 }}>1 invoice adjusted</div></Card>
+                <Card style={{ padding: 14, background: T.surfaceRaised }}><Stat label="Total Lost Revenue" value={fmt.currency(3650)} color={T.red} /><div style={{ fontSize: "10px", color: T.textTertiary, marginTop: 2 }}>{(3650 / totalBilled * 100).toFixed(1)}% of billed</div></Card>
+              </div>
+              <Table data={[
+                { date: "2026-03-05", type: "Time Write-Off", matter: "FL-2026-0001", description: "Non-billable research already covered by retainer", amount: 1350, attorney: "Sarah Chen" },
+                { date: "2026-02-20", type: "Time Write-Off", matter: "FL-2026-0002", description: "Immigration petition revision — firm error", amount: 1100, attorney: "Marcus Williams" },
+                { date: "2026-02-15", type: "Discount", matter: "FL-2026-0001", description: "Courtesy discount — longstanding client", amount: 1200, attorney: "Sarah Chen" },
+              ]} columns={[
+                { header: "Date", render: r => fmt.dateShort(r.date), nowrap: true },
+                { header: "Type", render: r => <Badge color={r.type.includes("Write") ? T.red : T.orange} bg={r.type.includes("Write") ? T.redBg : T.orangeBg}>{r.type}</Badge>, nowrap: true },
+                { header: "Matter", render: r => <span style={{ fontFamily: T.mono, fontSize: "11px" }}>{r.matter}</span>, nowrap: true },
+                { header: "Description", render: r => <span style={{ fontSize: "12px", color: T.textSecondary }}>{r.description}</span> },
+                { header: "Attorney", render: r => r.attorney },
+                { header: "Amount", render: r => <span style={{ fontFamily: T.mono, fontWeight: 700, color: T.red }}>{fmt.currency(r.amount)}</span>, align: "right" },
+              ]} />
+            </Card>
+          )}
+
+          {activeReport === "avg_payment" && (
+            <Card style={{ padding: 20 }}>
+              <div style={{ fontSize: "14px", fontWeight: 700, color: T.text, marginBottom: 16 }}>Average Days to Payment</div>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: 16, marginBottom: 20 }}>
+                <Card style={{ padding: 14, background: T.surfaceRaised }}><Stat label="Overall Avg" value="22 days" /></Card>
+                <Card style={{ padding: 14, background: T.surfaceRaised }}><Stat label="Best Client" value="8 days" color={T.green} /><div style={{ fontSize: "10px", color: T.textTertiary, marginTop: 2 }}>TechVenture Inc.</div></Card>
+                <Card style={{ padding: 14, background: T.surfaceRaised }}><Stat label="Slowest Client" value="38 days" color={T.orange} /><div style={{ fontSize: "10px", color: T.textTertiary, marginTop: 2 }}>GreenLeaf Properties</div></Card>
+                <Card style={{ padding: 14, background: T.surfaceRaised }}><Stat label="Under 30 days" value="75%" color={T.green} /></Card>
+              </div>
+              {DB.clients.map(c => {
+                const days = c.id === "c1" ? 8 : c.id === "c2" ? 22 : 38;
+                return (
+                  <div key={c.id} style={{ display: "flex", alignItems: "center", gap: 14, padding: "10px 0", borderBottom: `1px solid ${T.borderSubtle}` }}>
+                    <div style={{ width: 160, fontSize: "13px", fontWeight: 600, color: T.text }}>{c.name}</div>
+                    <div style={{ flex: 1, height: 20, background: T.surfaceRaised, borderRadius: T.radius, overflow: "hidden" }}>
+                      <div style={{ width: `${Math.min(days / 45 * 100, 100)}%`, height: "100%", background: days < 20 ? "#3F7653" : days < 30 ? "#D4851F" : "#C0392B", borderRadius: T.radius }} />
+                    </div>
+                    <span style={{ fontFamily: T.mono, fontWeight: 700, color: days < 20 ? "#3F7653" : days < 30 ? "#D4851F" : "#C0392B", width: 60, textAlign: "right" }}>{days} days</span>
+                  </div>
+                );
+              })}
+            </Card>
+          )}
+
+          {activeReport === "hours_attorney" && (
+            <Card style={{ padding: 0 }}>
+              <div style={{ padding: "14px 18px", borderBottom: `1px solid ${T.border}`, fontSize: "14px", fontWeight: 700, color: T.text }}>Hours by Attorney</div>
+              <Table data={DB.users.filter(u => !["admin", "billing_manager"].includes(u.role)).map(u => {
+                const entries = DB.timeEntries.filter(t => t.userId === u.id);
+                const billable = entries.filter(e => e.billable);
+                const nonBillable = entries.filter(e => !e.billable);
+                return { ...u, totalHours: entries.reduce((s, e) => s + e.durationMinutes, 0) / 60, billableHours: billable.reduce((s, e) => s + e.durationMinutes, 0) / 60, nonBillableHours: nonBillable.reduce((s, e) => s + e.durationMinutes, 0) / 60, billableAmt: billable.reduce((s, e) => s + (e.durationMinutes / 60) * e.rateAtEntry, 0), entries: entries.length };
+              }).sort((a, b) => b.totalHours - a.totalHours)} columns={[
+                { header: "Attorney", render: r => <div><span style={{ fontWeight: 600 }}>{r.firstName} {r.lastName}</span><div style={{ fontSize: "11px", color: T.textTertiary }}>{fmt.role(r.role)}</div></div> },
+                { header: "Total Hours", render: r => <span style={{ fontFamily: T.mono, fontWeight: 700, fontSize: "15px" }}>{r.totalHours.toFixed(1)}h</span>, align: "right" },
+                { header: "Billable", render: r => <span style={{ fontFamily: T.mono, color: T.green }}>{r.billableHours.toFixed(1)}h</span>, align: "right" },
+                { header: "Non-Bill", render: r => <span style={{ fontFamily: T.mono, color: T.textTertiary }}>{r.nonBillableHours.toFixed(1)}h</span>, align: "right" },
+                { header: "Entries", render: r => <span style={{ fontFamily: T.mono }}>{r.entries}</span>, align: "center" },
+                { header: "Billable $", render: r => <span style={{ fontFamily: T.mono, fontWeight: 600 }}>{fmt.currency(r.billableAmt)}</span>, align: "right" },
+              ]} />
+            </Card>
+          )}
+
+          {activeReport === "hours_practice" && (
+            <Card style={{ padding: 20 }}>
+              <div style={{ fontSize: "14px", fontWeight: 700, color: T.text, marginBottom: 16 }}>Hours by Practice Area</div>
+              {(() => {
+                const areas = {};
+                DB.timeEntries.forEach(t => { const m = DB.matters.find(x => x.id === t.matterId); if (!m) return; const pa = m.practiceArea; if (!areas[pa]) areas[pa] = { hours: 0, amount: 0, entries: 0 }; areas[pa].hours += t.durationMinutes / 60; areas[pa].amount += (t.durationMinutes / 60) * t.rateAtEntry; areas[pa].entries++; });
+                const sorted = Object.entries(areas).sort((a, b) => b[1].hours - a[1].hours);
+                const maxH = Math.max(...sorted.map(([, v]) => v.hours), 1);
+                return sorted.map(([area, data]) => (
+                  <div key={area} style={{ display: "flex", alignItems: "center", gap: 14, padding: "12px 0", borderBottom: `1px solid ${T.borderSubtle}` }}>
+                    <div style={{ width: 130 }}><Badge color={T.purple} bg={T.purpleBg}>{fmt.practiceArea(area)}</Badge></div>
+                    <div style={{ flex: 1, height: 24, background: T.surfaceRaised, borderRadius: T.radius, overflow: "hidden" }}>
+                      <div style={{ width: `${(data.hours / maxH * 100)}%`, height: "100%", background: `linear-gradient(90deg, #4A99A7, #3F7653)`, borderRadius: T.radius, display: "flex", alignItems: "center", paddingLeft: 8 }}>
+                        {data.hours > maxH * 0.2 && <span style={{ fontSize: "10px", fontWeight: 700, color: "#fff" }}>{data.hours.toFixed(1)}h</span>}
+                      </div>
+                    </div>
+                    <div style={{ width: 90, textAlign: "right" }}><span style={{ fontFamily: T.mono, fontWeight: 700 }}>{fmt.currency(data.amount)}</span></div>
+                  </div>
+                ));
+              })()}
+            </Card>
+          )}
+
+          {activeReport === "billable_nonbillable" && (
+            <Card style={{ padding: 20 }}>
+              <div style={{ fontSize: "14px", fontWeight: 700, color: T.text, marginBottom: 16 }}>Billable vs Non-Billable</div>
+              {(() => {
+                const billable = DB.timeEntries.filter(e => e.billable).reduce((s, e) => s + e.durationMinutes, 0) / 60;
+                const nonBillable = DB.timeEntries.filter(e => !e.billable).reduce((s, e) => s + e.durationMinutes, 0) / 60;
+                const total = billable + nonBillable || 1;
+                const pctB = (billable / total * 100).toFixed(0);
+                return (
+                  <div>
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 16, marginBottom: 20 }}>
+                      <Card style={{ padding: 14, background: T.surfaceRaised }}><Stat label="Billable" value={`${billable.toFixed(1)}h`} color={T.green} /></Card>
+                      <Card style={{ padding: 14, background: T.surfaceRaised }}><Stat label="Non-Billable" value={`${nonBillable.toFixed(1)}h`} /></Card>
+                      <Card style={{ padding: 14, background: T.surfaceRaised }}><Stat label="Billable Ratio" value={`${pctB}%`} color={parseInt(pctB) > 70 ? T.green : T.orange} /></Card>
+                    </div>
+                    <div style={{ display: "flex", gap: 4, height: 40, borderRadius: T.radius, overflow: "hidden", marginBottom: 16 }}>
+                      <div style={{ width: `${pctB}%`, background: "#3F7653", display: "flex", alignItems: "center", justifyContent: "center" }}><span style={{ fontSize: "12px", fontWeight: 700, color: "#fff" }}>Billable {pctB}%</span></div>
+                      <div style={{ width: `${100 - parseInt(pctB)}%`, background: "rgba(107,112,137,0.15)", display: "flex", alignItems: "center", justifyContent: "center" }}><span style={{ fontSize: "12px", fontWeight: 600, color: T.textTertiary }}>{(100 - parseInt(pctB))}%</span></div>
+                    </div>
+                    {DB.users.filter(u => !["admin", "billing_manager"].includes(u.role)).map(u => {
+                      const b = DB.timeEntries.filter(t => t.userId === u.id && t.billable).reduce((s, t) => s + t.durationMinutes, 0) / 60;
+                      const nb = DB.timeEntries.filter(t => t.userId === u.id && !t.billable).reduce((s, t) => s + t.durationMinutes, 0) / 60;
+                      const ut = b + nb || 1;
+                      const up = (b / ut * 100).toFixed(0);
+                      return (
+                        <div key={u.id} style={{ display: "flex", alignItems: "center", gap: 12, padding: "8px 0", borderBottom: `1px solid ${T.borderSubtle}` }}>
+                          <div style={{ width: 120, fontSize: "13px", fontWeight: 600 }}>{u.firstName} {u.lastName[0]}.</div>
+                          <div style={{ flex: 1, height: 16, background: T.surfaceRaised, borderRadius: 8, overflow: "hidden", display: "flex" }}>
+                            <div style={{ width: `${up}%`, background: "#3F7653", borderRadius: 8 }} />
+                          </div>
+                          <span style={{ fontFamily: T.mono, fontSize: "12px", width: 70, textAlign: "right" }}>{b.toFixed(1)}h / {(b + nb).toFixed(1)}h</span>
+                          <span style={{ fontFamily: T.mono, fontWeight: 700, color: parseInt(up) > 70 ? "#3F7653" : T.orange, width: 40, textAlign: "right" }}>{up}%</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                );
+              })()}
+            </Card>
+          )}
+
+          {activeReport === "origination_board" && (
+            <Card style={{ padding: 20 }}>
+              <div style={{ fontSize: "14px", fontWeight: 700, color: T.text, marginBottom: 16 }}>Origination Leaderboard</div>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }}>
+                {DB.users.map(u => {
+                  const comp = Q.computeUserComp(u.id);
+                  if (!comp || comp.origination.credit === 0) return null;
+                  return (
+                    <Card key={u.id} style={{ padding: 16, background: T.surfaceRaised }}>
+                      <div style={{ fontSize: "13px", fontWeight: 700, color: T.text }}>{u.firstName} {u.lastName}</div>
+                      <div style={{ fontSize: "11px", color: T.textTertiary, marginBottom: 8 }}>{fmt.role(u.role)}</div>
+                      <div style={{ fontSize: "24px", fontWeight: 800, fontFamily: T.mono, color: "#3F7653" }}>{fmt.currency(comp.origination.credit)}</div>
+                      <div style={{ fontSize: "11px", color: T.textTertiary, marginTop: 2 }}>{comp.origination.details.length} matter{comp.origination.details.length !== 1 ? "s" : ""} · {(comp.origination.rate * 100).toFixed(0)}% rate</div>
+                      <div style={{ marginTop: 8 }}>{comp.origination.details.map((d, i) => <div key={i} style={{ fontSize: "11px", color: T.textSecondary, padding: "2px 0" }}>{d.matterNumber} — {fmt.currency(d.credit)}</div>)}</div>
+                    </Card>
+                  );
+                }).filter(Boolean)}
+              </div>
+            </Card>
+          )}
+
+          {activeReport === "production_board" && (
+            <Card style={{ padding: 0 }}>
+              <div style={{ padding: "14px 18px", borderBottom: `1px solid ${T.border}`, fontSize: "14px", fontWeight: 700, color: T.text }}>Production by Attorney</div>
+              <Table data={DB.users.filter(u => !["admin", "billing_manager"].includes(u.role)).map(u => {
+                const comp = Q.computeUserComp(u.id);
+                const hours = DB.timeEntries.filter(t => t.userId === u.id && t.billable).reduce((s, t) => s + t.durationMinutes, 0) / 60;
+                const billed = DB.timeEntries.filter(t => t.userId === u.id && t.billable).reduce((s, t) => s + (t.durationMinutes / 60) * t.rateAtEntry, 0);
+                return { ...u, hours, billed, production: comp?.production.credit || 0, rate: comp?.production.rate || 0 };
+              }).sort((a, b) => b.production - a.production)} columns={[
+                { header: "Attorney", render: r => <div><span style={{ fontWeight: 600 }}>{r.firstName} {r.lastName}</span><div style={{ fontSize: "11px", color: T.textTertiary }}>{fmt.role(r.role)}</div></div> },
+                { header: "Hours", render: r => <span style={{ fontFamily: T.mono }}>{r.hours.toFixed(1)}h</span>, align: "right" },
+                { header: "Billed $", render: r => <span style={{ fontFamily: T.mono }}>{fmt.currency(r.billed)}</span>, align: "right" },
+                { header: "Rate", render: r => <span style={{ fontSize: "12px", color: T.textTertiary }}>{(r.rate * 100).toFixed(1)}%</span>, align: "center" },
+                { header: "Production Credit", render: r => <span style={{ fontFamily: T.mono, fontWeight: 700, color: "#3F7653", fontSize: "15px" }}>{fmt.currency(r.production)}</span>, align: "right" },
+              ]} />
+            </Card>
+          )}
+
+          {activeReport === "client_profit" && (
+            <Card style={{ padding: 0 }}>
+              <div style={{ padding: "14px 18px", borderBottom: `1px solid ${T.border}`, fontSize: "14px", fontWeight: 700, color: T.text }}>Client Profitability</div>
+              <Table data={DB.clients.map(c => {
+                const inv = Q.invoicesForClient(c.id);
+                const collected = inv.reduce((s, i) => s + i.amountPaid, 0);
+                const time = Q.timeForClient(c.id);
+                const costOfTime = time.reduce((s, t) => s + (t.durationMinutes / 60) * (t.rateAtEntry * 0.35), 0); // Assume 35% cost
+                const expenses = DB.expenses.filter(e => DB.matters.some(m => m.clientId === c.id && m.id === e.matterId)).reduce((s, e) => s + e.amount, 0);
+                const profit = collected - costOfTime - expenses;
+                const margin = collected > 0 ? (profit / collected * 100).toFixed(0) : 0;
+                return { ...c, collected, costOfTime, expenses, profit, margin, hours: time.reduce((s, t) => s + t.durationMinutes, 0) / 60 };
+              }).sort((a, b) => b.profit - a.profit)} columns={[
+                { header: "Client", render: r => <span style={{ fontWeight: 600 }}>{r.name}</span> },
+                { header: "Collected", render: r => <span style={{ fontFamily: T.mono }}>{fmt.currency(r.collected)}</span>, align: "right" },
+                { header: "Time Cost", render: r => <span style={{ fontFamily: T.mono, color: T.textTertiary }}>{fmt.currency(r.costOfTime)}</span>, align: "right" },
+                { header: "Expenses", render: r => <span style={{ fontFamily: T.mono, color: T.textTertiary }}>{fmt.currency(r.expenses)}</span>, align: "right" },
+                { header: "Profit", render: r => <span style={{ fontFamily: T.mono, fontWeight: 700, color: r.profit > 0 ? "#3F7653" : T.red }}>{fmt.currency(r.profit)}</span>, align: "right" },
+                { header: "Margin", render: r => <span style={{ fontFamily: T.mono, fontWeight: 700, color: parseInt(r.margin) > 50 ? "#3F7653" : T.orange }}>{r.margin}%</span>, align: "center" },
+              ]} />
+            </Card>
+          )}
+
+          {activeReport === "client_acquisition" && (
+            <Card style={{ padding: 20 }}>
+              <div style={{ fontSize: "14px", fontWeight: 700, color: T.text, marginBottom: 16 }}>Client Acquisition</div>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 16, marginBottom: 20 }}>
+                <Card style={{ padding: 14, background: T.surfaceRaised }}><Stat label="New Clients YTD" value={DB.clients.filter(c => c.createdAt >= "2026-01-01").length} /></Card>
+                <Card style={{ padding: 14, background: T.surfaceRaised }}><Stat label="Total Active" value={DB.clients.filter(c => c.status === "active").length} color={T.green} /></Card>
+                <Card style={{ padding: 14, background: T.surfaceRaised }}><Stat label="Avg Revenue/Client" value={fmt.currency(totalRevenue / Math.max(DB.clients.length, 1))} /></Card>
+              </div>
+              <Table data={DB.clients.sort((a, b) => b.createdAt.localeCompare(a.createdAt))} columns={[
+                { header: "Client", render: r => <span style={{ fontWeight: 600 }}>{r.name}</span> },
+                { header: "Type", render: r => <Badge color={T.textTertiary} bg={T.surfaceRaised}>{r.type}</Badge>, nowrap: true },
+                { header: "Since", render: r => fmt.dateShort(r.createdAt), nowrap: true },
+                { header: "Status", render: r => <StatusBadge status={r.status} />, nowrap: true },
+                { header: "Originator", render: r => { const u = Q.user(r.originatingAttorneyId); return u ? `${u.firstName} ${u.lastName}` : "—"; } },
+                { header: "Matters", render: r => <span style={{ fontFamily: T.mono }}>{Q.mattersForClient(r.id).length}</span>, align: "center" },
+                { header: "Revenue", render: r => <span style={{ fontFamily: T.mono, fontWeight: 600 }}>{fmt.currency(Q.invoicesForClient(r.id).reduce((s, i) => s + i.amountPaid, 0))}</span>, align: "right" },
+              ]} />
+            </Card>
+          )}
+
+          {activeReport === "trust_transactions" && (
+            <Card style={{ padding: 0 }}>
+              <div style={{ padding: "14px 18px", borderBottom: `1px solid ${T.border}`, fontSize: "14px", fontWeight: 700, color: T.text }}>Trust Transaction History</div>
+              <Table data={DB.trustTransactions.sort((a, b) => b.date.localeCompare(a.date))} columns={[
+                { header: "Date", render: r => fmt.dateShort(r.date), nowrap: true },
+                { header: "Client", render: r => Q.client(r.clientId)?.name },
+                { header: "Type", render: r => <Badge color={r.type === "deposit" ? "#3F7653" : T.red} bg={r.type === "deposit" ? T.accentBg : T.redBg}>{r.type}</Badge>, nowrap: true },
+                { header: "Reference", render: r => <span style={{ fontFamily: T.mono, fontSize: "11px" }}>{r.reference}</span> },
+                { header: "Description", render: r => <span style={{ fontSize: "12px", color: T.textSecondary }}>{r.description}</span> },
+                { header: "Amount", render: r => <span style={{ fontFamily: T.mono, fontWeight: 700, color: r.amount > 0 ? "#3F7653" : T.red }}>{r.amount > 0 ? "+" : ""}{fmt.currency(r.amount)}</span>, align: "right" },
+                { header: "Balance", render: r => <span style={{ fontFamily: T.mono }}>{fmt.currency(r.balance)}</span>, align: "right" },
+              ]} />
+            </Card>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ============================================================
+// PAGE: EXPENSE TRACKING
+// ============================================================
+const ExpensesPage = ({ currentUser }) => {
+  const isBillingTier = Q.isBillingTier(currentUser.role);
+  const [showAdd, setShowAdd] = useState(false);
+  const expenses = isBillingTier ? DB.expenses : DB.expenses.filter(e => e.userId === currentUser.id);
+  const totalBillable = expenses.filter(e => e.billable).reduce((s, e) => s + e.amount, 0);
+  const totalNonBillable = expenses.filter(e => !e.billable).reduce((s, e) => s + e.amount, 0);
+  const categories = { filing_fee: "Filing Fee", research: "Research", copies: "Copies", courier: "Courier", travel: "Travel", court_costs: "Court Costs", other: "Other" };
+
+  return (
+    <div>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24 }}>
+        <div><h1 style={{ margin: 0, fontSize: "22px", fontWeight: 700, color: T.text }}>Expenses</h1><p style={{ margin: "2px 0 0", fontSize: "13px", color: T.textTertiary }}>{expenses.length} entries · {fmt.currency(totalBillable)} billable</p></div>
+        <Btn size="sm" onClick={() => setShowAdd(true)}><Icon name="plus" size={13} color={T.bg} /> New Expense</Btn>
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12, marginBottom: 20 }}>
+        <Card style={{ padding: "14px 16px" }}><Stat label="Billable" value={fmt.currency(totalBillable)} color={T.green} /></Card>
+        <Card style={{ padding: "14px 16px" }}><Stat label="Non-Billable" value={fmt.currency(totalNonBillable)} /></Card>
+        <Card style={{ padding: "14px 16px" }}><Stat label="Pending" value={expenses.filter(e => e.status === "draft" || e.status === "approved").length} color={T.orange} /></Card>
+        <Card style={{ padding: "14px 16px" }}><Stat label="Billed" value={expenses.filter(e => e.status === "billed").length} color={T.green} /></Card>
+      </div>
+
+      <Card style={{ padding: 0 }}>
+        <Table data={expenses} columns={[
+          { header: "Date", render: r => fmt.dateShort(r.date), nowrap: true },
+          { header: "Matter", render: r => <span style={{ fontFamily: T.mono, fontSize: "11px" }}>{DB.matters.find(m => m.id === r.matterId)?.matterNumber}</span>, nowrap: true },
+          { header: "Category", render: r => <Badge color={T.purple} bg={T.purpleBg}>{categories[r.category] || r.category}</Badge>, nowrap: true },
+          { header: "Description", render: r => <span style={{ fontSize: "12.5px", color: T.textSecondary }}>{r.description}</span> },
+          { header: "Amount", render: r => <span style={{ fontFamily: T.mono, fontWeight: 700 }}>{fmt.currency(r.amount)}</span>, align: "right", nowrap: true },
+          { header: "Billable", render: r => r.billable ? <Badge color={T.green} bg={T.accentBg}>Yes</Badge> : <Badge color={T.textTertiary} bg={T.surfaceRaised}>No</Badge>, nowrap: true },
+          { header: "Status", render: r => <StatusBadge status={r.status} />, nowrap: true },
+          { header: "Receipt", render: r => r.receipt ? <Icon name="documents" size={14} color="#3F7653" /> : <span style={{ color: T.textDim }}>—</span>, align: "center", nowrap: true },
+        ]} />
+      </Card>
+
+      <Modal open={showAdd} onClose={() => setShowAdd(false)} title="New Expense" width={520}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 12 }}>
+          <div><div style={{ fontSize: "11px", fontWeight: 600, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 4 }}>Matter</div><select style={{ width: "100%", padding: "8px 12px", border: `1px solid ${T.border}`, borderRadius: T.radius, fontSize: "13px", fontFamily: T.font }}>{DB.matters.filter(m => m.status === "open").map(m => <option key={m.id} value={m.id}>{m.matterNumber} — {m.name}</option>)}</select></div>
+          <div><div style={{ fontSize: "11px", fontWeight: 600, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 4 }}>Category</div><select style={{ width: "100%", padding: "8px 12px", border: `1px solid ${T.border}`, borderRadius: T.radius, fontSize: "13px", fontFamily: T.font }}>{Object.entries(categories).map(([k, v]) => <option key={k} value={k}>{v}</option>)}</select></div>
+        </div>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 12 }}>
+          <div><div style={{ fontSize: "11px", fontWeight: 600, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 4 }}>Date</div><input type="date" defaultValue="2026-03-18" style={{ width: "100%", padding: "8px 12px", border: `1px solid ${T.border}`, borderRadius: T.radius, fontSize: "13px", fontFamily: T.font }} /></div>
+          <div><div style={{ fontSize: "11px", fontWeight: 600, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 4 }}>Amount ($)</div><input type="number" placeholder="0.00" style={{ width: "100%", padding: "8px 12px", border: `1px solid ${T.border}`, borderRadius: T.radius, fontSize: "13px", fontFamily: T.font }} /></div>
+        </div>
+        <div style={{ marginBottom: 12 }}><div style={{ fontSize: "11px", fontWeight: 600, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 4 }}>Description</div><input placeholder="Filing fee description..." style={{ width: "100%", padding: "8px 12px", border: `1px solid ${T.border}`, borderRadius: T.radius, fontSize: "13px", fontFamily: T.font }} /></div>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+          <label style={{ display: "flex", alignItems: "center", gap: 6, fontSize: "13px", color: T.text }}><input type="checkbox" defaultChecked style={{ accentColor: "#3F7653" }} /> Billable to client</label>
+          <Btn variant="ghost" size="sm"><Icon name="upload" size={13} color={T.textSecondary} /> Upload Receipt</Btn>
+        </div>
+        <div style={{ display: "flex", justifyContent: "flex-end", gap: 8 }}><Btn variant="ghost" onClick={() => setShowAdd(false)}>Cancel</Btn><Btn onClick={() => setShowAdd(false)}>Save Expense</Btn></div>
+      </Modal>
+    </div>
+  );
+};
+
+// ============================================================
+// PAGE: TRUST ACCOUNTING (IOLTA)
+// ============================================================
+const TrustPage = () => {
+  const [selectedClient, setSelectedClient] = useState(null);
+  const [showDeposit, setShowDeposit] = useState(false);
+  const account = DB.trustAccounts[0];
+  const allTxns = DB.trustTransactions;
+  const totalBalance = allTxns.reduce((s, t) => s + t.amount, 0);
+
+  const clientBalances = DB.clients.map(c => ({ ...c, balance: Q.trustBalance(c.id), txns: Q.trustForClient(c.id) })).filter(c => c.txns.length > 0);
+  const selectedTxns = selectedClient ? Q.trustForClient(selectedClient) : allTxns;
+
+  return (
+    <div>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 24 }}>
+        <div><h1 style={{ margin: 0, fontSize: "22px", fontWeight: 700, color: T.text }}>Trust Accounting</h1><p style={{ margin: "2px 0 0", fontSize: "13px", color: T.textTertiary }}>{account.name} · {account.bank} · ****{account.accountLast4}</p></div>
+        <div style={{ display: "flex", gap: 8 }}>
+          <Btn variant="ghost" size="sm"><Icon name="drive" size={13} color={T.textSecondary} /> Reconciliation</Btn>
+          <Btn size="sm" onClick={() => setShowDeposit(true)}><Icon name="plus" size={13} color={T.bg} /> Record Deposit</Btn>
+        </div>
+      </div>
+
+      {/* Three-way reconciliation summary */}
+      <Card style={{ padding: "18px 22px", marginBottom: 20, background: T.accentBg, border: `1px solid rgba(63,118,83,0.12)` }}>
+        <div style={{ fontSize: "12px", fontWeight: 700, color: "#3F7653", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 10 }}>Three-Way Reconciliation</div>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 20 }}>
+          <div><div style={{ fontSize: "11px", color: T.textTertiary }}>Bank Statement Balance</div><div style={{ fontSize: "22px", fontWeight: 700, fontFamily: T.mono, color: T.text }}>{fmt.currency(totalBalance)}</div></div>
+          <div><div style={{ fontSize: "11px", color: T.textTertiary }}>Sum of Client Ledgers</div><div style={{ fontSize: "22px", fontWeight: 700, fontFamily: T.mono, color: T.text }}>{fmt.currency(totalBalance)}</div></div>
+          <div><div style={{ fontSize: "11px", color: T.textTertiary }}>Book Balance</div><div style={{ fontSize: "22px", fontWeight: 700, fontFamily: T.mono, color: "#3F7653" }}>{fmt.currency(totalBalance)}</div><div style={{ fontSize: "11px", color: "#3F7653", fontWeight: 600, marginTop: 2 }}>Balanced ✓</div></div>
+        </div>
+      </Card>
+
+      <div style={{ display: "grid", gridTemplateColumns: "280px 1fr", gap: 16 }}>
+        {/* Client ledger list */}
+        <Card style={{ padding: 0, alignSelf: "start" }}>
+          <div style={{ padding: "12px 16px", borderBottom: `1px solid ${T.border}`, fontSize: "12px", fontWeight: 700, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.5px" }}>Client Ledgers</div>
+          <div onClick={() => setSelectedClient(null)} style={{ padding: "10px 16px", cursor: "pointer", background: !selectedClient ? T.accentBg : "transparent", borderBottom: `1px solid ${T.borderSubtle}`, fontSize: "13px", fontWeight: !selectedClient ? 700 : 400, color: T.text }}>
+            All Transactions <span style={{ float: "right", fontFamily: T.mono, fontWeight: 700, color: "#3F7653" }}>{fmt.currency(totalBalance)}</span>
+          </div>
+          {clientBalances.map(c => (
+            <div key={c.id} onClick={() => setSelectedClient(c.id)} style={{ padding: "10px 16px", cursor: "pointer", background: selectedClient === c.id ? T.accentBg : "transparent", borderBottom: `1px solid ${T.borderSubtle}` }}
+              onMouseEnter={e => { if (selectedClient !== c.id) e.currentTarget.style.background = T.surfaceRaised; }}
+              onMouseLeave={e => { if (selectedClient !== c.id) e.currentTarget.style.background = "transparent"; }}>
+              <div style={{ fontSize: "13px", fontWeight: selectedClient === c.id ? 700 : 500, color: T.text }}>{c.name}</div>
+              <div style={{ display: "flex", justifyContent: "space-between", marginTop: 2 }}>
+                <span style={{ fontSize: "11px", color: T.textTertiary }}>{c.txns.length} txns</span>
+                <span style={{ fontSize: "13px", fontFamily: T.mono, fontWeight: 700, color: c.balance > 0 ? "#3F7653" : c.balance < 0 ? T.red : T.textDim }}>{fmt.currency(c.balance)}</span>
+              </div>
+            </div>
+          ))}
+        </Card>
+
+        {/* Transaction detail */}
+        <Card style={{ padding: 0 }}>
+          <div style={{ padding: "14px 18px", borderBottom: `1px solid ${T.border}`, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <div style={{ fontSize: "14px", fontWeight: 700, color: T.text }}>{selectedClient ? DB.clients.find(c => c.id === selectedClient)?.name : "All"} — Transactions</div>
+            <div style={{ display: "flex", gap: 6 }}>
+              <Btn variant="ghost" size="sm">Apply to Invoice</Btn>
+            </div>
+          </div>
+          <Table data={selectedTxns.sort((a, b) => b.date.localeCompare(a.date))} columns={[
+            { header: "Date", render: r => fmt.dateShort(r.date), nowrap: true },
+            { header: "Client", render: r => DB.clients.find(c => c.id === r.clientId)?.name },
+            { header: "Type", render: r => <Badge color={r.type === "deposit" ? "#3F7653" : T.red} bg={r.type === "deposit" ? T.accentBg : "rgba(192,57,43,0.06)"}>{r.type}</Badge>, nowrap: true },
+            { header: "Reference", render: r => <span style={{ fontFamily: T.mono, fontSize: "11px" }}>{r.reference}</span> },
+            { header: "Description", render: r => <span style={{ fontSize: "12.5px", color: T.textSecondary }}>{r.description}</span> },
+            { header: "Amount", render: r => <span style={{ fontFamily: T.mono, fontWeight: 700, color: r.amount > 0 ? "#3F7653" : T.red }}>{r.amount > 0 ? "+" : ""}{fmt.currency(r.amount)}</span>, align: "right", nowrap: true },
+            { header: "Balance", render: r => <span style={{ fontFamily: T.mono, fontSize: "12px" }}>{fmt.currency(r.balance)}</span>, align: "right", nowrap: true },
+          ]} />
+        </Card>
+      </div>
+
+      <Modal open={showDeposit} onClose={() => setShowDeposit(false)} title="Record Trust Deposit" width={500}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 12 }}>
+          <div><div style={{ fontSize: "11px", fontWeight: 600, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 4 }}>Client</div><select style={{ width: "100%", padding: "8px 12px", border: `1px solid ${T.border}`, borderRadius: T.radius, fontSize: "13px", fontFamily: T.font }}>{DB.clients.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}</select></div>
+          <div><div style={{ fontSize: "11px", fontWeight: 600, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 4 }}>Amount ($)</div><input type="number" placeholder="0.00" style={{ width: "100%", padding: "8px 12px", border: `1px solid ${T.border}`, borderRadius: T.radius, fontSize: "13px", fontFamily: T.font }} /></div>
+        </div>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 12 }}>
+          <div><div style={{ fontSize: "11px", fontWeight: 600, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 4 }}>Method</div><select style={{ width: "100%", padding: "8px 12px", border: `1px solid ${T.border}`, borderRadius: T.radius, fontSize: "13px", fontFamily: T.font }}><option>Wire Transfer</option><option>Check</option><option>ACH</option></select></div>
+          <div><div style={{ fontSize: "11px", fontWeight: 600, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 4 }}>Reference #</div><input placeholder="Wire #, Check #, etc." style={{ width: "100%", padding: "8px 12px", border: `1px solid ${T.border}`, borderRadius: T.radius, fontSize: "13px", fontFamily: T.font }} /></div>
+        </div>
+        <div style={{ marginBottom: 16 }}><div style={{ fontSize: "11px", fontWeight: 600, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 4 }}>Description</div><input placeholder="Retainer deposit for..." style={{ width: "100%", padding: "8px 12px", border: `1px solid ${T.border}`, borderRadius: T.radius, fontSize: "13px", fontFamily: T.font }} /></div>
+        <div style={{ display: "flex", justifyContent: "flex-end", gap: 8 }}><Btn variant="ghost" onClick={() => setShowDeposit(false)}>Cancel</Btn><Btn onClick={() => setShowDeposit(false)}>Record Deposit</Btn></div>
+      </Modal>
+    </div>
+  );
+};
+
+// ============================================================
+// PAGE: CALENDAR
+// ============================================================
+const CalendarPage = ({ nav, currentUser }) => {
+  const [viewMode, setViewMode] = useState("month");
+  const [currentMonth, setCurrentMonth] = useState("2026-03");
+  const [filterType, setFilterType] = useState("all");
+  const typeColors = { compliance: { color: "#D4851F", bg: "rgba(212,133,31,0.08)" }, deadline: { color: "#C0392B", bg: "rgba(192,57,43,0.06)" }, meeting: { color: "#4A99A7", bg: "rgba(74,153,167,0.08)" }, billing: { color: "#3F7653", bg: "rgba(63,118,83,0.06)" } };
+  const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  const [year, month] = currentMonth.split("-").map(Number);
+
+  const allEvents = DB.calendarEvents.filter(e => filterType === "all" || e.type === filterType);
+  const monthEvents = allEvents.filter(e => e.date.startsWith(currentMonth));
+
+  // Build calendar grid
+  const firstDay = new Date(year, month - 1, 1).getDay();
+  const daysInMonth = new Date(year, month, 0).getDate();
+  const weeks = [];
+  let day = 1 - firstDay;
+  for (let w = 0; w < 6; w++) {
+    const week = [];
+    for (let d = 0; d < 7; d++) {
+      if (day >= 1 && day <= daysInMonth) {
+        const dateStr = `${currentMonth}-${String(day).padStart(2, "0")}`;
+        week.push({ day, dateStr, events: monthEvents.filter(e => e.date === dateStr) });
+      } else {
+        week.push(null);
+      }
+      day++;
+    }
+    weeks.push(week);
+    if (day > daysInMonth) break;
+  }
+
+  const prevMonth = () => { const d = new Date(year, month - 2, 1); setCurrentMonth(`${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`); };
+  const nextMonth = () => { const d = new Date(year, month, 1); setCurrentMonth(`${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`); };
+
+  return (
+    <div>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24 }}>
+        <div><h1 style={{ margin: 0, fontSize: "22px", fontWeight: 700, color: T.text }}>Calendar</h1><p style={{ margin: "2px 0 0", fontSize: "13px", color: T.textTertiary }}>Deadlines, compliance, and meetings</p></div>
+        <div style={{ display: "flex", gap: 8 }}>
+          <Select value={filterType} onChange={setFilterType} options={[{ value: "all", label: "All Types" }, { value: "compliance", label: "Compliance" }, { value: "deadline", label: "Deadlines" }, { value: "meeting", label: "Meetings" }, { value: "billing", label: "Billing" }]} />
+        </div>
+      </div>
+
+      {/* Month navigation */}
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+        <Btn variant="ghost" size="sm" onClick={prevMonth}>← Previous</Btn>
+        <div style={{ fontSize: "18px", fontWeight: 700, color: T.text }}>{monthNames[month - 1]} {year}</div>
+        <Btn variant="ghost" size="sm" onClick={nextMonth}>Next →</Btn>
+      </div>
+
+      {/* Calendar grid */}
+      <Card style={{ padding: 0, overflow: "hidden" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)" }}>
+          {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(d => (
+            <div key={d} style={{ padding: "8px 0", textAlign: "center", fontSize: "11px", fontWeight: 700, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.5px", borderBottom: `1px solid ${T.border}`, background: T.surfaceRaised }}>{d}</div>
+          ))}
+          {weeks.flatMap((week, wi) => week.map((cell, di) => {
+            if (!cell) return <div key={`${wi}-${di}`} style={{ minHeight: 90, borderBottom: `1px solid ${T.borderSubtle}`, borderRight: di < 6 ? `1px solid ${T.borderSubtle}` : "none", background: T.surfaceRaised }} />;
+            const isToday = cell.dateStr === "2026-03-18";
+            return (
+              <div key={cell.dateStr} style={{ minHeight: 90, padding: "4px 6px", borderBottom: `1px solid ${T.borderSubtle}`, borderRight: di < 6 ? `1px solid ${T.borderSubtle}` : "none", background: isToday ? "rgba(63,118,83,0.04)" : "transparent" }}>
+                <div style={{ fontSize: "12px", fontWeight: isToday ? 800 : 400, color: isToday ? "#3F7653" : T.textTertiary, textAlign: "right", marginBottom: 2 }}>
+                  {isToday ? <span style={{ background: "#3F7653", color: "#FCF8F1", borderRadius: "50%", width: 22, height: 22, display: "inline-flex", alignItems: "center", justifyContent: "center" }}>{cell.day}</span> : cell.day}
+                </div>
+                {cell.events.map((ev, i) => {
+                  const tc = typeColors[ev.type] || typeColors.deadline;
+                  return (
+                    <div key={i} style={{ padding: "2px 5px", marginBottom: 2, borderRadius: 3, background: tc.bg, borderLeft: `3px solid ${tc.color}`, cursor: "pointer" }}
+                      title={ev.title}>
+                      <div style={{ fontSize: "10px", fontWeight: 600, color: tc.color, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{ev.title}</div>
+                      {ev.time && <div style={{ fontSize: "9px", color: T.textDim }}>{ev.time}</div>}
+                    </div>
+                  );
+                })}
+              </div>
+            );
+          }))}
+        </div>
+      </Card>
+
+      {/* Upcoming list */}
+      <Card style={{ padding: 0, marginTop: 16 }}>
+        <div style={{ padding: "12px 18px", borderBottom: `1px solid ${T.border}`, fontSize: "13px", fontWeight: 700, color: T.text }}>Upcoming — Next 30 Days</div>
+        <Table data={allEvents.filter(e => e.date >= "2026-03-18" && e.date <= "2026-04-17").sort((a, b) => a.date.localeCompare(b.date))} columns={[
+          { header: "Date", render: r => <span style={{ fontFamily: T.mono, fontSize: "12px" }}>{fmt.dateShort(r.date)}</span>, nowrap: true },
+          { header: "Type", render: r => { const tc = typeColors[r.type]; return <Badge color={tc?.color} bg={tc?.bg}>{r.type}</Badge>; }, nowrap: true },
+          { header: "Event", render: r => <span style={{ fontWeight: 600, fontSize: "13px" }}>{r.title}</span> },
+          { header: "Client", render: r => r.clientId ? Q.client(r.clientId)?.name : "—" },
+          { header: "Time", render: r => r.time || "—", nowrap: true },
+        ]} />
+      </Card>
+
+      {/* My Calendar Sync */}
+      {(() => {
+        const myConns = DB.calendarConnections.filter(c => c.userId === currentUser.id);
+        const googleConn = myConns.find(c => c.provider === "google");
+        const appleConn = myConns.find(c => c.provider === "apple");
+        const hasAnyConnection = myConns.some(c => c.status === "connected");
+
+        return (
+          <Card style={{ padding: 20, marginTop: 20 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: hasAnyConnection ? 14 : 4 }}>
+              <div>
+                <div style={{ fontSize: "14px", fontWeight: 700, color: T.text }}>My Calendar Sync</div>
+                <div style={{ fontSize: "12px", color: T.textTertiary }}>Connect your external calendars to sync deadlines and events</div>
+              </div>
+              {hasAnyConnection && <Badge color="#3F7653" bg={T.accentBg}>Syncing</Badge>}
+            </div>
+
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
+              {/* Google Calendar */}
+              <div style={{ padding: "14px 16px", borderRadius: T.radius, border: `1.5px solid ${googleConn?.status === "connected" ? "rgba(63,118,83,0.25)" : T.border}`, background: googleConn?.status === "connected" ? "rgba(63,118,83,0.03)" : "transparent" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                    <span style={{ fontSize: "16px", fontWeight: 700, color: "#4285F4" }}>G</span>
+                    <span style={{ fontSize: "13px", fontWeight: 600, color: T.text }}>Google Calendar</span>
+                  </div>
+                  {googleConn?.status === "connected" ? (
+                    <Badge color="#3F7653" bg={T.accentBg}>Connected</Badge>
+                  ) : (
+                    <Badge color={T.textTertiary} bg={T.surfaceRaised}>Not Connected</Badge>
+                  )}
+                </div>
+                {googleConn?.status === "connected" ? (
+                  <div>
+                    <div style={{ fontSize: "12px", color: T.textTertiary }}>{googleConn.email}</div>
+                    <div style={{ fontSize: "11px", color: T.textDim, marginTop: 1 }}>↔ Two-way · "{googleConn.calendarName}" · Last synced {fmt.relative(googleConn.lastSync)}</div>
+                    <div style={{ display: "flex", gap: 6, marginTop: 10 }}>
+                      <Btn variant="ghost" size="sm" style={{ fontSize: "11px", padding: "5px 10px" }}>Sync Now</Btn>
+                      <Btn variant="ghost" size="sm" style={{ fontSize: "11px", padding: "5px 10px", color: T.red }}>Disconnect</Btn>
+                    </div>
+                  </div>
+                ) : (
+                  <div>
+                    <div style={{ fontSize: "11.5px", color: T.textTertiary, lineHeight: 1.5, marginBottom: 10 }}>Events sync both directions. Compliance deadlines, matter deadlines, and meetings appear in your Google Calendar.</div>
+                    <Btn size="sm" style={{ fontSize: "12px" }}>Connect Google Calendar</Btn>
+                  </div>
+                )}
+              </div>
+
+              {/* Apple Calendar */}
+              <div style={{ padding: "14px 16px", borderRadius: T.radius, border: `1.5px solid ${appleConn?.status === "connected" ? "rgba(63,118,83,0.25)" : T.border}`, background: appleConn?.status === "connected" ? "rgba(63,118,83,0.03)" : "transparent" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                    <span style={{ fontSize: "16px" }}>🍎</span>
+                    <span style={{ fontSize: "13px", fontWeight: 600, color: T.text }}>Apple Calendar</span>
+                  </div>
+                  {appleConn?.status === "connected" ? (
+                    <Badge color="#3F7653" bg={T.accentBg}>Subscribed</Badge>
+                  ) : (
+                    <Badge color={T.textTertiary} bg={T.surfaceRaised}>Not Connected</Badge>
+                  )}
+                </div>
+                {appleConn?.status === "connected" ? (
+                  <div>
+                    <div style={{ fontSize: "12px", color: T.textTertiary }}>{appleConn.email}</div>
+                    <div style={{ fontSize: "11px", color: T.textDim, marginTop: 1 }}>Subscribe feed · "{appleConn.calendarName}" · Auto-updates</div>
+                    <div style={{ display: "flex", gap: 6, marginTop: 10 }}>
+                      <Btn variant="ghost" size="sm" style={{ fontSize: "11px", padding: "5px 10px" }}>Copy Feed URL</Btn>
+                      <Btn variant="ghost" size="sm" style={{ fontSize: "11px", padding: "5px 10px", color: T.red }}>Remove</Btn>
+                    </div>
+                  </div>
+                ) : (
+                  <div>
+                    <div style={{ fontSize: "11.5px", color: T.textTertiary, lineHeight: 1.5, marginBottom: 10 }}>Get a subscribe URL to add to Apple Calendar. Abbado events appear automatically. Or connect via CalDAV for two-way sync.</div>
+                    <div style={{ display: "flex", gap: 6 }}>
+                      <Btn size="sm" style={{ fontSize: "12px" }}>Generate Subscribe URL</Btn>
+                      <Btn variant="ghost" size="sm" style={{ fontSize: "12px" }}>Connect CalDAV</Btn>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </Card>
+        );
+      })()}
+    </div>
+  );
+};
+
+// ============================================================
+// PAGE: CONFLICT CHECK
+// ============================================================
+const ConflictCheckPage = ({ nav }) => {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [results, setResults] = useState(null);
+
+  const runCheck = () => {
+    if (!searchQuery.trim()) return;
+    const q = searchQuery.toLowerCase();
+    const matches = [];
+    // Search clients
+    DB.clients.forEach(c => { if (c.name.toLowerCase().includes(q) || (c.email || "").toLowerCase().includes(q)) matches.push({ type: "Client", name: c.name, detail: c.email, id: c.id, relationship: "Existing client" }); });
+    // Search contacts
+    DB.clients.forEach(c => { if (c.notes?.toLowerCase().includes(q)) matches.push({ type: "Client Notes", name: c.name, detail: c.notes.slice(0, 80), id: c.id, relationship: "Mentioned in notes" }); });
+    // Search entities
+    DB.entities.forEach(e => { if (e.legalName.toLowerCase().includes(q)) matches.push({ type: "Entity", name: e.legalName, detail: `${e.entityType} · ${e.stateOfFormation}`, id: e.clientId, relationship: "Registered entity" }); });
+    // Search officers
+    DB.entities.forEach(e => { e.officers?.forEach(o => { if (o.name.toLowerCase().includes(q)) matches.push({ type: "Entity Officer", name: o.name, detail: `${o.title} of ${e.legalName}`, id: e.clientId, relationship: "Officer/Director" }); }); });
+    // Search matters
+    DB.matters.forEach(m => { if (m.name.toLowerCase().includes(q) || (m.description || "").toLowerCase().includes(q)) matches.push({ type: "Matter", name: m.name, detail: m.matterNumber, id: m.clientId, relationship: "Existing matter" }); });
+    setResults(matches);
+  };
 
   return (
     <div>
       <div style={{ marginBottom: 24 }}>
-        <h1 style={{ margin: 0, fontSize: "22px", fontWeight: 700, color: T.text }}>Firm Reports</h1>
-        <p style={{ margin: "2px 0 0", fontSize: "13px", color: T.textTertiary }}>Financial overview · YTD 2026</p>
+        <h1 style={{ margin: 0, fontSize: "22px", fontWeight: 700, color: T.text }}>Conflict Check</h1>
+        <p style={{ margin: "2px 0 0", fontSize: "13px", color: T.textTertiary }}>Search across clients, entities, officers, and matters before opening new engagements</p>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 12, marginBottom: 24 }}>
-        <Card style={{ padding: "14px 16px" }}><Stat label="Revenue YTD" value={fmt.currency(totalRevenue)} /></Card>
-        <Card style={{ padding: "14px 16px" }}><Stat label="Billed YTD" value={fmt.currency(totalBilled)} /></Card>
-        <Card style={{ padding: "14px 16px" }}><Stat label="Outstanding" value={fmt.currency(outstanding)} color={T.orange} /></Card>
-        <Card style={{ padding: "14px 16px" }}><Stat label="Realization" value={`${realization}%`} color={parseFloat(realization) > 80 ? T.green : T.orange} /></Card>
-        <Card style={{ padding: "14px 16px" }}><Stat label="Utilization" value={`${utilization}%`} /></Card>
-      </div>
-
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 20 }}>
-        {/* AR Aging */}
-        <Card style={{ padding: 20 }}>
-          <div style={{ fontSize: "14px", fontWeight: 700, color: T.text, marginBottom: 14 }}>Accounts Receivable Aging</div>
-          {aging.map((a, i) => (
-            <div key={i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 0", borderBottom: `1px solid ${T.borderSubtle}` }}>
-              <span style={{ fontSize: "13px", color: T.textSecondary }}>{a.range}</span>
-              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                <div style={{ width: 120, height: 8, background: T.surfaceRaised, borderRadius: 4, overflow: "hidden" }}>
-                  <div style={{ width: `${(a.amount / outstanding * 100).toFixed(0)}%`, height: "100%", background: i === 3 ? T.red : i === 2 ? T.orange : "#3F7653", borderRadius: 4 }} />
-                </div>
-                <span style={{ fontFamily: T.mono, fontSize: "13px", fontWeight: 600, color: T.text, width: 80, textAlign: "right" }}>{fmt.currency(a.amount)}</span>
-              </div>
-            </div>
-          ))}
-          <div style={{ display: "flex", justifyContent: "space-between", padding: "10px 0 0", borderTop: `2px solid ${T.border}`, marginTop: 4 }}>
-            <span style={{ fontWeight: 700, color: T.text }}>Total Outstanding</span>
-            <span style={{ fontFamily: T.mono, fontWeight: 700, color: T.text }}>{fmt.currency(outstanding)}</span>
-          </div>
-        </Card>
-
-        {/* Revenue by attorney */}
-        <Card style={{ padding: 20 }}>
-          <div style={{ fontSize: "14px", fontWeight: 700, color: T.text, marginBottom: 14 }}>Production by Attorney</div>
-          {DB.users.filter(u => u.role !== "admin").map(u => {
-            const hours = DB.timeEntries.filter(t => t.userId === u.id && t.billable).reduce((s, t) => s + t.durationMinutes, 0) / 60;
-            const revenue = DB.timeEntries.filter(t => t.userId === u.id && t.billable).reduce((s, t) => s + (t.durationMinutes / 60) * t.rateAtEntry, 0);
-            return (
-              <div key={u.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 0", borderBottom: `1px solid ${T.borderSubtle}` }}>
-                <div>
-                  <div style={{ fontSize: "13px", fontWeight: 600, color: T.text }}>{u.firstName} {u.lastName}</div>
-                  <div style={{ fontSize: "11px", color: T.textTertiary }}>{fmt.role(u.role)} · {hours.toFixed(1)}h</div>
-                </div>
-                <span style={{ fontFamily: T.mono, fontWeight: 700, color: T.text }}>{fmt.currency(revenue)}</span>
-              </div>
-            );
-          })}
-        </Card>
-      </div>
-
-      {/* Origination Leaderboard */}
-      <Card style={{ padding: 20 }}>
-        <div style={{ fontSize: "14px", fontWeight: 700, color: T.text, marginBottom: 14 }}>Origination Leaderboard</div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }}>
-          {DB.users.map(u => {
-            const comp = Q.computeUserComp(u.id);
-            if (!comp || comp.origination.credit === 0) return null;
-            return (
-              <Card key={u.id} style={{ padding: 16, background: T.surfaceRaised }}>
-                <div style={{ fontSize: "13px", fontWeight: 700, color: T.text }}>{u.firstName} {u.lastName}</div>
-                <div style={{ fontSize: "11px", color: T.textTertiary, marginBottom: 8 }}>{fmt.role(u.role)}</div>
-                <div style={{ fontSize: "22px", fontWeight: 800, fontFamily: T.mono, color: "#3F7653" }}>{fmt.currency(comp.origination.credit)}</div>
-                <div style={{ fontSize: "11px", color: T.textTertiary }}>{comp.origination.details.length} matter{comp.origination.details.length !== 1 ? "s" : ""}</div>
-              </Card>
-            );
-          }).filter(Boolean)}
+      <Card style={{ padding: 22, marginBottom: 20 }}>
+        <div style={{ fontSize: "13px", fontWeight: 700, color: T.text, marginBottom: 10 }}>Search for potential conflicts</div>
+        <div style={{ display: "flex", gap: 10 }}>
+          <Input value={searchQuery} onChange={setSearchQuery} placeholder="Enter client name, company, individual, or matter description..." icon="search" style={{ flex: 1 }}
+            onKeyDown={e => e.key === "Enter" && runCheck()} />
+          <Btn onClick={runCheck} disabled={!searchQuery.trim()}>
+            <Icon name="shield" size={14} color={T.bg} /> Run Check
+          </Btn>
         </div>
+        <div style={{ fontSize: "12px", color: T.textTertiary, marginTop: 8 }}>Searches: clients, entities, entity officers, matter names, matter descriptions, and notes. Run this before opening any new matter.</div>
       </Card>
+
+      {results !== null && (
+        <Card style={{ padding: 0 }}>
+          <div style={{ padding: "14px 18px", borderBottom: `1px solid ${T.border}`, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <div style={{ fontSize: "14px", fontWeight: 700, color: results.length > 0 ? T.red : T.green }}>
+              {results.length > 0 ? `⚠ ${results.length} potential conflict${results.length !== 1 ? "s" : ""} found` : "✓ No conflicts found"}
+            </div>
+            <span style={{ fontSize: "12px", color: T.textTertiary }}>Query: "{searchQuery}"</span>
+          </div>
+          {results.length > 0 ? (
+            <Table data={results} columns={[
+              { header: "Type", render: r => <Badge color={r.type === "Client" ? T.red : r.type.includes("Officer") ? T.orange : T.purple} bg={r.type === "Client" ? "rgba(192,57,43,0.06)" : r.type.includes("Officer") ? T.orangeBg : T.purpleBg}>{r.type}</Badge>, nowrap: true },
+              { header: "Name", render: r => <span style={{ fontWeight: 700, fontSize: "13px" }}>{r.name}</span> },
+              { header: "Detail", render: r => <span style={{ fontSize: "12px", color: T.textSecondary }}>{r.detail}</span> },
+              { header: "Relationship", render: r => r.relationship },
+              { header: "", render: r => <Btn variant="ghost" size="sm" onClick={() => nav("client", r.id)}>View Client</Btn>, align: "right" },
+            ]} />
+          ) : (
+            <div style={{ padding: "30px 20px", textAlign: "center" }}>
+              <Icon name="shield" size={28} color={T.green} />
+              <div style={{ fontSize: "14px", fontWeight: 600, color: T.green, marginTop: 10 }}>Clear to proceed</div>
+              <div style={{ fontSize: "12px", color: T.textTertiary, marginTop: 4 }}>No conflicts found for "{searchQuery}". You may proceed with the new engagement.</div>
+            </div>
+          )}
+        </Card>
+      )}
     </div>
   );
 };
@@ -2504,16 +3905,20 @@ const NAV_ITEMS = [
   { id: "matters", label: "Matters", icon: "matters" },
   { id: "entities", label: "Entities", icon: "building" },
   { id: "compliance", label: "Compliance", icon: "shield" },
+  { id: "calendar", label: "Calendar", icon: "calendar" },
   { id: "documents", label: "Documents", icon: "documents" },
   { id: "time", label: "Timekeeping", icon: "time" },
+  { id: "expenses", label: "Expenses", icon: "tag" },
   { id: "billing", label: "Billing", icon: "billing" },
   { id: "prebill", label: "Pre-Bills", icon: "edit" },
+  { id: "trust", label: "Trust (IOLTA)", icon: "building", access: "billing" },
   { id: "compensation", label: "Compensation", icon: "sparkle" },
-  { id: "gavel", label: "Gavel", icon: "api", adminOnly: true },
-  { id: "portal-admin", label: "Portal Admin", icon: "globe", adminOnly: true },
-  { id: "users", label: "Users", icon: "clients", adminOnly: true },
-  { id: "settings", label: "Settings", icon: "tag", adminOnly: true },
-  { id: "reports", label: "Reports", icon: "drive", adminOnly: true },
+  { id: "conflicts", label: "Conflict Check", icon: "shield" },
+  { id: "reports", label: "Reports", icon: "drive", access: "billing" },
+  { id: "gavel", label: "Gavel", icon: "api", access: "admin" },
+  { id: "portal-admin", label: "Portal Admin", icon: "globe", access: "admin" },
+  { id: "users", label: "Users", icon: "clients", access: "admin" },
+  { id: "settings", label: "Settings", icon: "tag", access: "admin" },
 ];
 
 export default function App() {
@@ -2521,12 +3926,21 @@ export default function App() {
   const [aiOpen, setAiOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQ, setSearchQ] = useState("");
-  const [currentUserId, setCurrentUserId] = useState("u1"); // Default: Sarah Chen (partner/admin)
+  const [currentUserId, setCurrentUserId] = useState("u0"); // Default: Neilton (admin)
 
   const currentUser = DB.users.find(u => u.id === currentUserId) || DB.users[0];
   const isAdmin = Q.isAdmin(currentUser.role);
+  const isBillingTier = Q.isBillingTier(currentUser.role);
   const nav = useCallback((page, id = null) => setRoute({ page, id }), []);
   const currentPage = route.page;
+
+  // Nav filtering: "admin" access = admin only, "billing" access = admin + billing_manager
+  const canAccessNav = (item) => {
+    if (!item.access) return true;
+    if (item.access === "admin") return isAdmin;
+    if (item.access === "billing") return isBillingTier;
+    return true;
+  };
 
   const searchResults = useMemo(() => {
     if (!searchQ.trim()) return { clients: [], matters: [], documents: [] };
@@ -2540,23 +3954,28 @@ export default function App() {
   const hasResults = searchResults.clients.length + searchResults.matters.length + searchResults.documents.length > 0;
 
   const renderPage = () => {
+    const deny = <DashboardPage nav={nav} currentUser={currentUser} />;
     switch (currentPage) {
-      case "client": return <ClientDetailPage clientId={route.id} nav={nav} />;
-      case "matter": return <MatterDetailPage matterId={route.id} nav={nav} />;
+      case "client": return <ClientDetailPage clientId={route.id} nav={nav} currentUser={currentUser} />;
+      case "matter": return <MatterDetailPage matterId={route.id} nav={nav} currentUser={currentUser} />;
       case "clients": return <ClientsListPage nav={nav} />;
       case "matters": return <MattersListPage nav={nav} />;
       case "entities": return <EntitiesPage nav={nav} />;
       case "compliance": return <ComplianceDashboardPage nav={nav} />;
       case "documents": return <DocumentsPage nav={nav} />;
-      case "time": return <TimeKeepingPage />;
+      case "time": return <TimeKeepingPage currentUser={currentUser} />;
       case "billing": return <BillingPage />;
       case "prebill": return <PreBillPage currentUser={currentUser} />;
+      case "expenses": return <ExpensesPage currentUser={currentUser} />;
+      case "trust": return isBillingTier ? <TrustPage /> : deny;
+      case "calendar": return <CalendarPage nav={nav} currentUser={currentUser} />;
+      case "conflicts": return <ConflictCheckPage nav={nav} />;
       case "compensation": return <CompensationPage currentUser={currentUser} />;
-      case "gavel": return isAdmin ? <GavelPage nav={nav} /> : <DashboardPage nav={nav} currentUser={currentUser} />;
-      case "portal-admin": return isAdmin ? <PortalControlsPage nav={nav} /> : <DashboardPage nav={nav} currentUser={currentUser} />;
-      case "users": return isAdmin ? <UsersPage /> : <DashboardPage nav={nav} currentUser={currentUser} />;
-      case "settings": return isAdmin ? <SettingsPage /> : <DashboardPage nav={nav} currentUser={currentUser} />;
-      case "reports": return isAdmin ? <ReportsPage /> : <DashboardPage nav={nav} currentUser={currentUser} />;
+      case "reports": return isBillingTier ? <ReportsPage /> : deny;
+      case "gavel": return isAdmin ? <GavelPage nav={nav} /> : deny;
+      case "portal-admin": return isAdmin ? <PortalControlsPage nav={nav} /> : deny;
+      case "users": return isAdmin ? <UsersPage /> : deny;
+      case "settings": return isAdmin ? <SettingsPage /> : deny;
       default: return <DashboardPage nav={nav} currentUser={currentUser} />;
     }
   };
@@ -2600,7 +4019,7 @@ export default function App() {
         </div>
 
         <nav style={{ flex: 1, padding: "4px 10px", overflow: "auto" }}>
-          {NAV_ITEMS.filter(item => !item.adminOnly || isAdmin).map(item => {
+          {NAV_ITEMS.filter(item => canAccessNav(item)).map(item => {
             const isActive = currentPage === item.id || (item.id === "clients" && currentPage === "client") || (item.id === "matters" && currentPage === "matter");
             return (
               <button key={item.id} onClick={() => nav(item.id)} style={{ display: "flex", alignItems: "center", gap: 9, width: "100%", padding: "8px 10px", border: "none", borderRadius: T.radius, cursor: "pointer", fontSize: "12.5px", fontWeight: isActive ? 700 : 500, fontFamily: T.font, background: isActive ? "rgba(225,229,82,0.12)" : "transparent", color: isActive ? "#E1E552" : "rgba(252,248,241,0.55)", transition: "all 0.15s", marginBottom: 1 }}
