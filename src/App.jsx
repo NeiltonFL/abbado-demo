@@ -208,32 +208,51 @@ const DB = {
     { matterId: "m4", splits: [{ userId: "u4", pct: 1.0 }] },
   ],
   conversations: [
-    { id: "conv1", matterId: "m1", clientId: "c1", subject: "Cap Table Discussion", status: "open", lastMessageAt: "2026-03-11T11:00:00Z", messages: [
+    { id: "conv1", matterId: "m1", clientId: "c1", category: "matter", subject: "Cap Table Discussion", status: "open", lastMessageAt: "2026-03-11T11:00:00Z", messages: [
       { id: "cm1", senderType: "client", senderName: "Jamie Park", body: "Hi Sarah — we've reviewed the cap table. A few questions:\n\n1. Can you confirm the option pool is 10% post-money?\n2. What happens to the unissued shares from Series A?\n\nThanks!", createdAt: "2026-03-09T10:15:00Z" },
       { id: "cm2", senderType: "firm", senderUserId: "u1", senderName: "Sarah Chen", body: "Hi Jamie,\n\n1. Yes, the option pool is 10% on a fully-diluted post-money basis. That's standard for Series B.\n2. The 412,000 unissued shares from the Series A authorization remain available. They're included in the pre-money cap table I sent over.\n\nI'll send an updated version with the expansion calculations today.", createdAt: "2026-03-09T11:00:00Z" },
       { id: "cm3", senderType: "client", senderName: "Jamie Park", body: "Perfect, that makes sense. Can we schedule a call Tuesday to walk through the option pool expansion with Riley?", createdAt: "2026-03-09T14:30:00Z" },
       { id: "cm4", senderType: "firm", senderUserId: "u1", senderName: "Sarah Chen", body: "Absolutely — I'll send a calendar invite for Tuesday at 2pm. I'll have the updated cap table ready by then.", createdAt: "2026-03-09T15:00:00Z" },
       { id: "cm5", senderType: "client", senderName: "Jamie Park", body: "One more thing — Riley wants to know if we can add a 409A valuation discussion to that call too.", createdAt: "2026-03-11T10:30:00Z" },
     ]},
-    { id: "conv2", matterId: "m1", clientId: "c1", subject: "Term Sheet — Board Composition", status: "open", lastMessageAt: "2026-03-10T16:00:00Z", messages: [
+    { id: "conv2", matterId: "m1", clientId: "c1", category: "matter", subject: "Term Sheet — Board Composition", status: "open", lastMessageAt: "2026-03-10T16:00:00Z", messages: [
       { id: "cm6", senderType: "firm", senderUserId: "u1", senderName: "Sarah Chen", body: "Jamie — I've uploaded the v3 markup of the term sheet. The key change is in Section 4.2 (Board Composition).\n\nWe're proposing a 5-seat board: 2 founders, 2 investors, 1 independent. Sequoia originally wanted 3 investor seats. This is a much better outcome for you.", createdAt: "2026-03-10T14:30:00Z" },
       { id: "cm7", senderType: "client", senderName: "Jamie Park", body: "This looks great. Riley and I are aligned on the 5-seat structure. One question — who picks the independent director?", createdAt: "2026-03-10T15:15:00Z" },
       { id: "cm8", senderType: "firm", senderUserId: "u2", senderName: "Marcus Williams", body: "Hi Jamie — Sarah asked me to jump in on this. Per the markup, the independent director is mutually agreed upon by the founders and Sequoia. Neither side has a unilateral pick. Happy to walk through the protective provisions around this on our next call.", createdAt: "2026-03-10T16:00:00Z" },
     ]},
-    { id: "conv3", matterId: "m1", clientId: "c1", subject: "Due Diligence Checklist", status: "closed", lastMessageAt: "2026-03-05T09:00:00Z", messages: [
+    { id: "conv3", matterId: "m1", clientId: "c1", category: "matter", subject: "Due Diligence Checklist", status: "closed", lastMessageAt: "2026-03-05T09:00:00Z", messages: [
       { id: "cm9", senderType: "firm", senderUserId: "u3", senderName: "Priya Patel", body: "Hi Jamie — attached is the due diligence checklist. We'll need items 1-8 by end of week. Let me know if you have any questions finding anything.", createdAt: "2026-03-03T09:00:00Z", attachments: [{ fileName: "DD_Checklist_TechVenture.pdf", fileSize: 245000 }] },
       { id: "cm10", senderType: "client", senderName: "Jamie Park", body: "Got it, thanks Priya. I'll have our CFO pull together the financial statements. Everything else we should have on file.", createdAt: "2026-03-03T10:30:00Z" },
       { id: "cm11", senderType: "client", senderName: "Jamie Park", body: "All items uploaded to the shared drive. Let me know if anything is missing.", createdAt: "2026-03-05T09:00:00Z", attachments: [{ fileName: "TechVenture_Financials_2025.pdf", fileSize: 1800000 }, { fileName: "IP_Assignment_Records.zip", fileSize: 4500000 }] },
     ]},
-    { id: "conv4", matterId: "m3", clientId: "c3", subject: "Lease Timeline Question", status: "open", lastMessageAt: "2026-03-07T12:00:00Z", messages: [
+    { id: "conv4", matterId: "m3", clientId: "c3", category: "matter", subject: "Lease Timeline Question", status: "open", lastMessageAt: "2026-03-07T12:00:00Z", messages: [
       { id: "cm12", senderType: "client", senderName: "David Greenfield", body: "Sarah — what's the realistic timeline for getting this lease finalized? The landlord is pushing for a March 31 signing.", createdAt: "2026-03-07T10:00:00Z" },
       { id: "cm13", senderType: "firm", senderUserId: "u1", senderName: "Sarah Chen", body: "David, March 31 is tight but doable if we get the environmental assessment results back by the 15th. I'll push our contacts at the assessment firm. Main open items:\n\n1. Environmental clearance\n2. Tenant improvement allowance (we're at $45/sf, pushing for $55)\n3. Renewal option terms\n\nI'd say 80% chance we close on time.", createdAt: "2026-03-07T12:00:00Z" },
     ]},
-    { id: "conv5", matterId: "m4", clientId: "c1", subject: "VP Eng Equity Terms", status: "open", lastMessageAt: "2026-03-11T09:00:00Z", messages: [
+    { id: "conv5", matterId: "m4", clientId: "c1", category: "matter", subject: "VP Eng Equity Terms", status: "open", lastMessageAt: "2026-03-11T09:00:00Z", messages: [
       { id: "cm14", senderType: "client", senderName: "Jamie Park", body: "David — quick question on the VP Eng agreement. We want to offer 0.5% equity with 4-year vesting and a 1-year cliff. Is that standard language or do we need custom provisions given the Series B?", createdAt: "2026-03-10T16:00:00Z" },
       { id: "cm15", senderType: "firm", senderUserId: "u4", senderName: "David Kim", body: "Jamie — 0.5% with 4/1 is very standard. I'll draft it under the existing EIP so it comes from the option pool. One thing to flag: with the Series B, you'll want to get the 409A valuation done before granting. Otherwise the strike price could be challenged. I'll note that in the agreement.", createdAt: "2026-03-11T09:00:00Z" },
     ]},
+    { id: "conv6", matterId: null, clientId: "c1", category: "general", subject: "Trademark Registration Question", status: "open", routedToUserId: "u1", lastMessageAt: "2026-03-12T14:00:00Z", messages: [
+      { id: "cm16", senderType: "client", senderName: "Riley Chen", body: "Hi — we're thinking about registering the TechVenture trademark. We've been using the name for about 2 years but never formally registered. Is this something you can help with, or do we need a separate IP firm?", createdAt: "2026-03-12T14:00:00Z" },
+    ]},
+    { id: "conv7", matterId: null, clientId: "c1", category: "billing", subject: "Question about Invoice INV-2026-0001", status: "open", routedToUserId: "u1", lastMessageAt: "2026-03-13T10:00:00Z", messages: [
+      { id: "cm17", senderType: "client", senderName: "Jamie Park", body: "Hi Sarah — I see a line item on the latest invoice for 'Cap table and corporate records' at $175. Can you clarify what that covers? I want to make sure it's not duplicating the work in the Series A matter.", createdAt: "2026-03-13T09:30:00Z" },
+      { id: "cm18", senderType: "firm", senderUserId: "u1", senderName: "Sarah Chen", body: "Good question, Jamie. That's Priya's work updating the cap table specifically for the Series B terms — incorporating the new option pool expansion and updated investor allocations. It's distinct from the Series A cap table work. Happy to walk through the details if you'd like.", createdAt: "2026-03-13T10:00:00Z" },
+    ]},
   ],
+  portalUsers: [
+    { id: "pu1", clientId: "c1", email: "jamie@techventure.com", firstName: "Jamie", lastName: "Park", title: "CEO", status: "active" },
+    { id: "pu2", clientId: "c1", email: "riley@techventure.com", firstName: "Riley", lastName: "Chen", title: "CTO", status: "active" },
+    { id: "pu3", clientId: "c2", email: "amir.sharma@gmail.com", firstName: "Amir", lastName: "Sharma", title: "", status: "active" },
+    { id: "pu4", clientId: "c3", email: "david@greenleafprops.com", firstName: "David", lastName: "Greenfield", title: "Managing Partner", status: "active" },
+  ],
+  firmSettings: {
+    name: "Founders Law", address: { street1: "1 Market St, Suite 400", city: "San Francisco", state: "CA", zip: "94105" },
+    phone: "(415) 555-9000", website: "founderslaw.com", ein: "**-***1234",
+    billingDefaults: { paymentTerms: 30, invoicePrefix: "INV", trustBankName: "First Republic Bank" },
+    integrations: { gavel: { status: "connected", workspace: "cofounderkitllc.gavel.io" }, stripe: { status: "connected" }, qbo: { status: "not_connected" }, singlefile: { status: "connected", lastSync: "2026-03-15T08:00:00Z" } },
+  },
 };
 
 // ---- DATA HELPERS (simulate API queries) ----
@@ -268,6 +287,8 @@ const Q = {
   convsForMatter: (matterId) => DB.conversations.filter(c => c.matterId === matterId),
   convsForClient: (clientId) => DB.conversations.filter(c => c.clientId === clientId),
   unreadConvs: (matterId) => DB.conversations.filter(c => c.matterId === matterId && c.status === "open").length,
+  unassignedConvs: () => DB.conversations.filter(c => !c.matterId),
+  portalUsersForClient: (clientId) => DB.portalUsers.filter(pu => pu.clientId === clientId),
   tierForRole: (role) => DB.compensationTiers.find(t => t.roles.includes(role)),
   originationForMatter: (matterId) => DB.originationSplits.find(o => o.matterId === matterId),
   userOriginationMatters: (userId) => DB.originationSplits.filter(o => o.splits.some(s => s.userId === userId)),
@@ -1584,18 +1605,33 @@ const PortalControlsPage = ({ nav }) => {
                 </div>
                 <Badge color={ps.enabled ? "#3F7653" : T.textTertiary} bg={ps.enabled ? "rgba(63,118,83,0.1)" : T.surfaceRaised}>{ps.enabled ? "Portal Active" : "Portal Disabled"}</Badge>
               </div>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
-                <div>
-                  <div style={{ fontSize: "11px", fontWeight: 600, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 4 }}>Portal Email</div>
-                  <input value={ps.email} readOnly style={{ width: "100%", padding: "8px 12px", border: `1px solid ${T.border}`, borderRadius: T.radius, fontSize: "13px", fontFamily: T.font, color: T.text, background: T.surface }} />
+
+              {/* Portal Users */}
+              <div style={{ fontSize: "12px", fontWeight: 700, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 }}>Portal Users</div>
+              {Q.portalUsersForClient(selectedClient).length > 0 ? (
+                <div style={{ marginBottom: 12 }}>
+                  {Q.portalUsersForClient(selectedClient).map(pu => (
+                    <div key={pu.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 0", borderBottom: `1px solid ${T.borderSubtle}` }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                        <div style={{ width: 28, height: 28, borderRadius: "50%", background: T.accentBg, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "10px", fontWeight: 800, color: "#3F7653" }}>
+                          {pu.firstName[0]}{pu.lastName[0]}
+                        </div>
+                        <div>
+                          <div style={{ fontSize: "13px", fontWeight: 600, color: T.text }}>{pu.firstName} {pu.lastName} {pu.title && <span style={{ color: T.textTertiary }}>· {pu.title}</span>}</div>
+                          <div style={{ fontSize: "11px", color: T.textTertiary }}>{pu.email}</div>
+                        </div>
+                      </div>
+                      <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                        <Btn variant="ghost" size="sm" disabled={!ps.enabled}><Icon name="mail" size={12} color={T.textSecondary} /> Send Link</Btn>
+                        <StatusBadge status={pu.status} />
+                      </div>
+                    </div>
+                  ))}
                 </div>
-                <div>
-                  <div style={{ fontSize: "11px", fontWeight: 600, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 4 }}>Magic Link</div>
-                  <Btn variant="ghost" size="sm" disabled={!ps.enabled} style={{ marginTop: 2 }}>
-                    <Icon name="mail" size={13} color={T.textSecondary} /> Send Login Link
-                  </Btn>
-                </div>
-              </div>
+              ) : (
+                <div style={{ padding: "12px 0", fontSize: "12px", color: T.textDim }}>No portal users configured</div>
+              )}
+              <Btn size="sm" variant="ghost" disabled={!ps.enabled}><Icon name="plus" size={12} color={T.textSecondary} /> Add Portal User</Btn>
             </Card>
 
             {/* Shared Documents */}
@@ -2219,6 +2255,247 @@ const PreBillPage = ({ currentUser }) => {
 };
 
 // ============================================================
+// PAGE: USER MANAGEMENT (Admin only)
+// ============================================================
+const UsersPage = () => {
+  const [editingUser, setEditingUser] = useState(null);
+  const roles = [{ value: "partner", label: "Partner" }, { value: "senior_associate", label: "Senior Associate" }, { value: "associate", label: "Associate" }, { value: "junior_associate", label: "Junior Associate" }, { value: "of_counsel", label: "Of Counsel" }, { value: "paralegal", label: "Paralegal" }, { value: "billing_manager", label: "Billing Manager" }, { value: "admin", label: "Admin" }];
+
+  return (
+    <div>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24 }}>
+        <div><h1 style={{ margin: 0, fontSize: "22px", fontWeight: 700, color: T.text }}>User Management</h1><p style={{ margin: "2px 0 0", fontSize: "13px", color: T.textTertiary }}>{DB.users.length} firm users</p></div>
+        <Btn size="sm"><Icon name="plus" size={13} color={T.bg} /> Add User</Btn>
+      </div>
+      <Card style={{ padding: 0 }}>
+        <Table data={DB.users} columns={[
+          { header: "Name", render: r => (
+            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+              <div style={{ width: 32, height: 32, borderRadius: "50%", background: T.accentBg, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "11px", fontWeight: 800, color: "#3F7653" }}>{r.firstName[0]}{r.lastName[0]}</div>
+              <div><div style={{ fontWeight: 600, fontSize: "13px" }}>{r.firstName} {r.lastName}</div><div style={{ fontSize: "11px", color: T.textTertiary }}>{r.email}</div></div>
+            </div>
+          )},
+          { header: "Role", render: r => <Badge color={Q.isAdmin(r.role) ? "#3F7653" : T.textTertiary} bg={Q.isAdmin(r.role) ? T.accentBg : T.surfaceRaised}>{fmt.role(r.role)}</Badge>, nowrap: true },
+          { header: "Hourly Rate", render: r => r.hourlyRate ? <span style={{ fontFamily: T.mono }}>{fmt.currency(r.hourlyRate)}/hr</span> : <span style={{ color: T.textDim }}>—</span>, nowrap: true },
+          { header: "Bar #", render: r => r.barNumber ? <span style={{ fontFamily: T.mono, fontSize: "11px" }}>{r.barNumber}</span> : <span style={{ color: T.textDim }}>—</span>, nowrap: true },
+          { header: "Tier", render: r => { const t = Q.tierForRole(r.role); return t ? <span style={{ fontSize: "12px" }}>{t.name} ({(t.originationRate * 100).toFixed(0)}% / {(t.productionRate * 100).toFixed(1)}%)</span> : "—"; } },
+          { header: "Matters", render: r => { const count = DB.matters.filter(m => m.responsibleAttorneyId === r.id && m.status === "open").length; return <span style={{ fontFamily: T.mono }}>{count}</span>; }, align: "center", nowrap: true },
+          { header: "", render: r => <Btn variant="ghost" size="sm" onClick={() => setEditingUser(r.id)}>Edit</Btn>, align: "right" },
+        ]} />
+      </Card>
+
+      <Modal open={!!editingUser} onClose={() => setEditingUser(null)} title="Edit User" width={480}>
+        {(() => {
+          const u = DB.users.find(x => x.id === editingUser);
+          if (!u) return null;
+          return (
+            <div>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 12 }}>
+                <div><div style={{ fontSize: "11px", fontWeight: 600, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 4 }}>First Name</div><input defaultValue={u.firstName} style={{ width: "100%", padding: "8px 12px", border: `1px solid ${T.border}`, borderRadius: T.radius, fontSize: "13px", fontFamily: T.font }} /></div>
+                <div><div style={{ fontSize: "11px", fontWeight: 600, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 4 }}>Last Name</div><input defaultValue={u.lastName} style={{ width: "100%", padding: "8px 12px", border: `1px solid ${T.border}`, borderRadius: T.radius, fontSize: "13px", fontFamily: T.font }} /></div>
+              </div>
+              <div style={{ marginBottom: 12 }}><div style={{ fontSize: "11px", fontWeight: 600, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 4 }}>Email</div><input defaultValue={u.email} style={{ width: "100%", padding: "8px 12px", border: `1px solid ${T.border}`, borderRadius: T.radius, fontSize: "13px", fontFamily: T.font }} /></div>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 12 }}>
+                <div><div style={{ fontSize: "11px", fontWeight: 600, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 4 }}>Role</div><select defaultValue={u.role} style={{ width: "100%", padding: "8px 12px", border: `1px solid ${T.border}`, borderRadius: T.radius, fontSize: "13px", fontFamily: T.font }}>{roles.map(r => <option key={r.value} value={r.value}>{r.label}</option>)}</select></div>
+                <div><div style={{ fontSize: "11px", fontWeight: 600, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 4 }}>Hourly Rate</div><input defaultValue={u.hourlyRate} type="number" style={{ width: "100%", padding: "8px 12px", border: `1px solid ${T.border}`, borderRadius: T.radius, fontSize: "13px", fontFamily: T.font }} /></div>
+              </div>
+              <div style={{ marginBottom: 18 }}><div style={{ fontSize: "11px", fontWeight: 600, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 4 }}>Bar Number</div><input defaultValue={u.barNumber || ""} style={{ width: "100%", padding: "8px 12px", border: `1px solid ${T.border}`, borderRadius: T.radius, fontSize: "13px", fontFamily: T.font }} /></div>
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <Btn variant="ghost" size="sm" style={{ color: T.red }}>Deactivate User</Btn>
+                <div style={{ display: "flex", gap: 8 }}><Btn variant="ghost" onClick={() => setEditingUser(null)}>Cancel</Btn><Btn onClick={() => setEditingUser(null)}>Save Changes</Btn></div>
+              </div>
+            </div>
+          );
+        })()}
+      </Modal>
+    </div>
+  );
+};
+
+// ============================================================
+// PAGE: FIRM SETTINGS (Admin only)
+// ============================================================
+const SettingsPage = () => {
+  const [activeTab, setActiveTab] = useState("firm");
+  const fs = DB.firmSettings;
+
+  return (
+    <div>
+      <div style={{ marginBottom: 24 }}>
+        <h1 style={{ margin: 0, fontSize: "22px", fontWeight: 700, color: T.text }}>Settings</h1>
+        <p style={{ margin: "2px 0 0", fontSize: "13px", color: T.textTertiary }}>Firm configuration, billing defaults, and integrations</p>
+      </div>
+
+      <TabBar tabs={[
+        { id: "firm", label: "Firm Info" },
+        { id: "billing", label: "Billing Defaults" },
+        { id: "integrations", label: "Integrations" },
+        { id: "comp", label: "Compensation Tiers" },
+      ]} active={activeTab} onSelect={setActiveTab} />
+
+      {activeTab === "firm" && (
+        <Card style={{ padding: 22 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+            <div><div style={{ fontSize: "11px", fontWeight: 600, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 4 }}>Firm Name</div><input defaultValue={fs.name} style={{ width: "100%", padding: "8px 12px", border: `1px solid ${T.border}`, borderRadius: T.radius, fontSize: "13px", fontFamily: T.font }} /></div>
+            <div><div style={{ fontSize: "11px", fontWeight: 600, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 4 }}>Phone</div><input defaultValue={fs.phone} style={{ width: "100%", padding: "8px 12px", border: `1px solid ${T.border}`, borderRadius: T.radius, fontSize: "13px", fontFamily: T.font }} /></div>
+            <div><div style={{ fontSize: "11px", fontWeight: 600, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 4 }}>Address</div><input defaultValue={fs.address.street1} style={{ width: "100%", padding: "8px 12px", border: `1px solid ${T.border}`, borderRadius: T.radius, fontSize: "13px", fontFamily: T.font }} /></div>
+            <div><div style={{ fontSize: "11px", fontWeight: 600, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 4 }}>Website</div><input defaultValue={fs.website} style={{ width: "100%", padding: "8px 12px", border: `1px solid ${T.border}`, borderRadius: T.radius, fontSize: "13px", fontFamily: T.font }} /></div>
+          </div>
+          <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 20 }}><Btn>Save Changes</Btn></div>
+        </Card>
+      )}
+
+      {activeTab === "billing" && (
+        <Card style={{ padding: 22 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 16 }}>
+            <div><div style={{ fontSize: "11px", fontWeight: 600, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 4 }}>Payment Terms (days)</div><input defaultValue={fs.billingDefaults.paymentTerms} type="number" style={{ width: "100%", padding: "8px 12px", border: `1px solid ${T.border}`, borderRadius: T.radius, fontSize: "13px", fontFamily: T.font }} /></div>
+            <div><div style={{ fontSize: "11px", fontWeight: 600, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 4 }}>Invoice Prefix</div><input defaultValue={fs.billingDefaults.invoicePrefix} style={{ width: "100%", padding: "8px 12px", border: `1px solid ${T.border}`, borderRadius: T.radius, fontSize: "13px", fontFamily: T.font }} /></div>
+            <div><div style={{ fontSize: "11px", fontWeight: 600, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 4 }}>Trust Bank</div><input defaultValue={fs.billingDefaults.trustBankName} style={{ width: "100%", padding: "8px 12px", border: `1px solid ${T.border}`, borderRadius: T.radius, fontSize: "13px", fontFamily: T.font }} /></div>
+          </div>
+          <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 20 }}><Btn>Save Changes</Btn></div>
+        </Card>
+      )}
+
+      {activeTab === "integrations" && (
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+          {Object.entries(fs.integrations).map(([key, int]) => (
+            <Card key={key} style={{ padding: 20 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+                <div style={{ fontSize: "15px", fontWeight: 700, color: T.text, textTransform: "capitalize" }}>{key === "qbo" ? "QuickBooks Online" : key}</div>
+                <Badge color={int.status === "connected" ? "#3F7653" : T.orange} bg={int.status === "connected" ? T.accentBg : T.orangeBg}>{int.status === "connected" ? "Connected" : "Not Connected"}</Badge>
+              </div>
+              {int.workspace && <div style={{ fontSize: "12px", color: T.textTertiary, marginBottom: 8 }}>{int.workspace}</div>}
+              {int.lastSync && <div style={{ fontSize: "11px", color: T.textDim }}>Last synced: {fmt.dateShort(int.lastSync.split("T")[0])}</div>}
+              <div style={{ marginTop: 12 }}>
+                <Btn variant={int.status === "connected" ? "ghost" : "gold"} size="sm">
+                  {int.status === "connected" ? "Configure" : "Connect"}
+                </Btn>
+              </div>
+            </Card>
+          ))}
+        </div>
+      )}
+
+      {activeTab === "comp" && (
+        <Card style={{ padding: 0 }}>
+          <div style={{ padding: "14px 18px", borderBottom: `1px solid ${T.border}`, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <div style={{ fontSize: "14px", fontWeight: 700, color: T.text }}>Compensation Tiers</div>
+            <Btn size="sm"><Icon name="plus" size={13} color={T.bg} /> Add Tier</Btn>
+          </div>
+          <Table data={DB.compensationTiers} columns={[
+            { header: "Tier", render: r => <span style={{ fontWeight: 700, fontSize: "14px" }}>{r.name}</span> },
+            { header: "Origination Rate", render: r => <span style={{ fontFamily: T.mono, fontSize: "16px", fontWeight: 700, color: "#3F7653" }}>{(r.originationRate * 100).toFixed(0)}%</span>, align: "center" },
+            { header: "Production Rate", render: r => <span style={{ fontFamily: T.mono, fontSize: "16px", fontWeight: 700, color: "#3F7653" }}>{(r.productionRate * 100).toFixed(1)}%</span>, align: "center" },
+            { header: "Applies To", render: r => <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>{r.roles.map(role => <Badge key={role} color={T.textTertiary} bg={T.surfaceRaised}>{fmt.role(role)}</Badge>)}</div> },
+            { header: "", render: () => <Btn variant="ghost" size="sm">Edit</Btn>, align: "right" },
+          ]} />
+          <div style={{ padding: "12px 18px", background: T.surfaceRaised, fontSize: "12px", color: T.textTertiary, lineHeight: 1.5 }}>
+            Changes to compensation tiers take effect from the date specified. Historical calculations are not affected. Rates are applied to collected revenue only.
+          </div>
+        </Card>
+      )}
+    </div>
+  );
+};
+
+// ============================================================
+// PAGE: FIRM REPORTS (Admin only)
+// ============================================================
+const ReportsPage = () => {
+  const totalRevenue = DB.invoices.reduce((s, i) => s + i.amountPaid, 0);
+  const totalBilled = DB.invoices.reduce((s, i) => s + i.total, 0);
+  const outstanding = DB.invoices.reduce((s, i) => s + i.balanceDue, 0);
+  const realization = totalBilled > 0 ? (totalRevenue / totalBilled * 100).toFixed(1) : 0;
+  const totalHours = DB.timeEntries.filter(e => e.billable).reduce((s, e) => s + e.durationMinutes, 0) / 60;
+  const billedHours = DB.timeEntries.filter(e => e.status === "billed").reduce((s, e) => s + e.durationMinutes, 0) / 60;
+  const utilization = totalHours > 0 ? (billedHours / totalHours * 100).toFixed(1) : 0;
+
+  const overdue = DB.invoices.filter(i => i.status === "overdue");
+  const aging = [
+    { range: "0-30 days", amount: outstanding * 0.55 },
+    { range: "31-60 days", amount: outstanding * 0.25 },
+    { range: "61-90 days", amount: outstanding * 0.15 },
+    { range: "90+ days", amount: outstanding * 0.05 },
+  ];
+
+  return (
+    <div>
+      <div style={{ marginBottom: 24 }}>
+        <h1 style={{ margin: 0, fontSize: "22px", fontWeight: 700, color: T.text }}>Firm Reports</h1>
+        <p style={{ margin: "2px 0 0", fontSize: "13px", color: T.textTertiary }}>Financial overview · YTD 2026</p>
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 12, marginBottom: 24 }}>
+        <Card style={{ padding: "14px 16px" }}><Stat label="Revenue YTD" value={fmt.currency(totalRevenue)} /></Card>
+        <Card style={{ padding: "14px 16px" }}><Stat label="Billed YTD" value={fmt.currency(totalBilled)} /></Card>
+        <Card style={{ padding: "14px 16px" }}><Stat label="Outstanding" value={fmt.currency(outstanding)} color={T.orange} /></Card>
+        <Card style={{ padding: "14px 16px" }}><Stat label="Realization" value={`${realization}%`} color={parseFloat(realization) > 80 ? T.green : T.orange} /></Card>
+        <Card style={{ padding: "14px 16px" }}><Stat label="Utilization" value={`${utilization}%`} /></Card>
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 20 }}>
+        {/* AR Aging */}
+        <Card style={{ padding: 20 }}>
+          <div style={{ fontSize: "14px", fontWeight: 700, color: T.text, marginBottom: 14 }}>Accounts Receivable Aging</div>
+          {aging.map((a, i) => (
+            <div key={i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 0", borderBottom: `1px solid ${T.borderSubtle}` }}>
+              <span style={{ fontSize: "13px", color: T.textSecondary }}>{a.range}</span>
+              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                <div style={{ width: 120, height: 8, background: T.surfaceRaised, borderRadius: 4, overflow: "hidden" }}>
+                  <div style={{ width: `${(a.amount / outstanding * 100).toFixed(0)}%`, height: "100%", background: i === 3 ? T.red : i === 2 ? T.orange : "#3F7653", borderRadius: 4 }} />
+                </div>
+                <span style={{ fontFamily: T.mono, fontSize: "13px", fontWeight: 600, color: T.text, width: 80, textAlign: "right" }}>{fmt.currency(a.amount)}</span>
+              </div>
+            </div>
+          ))}
+          <div style={{ display: "flex", justifyContent: "space-between", padding: "10px 0 0", borderTop: `2px solid ${T.border}`, marginTop: 4 }}>
+            <span style={{ fontWeight: 700, color: T.text }}>Total Outstanding</span>
+            <span style={{ fontFamily: T.mono, fontWeight: 700, color: T.text }}>{fmt.currency(outstanding)}</span>
+          </div>
+        </Card>
+
+        {/* Revenue by attorney */}
+        <Card style={{ padding: 20 }}>
+          <div style={{ fontSize: "14px", fontWeight: 700, color: T.text, marginBottom: 14 }}>Production by Attorney</div>
+          {DB.users.filter(u => u.role !== "admin").map(u => {
+            const hours = DB.timeEntries.filter(t => t.userId === u.id && t.billable).reduce((s, t) => s + t.durationMinutes, 0) / 60;
+            const revenue = DB.timeEntries.filter(t => t.userId === u.id && t.billable).reduce((s, t) => s + (t.durationMinutes / 60) * t.rateAtEntry, 0);
+            return (
+              <div key={u.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 0", borderBottom: `1px solid ${T.borderSubtle}` }}>
+                <div>
+                  <div style={{ fontSize: "13px", fontWeight: 600, color: T.text }}>{u.firstName} {u.lastName}</div>
+                  <div style={{ fontSize: "11px", color: T.textTertiary }}>{fmt.role(u.role)} · {hours.toFixed(1)}h</div>
+                </div>
+                <span style={{ fontFamily: T.mono, fontWeight: 700, color: T.text }}>{fmt.currency(revenue)}</span>
+              </div>
+            );
+          })}
+        </Card>
+      </div>
+
+      {/* Origination Leaderboard */}
+      <Card style={{ padding: 20 }}>
+        <div style={{ fontSize: "14px", fontWeight: 700, color: T.text, marginBottom: 14 }}>Origination Leaderboard</div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }}>
+          {DB.users.map(u => {
+            const comp = Q.computeUserComp(u.id);
+            if (!comp || comp.origination.credit === 0) return null;
+            return (
+              <Card key={u.id} style={{ padding: 16, background: T.surfaceRaised }}>
+                <div style={{ fontSize: "13px", fontWeight: 700, color: T.text }}>{u.firstName} {u.lastName}</div>
+                <div style={{ fontSize: "11px", color: T.textTertiary, marginBottom: 8 }}>{fmt.role(u.role)}</div>
+                <div style={{ fontSize: "22px", fontWeight: 800, fontFamily: T.mono, color: "#3F7653" }}>{fmt.currency(comp.origination.credit)}</div>
+                <div style={{ fontSize: "11px", color: T.textTertiary }}>{comp.origination.details.length} matter{comp.origination.details.length !== 1 ? "s" : ""}</div>
+              </Card>
+            );
+          }).filter(Boolean)}
+        </div>
+      </Card>
+    </div>
+  );
+};
+
+// ============================================================
 // MAIN APP
 // ============================================================
 const NAV_ITEMS = [
@@ -2234,6 +2511,9 @@ const NAV_ITEMS = [
   { id: "compensation", label: "Compensation", icon: "sparkle" },
   { id: "gavel", label: "Gavel", icon: "api", adminOnly: true },
   { id: "portal-admin", label: "Portal Admin", icon: "globe", adminOnly: true },
+  { id: "users", label: "Users", icon: "clients", adminOnly: true },
+  { id: "settings", label: "Settings", icon: "tag", adminOnly: true },
+  { id: "reports", label: "Reports", icon: "drive", adminOnly: true },
 ];
 
 export default function App() {
@@ -2274,6 +2554,9 @@ export default function App() {
       case "compensation": return <CompensationPage currentUser={currentUser} />;
       case "gavel": return isAdmin ? <GavelPage nav={nav} /> : <DashboardPage nav={nav} currentUser={currentUser} />;
       case "portal-admin": return isAdmin ? <PortalControlsPage nav={nav} /> : <DashboardPage nav={nav} currentUser={currentUser} />;
+      case "users": return isAdmin ? <UsersPage /> : <DashboardPage nav={nav} currentUser={currentUser} />;
+      case "settings": return isAdmin ? <SettingsPage /> : <DashboardPage nav={nav} currentUser={currentUser} />;
+      case "reports": return isAdmin ? <ReportsPage /> : <DashboardPage nav={nav} currentUser={currentUser} />;
       default: return <DashboardPage nav={nav} currentUser={currentUser} />;
     }
   };
