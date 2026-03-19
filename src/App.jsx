@@ -139,17 +139,24 @@ const DB = {
     { id: "u5", firstName: "Terrence", lastName: "Budnik", email: "tebudnik@founderslaw.com", role: "billing_manager", hourlyRate: null },
   ],
   clients: [
-    { id: "c1", type: "entity", name: "TechVenture Inc.", email: "legal@techventure.com", phone: "(415) 555-0100", status: "active", originatingAttorneyId: "u1", notes: "Series B startup. Primary contact: CEO Jamie Park.", address: { street1: "100 Innovation Way", city: "San Francisco", state: "CA", zip: "94105" }, createdAt: "2025-08-10" },
-    { id: "c2", type: "individual", name: "Amir Sharma", email: "amir.sharma@gmail.com", phone: "(415) 555-0200", status: "active", originatingAttorneyId: "u1", notes: "H-1B visa holder seeking EB-2 green card.", address: { street1: "250 Market St, Apt 12B", city: "San Francisco", state: "CA", zip: "94103" }, createdAt: "2026-01-05" },
-    { id: "c3", type: "entity", name: "GreenLeaf Properties LLC", email: "info@greenleafprops.com", phone: "(510) 555-0300", status: "active", originatingAttorneyId: "u1", notes: "Commercial real estate portfolio. Expanding into South Bay.", createdAt: "2025-12-01" },
-    { id: "c4", type: "entity", name: "Cascade Biotech", email: "legal@cascadebio.com", phone: "(206) 555-0400", status: "prospective", originatingAttorneyId: "u2", notes: "Pre-Series A biotech. Referred by TechVenture.", createdAt: "2026-03-01" },
-    { id: "c5", type: "individual", name: "Elena Rodriguez", email: "elena.r@outlook.com", phone: "(408) 555-0500", status: "archived", originatingAttorneyId: "u1", notes: "Estate planning completed.", createdAt: "2024-06-15" },
+    { id: "c1", type: "entity", name: "TechVenture Inc.", email: "legal@techventure.com", phone: "(415) 555-0100", status: "active", originatingAttorneyId: "u1", responsibleAttorneyId: "u1", notes: "Series B startup. Primary contact: CEO Jamie Park.", address: { street1: "100 Innovation Way", city: "San Francisco", state: "CA", zip: "94105" }, createdAt: "2025-08-10" },
+    { id: "c2", type: "individual", name: "Amir Sharma", email: "amir.sharma@gmail.com", phone: "(415) 555-0200", status: "active", originatingAttorneyId: "u1", responsibleAttorneyId: "u2", notes: "H-1B visa holder seeking EB-2 green card.", address: { street1: "250 Market St, Apt 12B", city: "San Francisco", state: "CA", zip: "94103" }, createdAt: "2026-01-05" },
+    { id: "c3", type: "entity", name: "GreenLeaf Properties LLC", email: "info@greenleafprops.com", phone: "(510) 555-0300", status: "active", originatingAttorneyId: "u1", responsibleAttorneyId: "u1", notes: "Commercial real estate portfolio. Expanding into South Bay.", createdAt: "2025-12-01" },
+    { id: "c4", type: "entity", name: "Cascade Biotech", email: "legal@cascadebio.com", phone: "(206) 555-0400", status: "prospective", originatingAttorneyId: "u2", responsibleAttorneyId: "u2", notes: "Pre-Series A biotech. Referred by TechVenture.", createdAt: "2026-03-01" },
+    { id: "c5", type: "individual", name: "Elena Rodriguez", email: "elena.r@outlook.com", phone: "(408) 555-0500", status: "archived", originatingAttorneyId: "u1", responsibleAttorneyId: "u1", notes: "Estate planning completed.", createdAt: "2024-06-15" },
   ],
   matters: [
-    { id: "m1", clientId: "c1", matterNumber: "FL-2026-0001", name: "Series B Financing", description: "Representation in $25M Series B preferred stock financing. Lead investor: Sequoia.", practiceArea: "corporate", status: "open", billingType: "hourly", responsibleAttorneyId: "u1", openDate: "2026-01-15", tags: ["financing", "preferred-stock", "series-b"] },
-    { id: "m2", clientId: "c2", matterNumber: "FL-2026-0002", name: "H-1B to EB-2 Green Card", description: "Employment-based green card application via EB-2 NIW pathway.", practiceArea: "immigration", status: "open", billingType: "flat_fee", responsibleAttorneyId: "u2", openDate: "2026-02-01", tags: ["immigration", "eb2", "niw", "green-card"] },
+    { id: "m1", clientId: "c1", matterNumber: "FL-2026-0001", name: "Series B Financing", description: "Representation in $25M Series B preferred stock financing. Lead investor: Sequoia.", practiceArea: "corporate", status: "open", billingType: "hourly", responsibleAttorneyId: "u1", openDate: "2026-01-15", tags: ["financing", "preferred-stock", "series-b"],
+      retainer: { hasRetainer: true, retainerAmount: 25000, minimumBalance: 5000, replenishTo: 25000, autoNotify: true } },
+    { id: "m2", clientId: "c2", matterNumber: "FL-2026-0002", name: "H-1B to EB-2 Green Card", description: "Employment-based green card application via EB-2 NIW pathway.", practiceArea: "immigration", status: "open", billingType: "flat_fee", responsibleAttorneyId: "u2", openDate: "2026-02-01", tags: ["immigration", "eb2", "niw", "green-card"],
+      flatFee: { totalFee: 15000, milestones: [
+        { id: "ms1", name: "Engagement & Case Assessment", amount: 3000, status: "invoiced", invoicedDate: "2026-02-05" },
+        { id: "ms2", name: "Petition Preparation & Filing", amount: 7000, status: "invoiced", invoicedDate: "2026-03-05" },
+        { id: "ms3", name: "USCIS Response & Approval", amount: 5000, status: "pending", invoicedDate: null },
+      ]} },
     { id: "m3", clientId: "c3", matterNumber: "FL-2026-0003", name: "Commercial Lease — 500 Howard", description: "Negotiating 10-year commercial lease for new office at 500 Howard St.", practiceArea: "real_estate", status: "open", billingType: "hourly", responsibleAttorneyId: "u1", openDate: "2026-02-20", tags: ["lease", "commercial", "negotiation"] },
-    { id: "m4", clientId: "c1", matterNumber: "FL-2026-0004", name: "Employment Agreements", description: "Drafting executive employment agreements for VP Engineering and VP Sales hires.", practiceArea: "employment", status: "open", billingType: "hourly", responsibleAttorneyId: "u4", openDate: "2026-03-01", tags: ["employment", "executive", "agreements"] },
+    { id: "m4", clientId: "c1", matterNumber: "FL-2026-0004", name: "Employment Agreements", description: "Drafting executive employment agreements for VP Engineering and VP Sales hires.", practiceArea: "employment", status: "open", billingType: "retainer", responsibleAttorneyId: "u4", openDate: "2026-03-01", tags: ["employment", "executive", "agreements"],
+      retainer: { hasRetainer: true, retainerAmount: 10000, minimumBalance: 2500, replenishTo: 10000, autoNotify: true } },
     { id: "m5", clientId: "c1", matterNumber: "FL-2025-0009", name: "Series A Financing", description: "Completed Series A round. $8M raised.", practiceArea: "corporate", status: "closed", billingType: "hourly", responsibleAttorneyId: "u1", openDate: "2025-06-01", closeDate: "2025-10-15", tags: ["financing", "series-a", "completed"] },
     { id: "m6", clientId: "c3", matterNumber: "FL-2025-0012", name: "Property Acquisition — Palo Alto", description: "Acquisition of commercial property at 200 University Ave.", practiceArea: "real_estate", status: "closed", billingType: "hourly", responsibleAttorneyId: "u1", openDate: "2025-09-01", closeDate: "2026-01-20", tags: ["acquisition", "commercial"] },
   ],
@@ -347,12 +354,12 @@ const DB = {
       { id: "cm14", senderType: "client", senderName: "Jamie Park", body: "David — quick question on the VP Eng agreement. We want to offer 0.5% equity with 4-year vesting and a 1-year cliff. Is that standard language or do we need custom provisions given the Series B?", createdAt: "2026-03-10T16:00:00Z" },
       { id: "cm15", senderType: "firm", senderUserId: "u4", senderName: "David Kim", body: "Jamie — 0.5% with 4/1 is very standard. I'll draft it under the existing EIP so it comes from the option pool. One thing to flag: with the Series B, you'll want to get the 409A valuation done before granting. Otherwise the strike price could be challenged. I'll note that in the agreement.", createdAt: "2026-03-11T09:00:00Z" },
     ]},
-    { id: "conv6", matterId: null, clientId: "c1", category: "general", subject: "Trademark Registration Question", status: "open", routedToUserId: "u1", lastMessageAt: "2026-03-12T14:00:00Z", messages: [
+    { id: "conv6", matterId: null, clientId: "c1", category: "general", subject: "Trademark Registration Question", status: "open", routedToUserId: "u1", routedToReason: "Client responsible attorney", lastMessageAt: "2026-03-12T14:00:00Z", messages: [
       { id: "cm16", senderType: "client", senderName: "Riley Chen", body: "Hi — we're thinking about registering the TechVenture trademark. We've been using the name for about 2 years but never formally registered. Is this something you can help with, or do we need a separate IP firm?", createdAt: "2026-03-12T14:00:00Z" },
     ]},
-    { id: "conv7", matterId: null, clientId: "c1", category: "billing", subject: "Question about Invoice INV-2026-0001", status: "open", routedToUserId: "u1", lastMessageAt: "2026-03-13T10:00:00Z", messages: [
-      { id: "cm17", senderType: "client", senderName: "Jamie Park", body: "Hi Sarah — I see a line item on the latest invoice for 'Cap table and corporate records' at $175. Can you clarify what that covers? I want to make sure it's not duplicating the work in the Series A matter.", createdAt: "2026-03-13T09:30:00Z" },
-      { id: "cm18", senderType: "firm", senderUserId: "u1", senderName: "Sarah Chen", body: "Good question, Jamie. That's Priya's work updating the cap table specifically for the Series B terms — incorporating the new option pool expansion and updated investor allocations. It's distinct from the Series A cap table work. Happy to walk through the details if you'd like.", createdAt: "2026-03-13T10:00:00Z" },
+    { id: "conv7", matterId: null, clientId: "c1", category: "billing", subject: "Question about Invoice INV-2026-0001", status: "open", routedToUserId: "u5", routedToReason: "Billing team", lastMessageAt: "2026-03-13T10:00:00Z", messages: [
+      { id: "cm17", senderType: "client", senderName: "Jamie Park", body: "Hi — I see a line item on the latest invoice for 'Cap table and corporate records' at $175. Can you clarify what that covers? I want to make sure it's not duplicating the work in the Series A matter.", createdAt: "2026-03-13T09:30:00Z" },
+      { id: "cm18", senderType: "firm", senderUserId: "u5", senderName: "Terrence Budnik", body: "Hi Jamie — good question. That's Priya's work updating the cap table specifically for the Series B terms — incorporating the new option pool expansion and updated investor allocations. It's distinct from the Series A cap table work. Let me know if you'd like a more detailed breakdown.", createdAt: "2026-03-13T10:00:00Z" },
     ]},
   ],
   portalUsers: [
@@ -485,6 +492,7 @@ const Q = {
 };
 
 // ---- FORMATTERS ----
+const toast = (msg, type) => window.__toast?.(msg, type);
 const fmt = {
   currency: (n) => n == null ? "—" : new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(n),
   hours: (mins) => { if (!mins) return "0:00"; const h = Math.floor(mins / 60); const m = mins % 60; return `${h}:${String(m).padStart(2, "0")}`; },
@@ -761,11 +769,14 @@ const AiPanel = ({ open, onClose, nav }) => {
 // ============================================================
 const ClientDetailPage = ({ clientId, nav, currentUser }) => {
   const [tab, setTab] = useState("overview");
+  const [convFilter, setConvFilter] = useState("all");
+  const [selectedConvId, setSelectedConvId] = useState(null);
   const client = Q.client(clientId);
   if (!client) return <div style={{ padding: 40, color: T.textTertiary }}>Client not found</div>;
 
   const isBT = Q.isBillingTier(currentUser.role);
-  const attorney = Q.user(client.originatingAttorneyId);
+  const origAttorney = Q.user(client.originatingAttorneyId);
+  const respAttorney = Q.user(client.responsibleAttorneyId);
   const matters = Q.mattersForClient(clientId);
   const docs = Q.docsForClient(clientId);
 
@@ -799,11 +810,11 @@ const ClientDetailPage = ({ clientId, nav, currentUser }) => {
             <div style={{ display: "flex", gap: 8, alignItems: "center", marginTop: 4 }}>
               <StatusBadge status={client.status} />
               <Badge color={T.textTertiary} bg={T.surfaceRaised}>{client.type}</Badge>
-              {attorney && <span style={{ fontSize: "12px", color: T.textTertiary }}>Atty: {attorney.firstName} {attorney.lastName}</span>}
+              {respAttorney && <span style={{ fontSize: "12px", color: T.textTertiary }}>Responsible: {respAttorney.firstName} {respAttorney.lastName}</span>}
             </div>
           </div>
         </div>
-        <Btn variant="ghost" size="sm"><Icon name="edit" size={13} color={T.textSecondary} /> Edit</Btn>
+        <Btn variant="ghost" size="sm" onClick={() => toast("Edit client dialog would open — modify name, contact info, responsible attorney")}><Icon name="edit" size={13} color={T.textSecondary} /> Edit</Btn>
       </div>
 
       {/* Stats row — scoped by permissions */}
@@ -818,6 +829,7 @@ const ClientDetailPage = ({ clientId, nav, currentUser }) => {
 
       <TabBar tabs={[
         { id: "overview", label: "Overview" },
+        { id: "conversations", label: "Conversations", count: Q.convsForClient(clientId).length },
         { id: "matters", label: "Matters", count: matters.length },
         { id: "entities", label: "Entities", count: Q.entitiesForClient(clientId).length },
         { id: "documents", label: "Documents", count: docs.length },
@@ -833,6 +845,10 @@ const ClientDetailPage = ({ clientId, nav, currentUser }) => {
             <InfoRow label="Phone" value={client.phone || "—"} />
             {client.address && <InfoRow label="Address" value={`${client.address.street1}, ${client.address.city}, ${client.address.state}`} />}
             <InfoRow label="Client Since" value={fmt.date(client.createdAt)} />
+            <div style={{ borderTop: `1px solid ${T.borderSubtle}`, marginTop: 10, paddingTop: 10 }}>
+              <InfoRow label="Responsible Attorney" value={respAttorney ? `${respAttorney.firstName} ${respAttorney.lastName}` : "—"} />
+              <InfoRow label="Originating Attorney" value={origAttorney ? `${origAttorney.firstName} ${origAttorney.lastName}` : "—"} />
+            </div>
             {client.notes && <div style={{ marginTop: 12, padding: "10px 12px", background: T.surface, borderRadius: T.radius, fontSize: "12px", color: T.textSecondary, lineHeight: 1.5 }}>{client.notes}</div>}
           </Card>
           <Card style={{ padding: 18 }}>
@@ -852,12 +868,137 @@ const ClientDetailPage = ({ clientId, nav, currentUser }) => {
         </div>
       )}
 
+      {tab === "conversations" && (() => {
+        const allConvs = Q.convsForClient(clientId);
+        const filtered = convFilter === "all" ? allConvs : allConvs.filter(c => c.category === convFilter);
+        const selectedConv = allConvs.find(c => c.id === selectedConvId);
+        const catColors = { general: { color: T.blue, bg: T.blueBg, label: "New Question" }, billing: { color: T.orange, bg: T.orangeBg, label: "Billing" }, matter: { color: T.green, bg: T.greenBg, label: "Matter" } };
+        const generalCount = allConvs.filter(c => c.category === "general").length;
+        const billingCount = allConvs.filter(c => c.category === "billing").length;
+        const matterCount = allConvs.filter(c => c.category === "matter").length;
+
+        return (
+          <div>
+            {/* Category filter pills */}
+            <div style={{ display: "flex", gap: 8, marginBottom: 16 }}>
+              {[
+                { id: "all", label: "All", count: allConvs.length },
+                { id: "general", label: "New Questions", count: generalCount, color: T.blue },
+                { id: "billing", label: "Billing", count: billingCount, color: T.orange },
+                { id: "matter", label: "Matter-Specific", count: matterCount, color: T.green },
+              ].map(f => (
+                <div key={f.id} onClick={() => { setConvFilter(f.id); setSelectedConvId(null); }}
+                  style={{ padding: "6px 14px", borderRadius: 100, fontSize: "12px", fontWeight: convFilter === f.id ? 700 : 500, cursor: "pointer", background: convFilter === f.id ? (f.color ? `${f.color}15` : T.accentBg) : T.surfaceRaised, color: convFilter === f.id ? (f.color || "#3F7653") : T.textTertiary, border: `1.5px solid ${convFilter === f.id ? (f.color || "#3F7653") : "transparent"}`, transition: "all 0.15s" }}>
+                  {f.label} {f.count > 0 && <span style={{ fontFamily: T.mono, marginLeft: 3 }}>({f.count})</span>}
+                </div>
+              ))}
+            </div>
+
+            <div style={{ display: "grid", gridTemplateColumns: selectedConv ? "320px 1fr" : "1fr", gap: 16 }}>
+              {/* Thread list */}
+              <Card style={{ padding: 0, alignSelf: "start", maxHeight: "65vh", overflow: "auto" }}>
+                {filtered.length === 0 && <div style={{ padding: 20, textAlign: "center", color: T.textDim, fontSize: "12.5px" }}>No conversations in this category</div>}
+                {filtered.sort((a, b) => b.lastMessageAt.localeCompare(a.lastMessageAt)).map(conv => {
+                  const isSelected = selectedConvId === conv.id;
+                  const lastMsg = conv.messages[conv.messages.length - 1];
+                  const cat = catColors[conv.category] || catColors.matter;
+                  const matter = conv.matterId ? DB.matters.find(m => m.id === conv.matterId) : null;
+                  const routedTo = conv.routedToUserId ? Q.user(conv.routedToUserId) : null;
+                  return (
+                    <div key={conv.id} onClick={() => setSelectedConvId(conv.id)}
+                      style={{ padding: "12px 16px", borderBottom: `1px solid ${T.borderSubtle}`, cursor: "pointer", background: isSelected ? T.accentBg : "transparent", transition: "background 0.1s" }}
+                      onMouseEnter={e => { if (!isSelected) e.currentTarget.style.background = T.surfaceRaised; }}
+                      onMouseLeave={e => { if (!isSelected) e.currentTarget.style.background = isSelected ? T.accentBg : "transparent"; }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 4 }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                          <Badge color={cat.color} bg={cat.bg} style={{ fontSize: "9px" }}>{cat.label}</Badge>
+                          {conv.status === "closed" && <Badge color={T.textDim} bg={T.surfaceRaised} style={{ fontSize: "9px" }}>Closed</Badge>}
+                        </div>
+                        <span style={{ fontSize: "10px", color: T.textDim }}>{fmt.relative(conv.lastMessageAt)}</span>
+                      </div>
+                      <div style={{ fontSize: "13px", fontWeight: 600, color: T.text, marginBottom: 2 }}>{conv.subject}</div>
+                      <div style={{ fontSize: "11px", color: T.textTertiary }}>
+                        {matter ? <span style={{ fontFamily: T.mono }}>{matter.matterNumber}</span> : routedTo ? <span>→ {routedTo.firstName} {routedTo.lastName}</span> : "Unassigned"}
+                        {conv.routedToReason && !matter && <span style={{ color: T.textDim }}> · {conv.routedToReason}</span>}
+                        <span> · {conv.messages.length} msg{conv.messages.length !== 1 ? "s" : ""}</span>
+                      </div>
+                      {lastMsg && <div style={{ fontSize: "11px", color: T.textDim, marginTop: 3, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{lastMsg.senderName}: {lastMsg.body.slice(0, 60)}...</div>}
+                    </div>
+                  );
+                })}
+              </Card>
+
+              {/* Selected conversation detail */}
+              {selectedConv && (
+                <Card style={{ padding: 0, display: "flex", flexDirection: "column", maxHeight: "65vh" }}>
+                  {/* Header */}
+                  <div style={{ padding: "14px 18px", borderBottom: `1px solid ${T.border}`, flexShrink: 0 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                      <div>
+                        <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 4 }}>
+                          {(() => { const cat = catColors[selectedConv.category]; return <Badge color={cat.color} bg={cat.bg}>{cat.label}</Badge>; })()}
+                          <StatusBadge status={selectedConv.status} />
+                        </div>
+                        <div style={{ fontSize: "15px", fontWeight: 700, color: T.text }}>{selectedConv.subject}</div>
+                        <div style={{ fontSize: "11px", color: T.textTertiary, marginTop: 2 }}>
+                          {selectedConv.matterId ? (() => { const m = DB.matters.find(mm => mm.id === selectedConv.matterId); return m ? `${m.matterNumber} — ${m.name}` : ""; })() : selectedConv.routedToReason || "Unassigned"}
+                          {selectedConv.routedToUserId && !selectedConv.matterId && (() => { const u = Q.user(selectedConv.routedToUserId); return u ? ` · Routed to ${u.firstName} ${u.lastName}` : ""; })()}
+                        </div>
+                      </div>
+                      {!selectedConv.matterId && (
+                        <Btn variant="ghost" size="sm" style={{ fontSize: "11px" }} onClick={() => toast("Matter assignment picker would open — select a matter to link this conversation to")}>Assign to Matter</Btn>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Messages */}
+                  <div style={{ flex: 1, overflow: "auto", padding: "14px 18px" }}>
+                    {selectedConv.messages.map(msg => (
+                      <div key={msg.id} style={{ marginBottom: 16 }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
+                          <div style={{ width: 26, height: 26, borderRadius: "50%", background: msg.senderType === "client" ? T.goldBg : T.accentBg, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "9px", fontWeight: 800, color: msg.senderType === "client" ? T.gold : "#3F7653", flexShrink: 0 }}>
+                            {msg.senderName.split(" ").map(w => w[0]).join("").slice(0, 2)}
+                          </div>
+                          <span style={{ fontSize: "12px", fontWeight: 700, color: T.text }}>{msg.senderName}</span>
+                          <span style={{ fontSize: "10px", color: T.textDim }}>{new Date(msg.createdAt).toLocaleString("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })}</span>
+                        </div>
+                        <div style={{ marginLeft: 34, fontSize: "13px", color: T.textSecondary, lineHeight: 1.65, whiteSpace: "pre-wrap" }}>{msg.body}</div>
+                        {msg.attachments && msg.attachments.length > 0 && (
+                          <div style={{ marginLeft: 34, marginTop: 6, display: "flex", gap: 6, flexWrap: "wrap" }}>
+                            {msg.attachments.map((a, i) => (
+                              <div key={i} style={{ display: "flex", alignItems: "center", gap: 5, padding: "5px 10px", background: T.accentBg, borderRadius: T.radius, fontSize: "11px", color: T.text }}>
+                                <Icon name="documents" size={12} color="#3F7653" /> {a.fileName} <span style={{ color: T.textDim }}>({fmt.fileSize(a.fileSize)})</span>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Reply */}
+                  {selectedConv.status === "open" && (
+                    <div style={{ padding: "12px 18px", borderTop: `1px solid ${T.border}`, flexShrink: 0 }}>
+                      <div style={{ display: "flex", gap: 8 }}>
+                        <input placeholder="Reply to this conversation..." style={{ flex: 1, padding: "8px 12px", border: `1px solid ${T.border}`, borderRadius: T.radius, fontSize: "13px", fontFamily: T.font }} />
+                        <Btn size="sm" onClick={() => toast("Message sent to conversation thread")}><Icon name="send" size={13} color={T.bg} /> Send</Btn>
+                      </div>
+                    </div>
+                  )}
+                </Card>
+              )}
+            </div>
+          </div>
+        );
+      })()}
+
       {tab === "matters" && (
         <Table data={matters} onRowClick={m => nav("matter", m.id)} columns={[
           { header: "Matter", render: r => (<div><div style={{ fontWeight: 600, fontSize: "13px" }}>{r.name}</div><div style={{ fontSize: "11px", color: T.textTertiary, fontFamily: T.mono }}>{r.matterNumber}</div></div>) },
           { header: "Area", render: r => <Badge color={T.purple} bg={T.purpleBg}>{fmt.practiceArea(r.practiceArea)}</Badge>, nowrap: true },
           { header: "Status", render: r => <StatusBadge status={r.status} />, nowrap: true },
           { header: "Billing", render: r => fmt.billingType(r.billingType) },
+          { header: "Originator", render: r => { const orig = Q.originationForMatter(r.id); if (!orig) return "—"; return orig.splits.map((sp, i) => { const u = Q.user(sp.userId); return u ? `${i > 0 ? ", " : ""}${u.firstName} ${u.lastName[0]}.${sp.pct < 1 ? ` (${(sp.pct * 100).toFixed(0)}%)` : ""}` : ""; }).join(""); } },
           { header: "Docs", render: r => Q.docsForMatter(r.id).length, align: "center" },
           { header: "Opened", render: r => fmt.dateShort(r.openDate), nowrap: true },
         ]} />
@@ -968,7 +1109,7 @@ const MatterConversations = ({ matterId, client }) => {
     <div style={{ display: "grid", gridTemplateColumns: "280px 1fr", gap: 16, minHeight: 420 }}>
       {/* Thread list */}
       <div>
-        <Btn size="sm" style={{ width: "100%", marginBottom: 10, justifyContent: "center" }}>
+        <Btn size="sm" style={{ width: "100%", marginBottom: 10, justifyContent: "center" }} onClick={() => toast("New conversation thread created for this matter")}>
           <Icon name="plus" size={13} color={T.bg} /> New Thread
         </Btn>
         {convs.map(conv => {
@@ -1002,9 +1143,9 @@ const MatterConversations = ({ matterId, client }) => {
               <div style={{ fontSize: "11px", color: T.textTertiary }}>{selectedConv.messages.length} messages · {client?.name} · <StatusBadge status={selectedConv.status === "open" ? "active" : "closed"} /></div>
             </div>
             <div style={{ display: "flex", gap: 6 }}>
-              <Btn variant="ghost" size="sm">Reassign</Btn>
-              <Btn variant="ghost" size="sm">Split</Btn>
-              <Btn variant="ghost" size="sm">{selectedConv.status === "open" ? "Close" : "Reopen"}</Btn>
+              <Btn variant="ghost" size="sm" onClick={() => toast("Reassign conversation to a different matter")}>Reassign</Btn>
+              <Btn variant="ghost" size="sm" onClick={() => toast("Split selected messages into a new conversation thread")}>Split</Btn>
+              <Btn variant="ghost" size="sm" onClick={() => toast(selectedConv.status === "open" ? "Conversation closed" : "Conversation reopened")}>{selectedConv.status === "open" ? "Close" : "Reopen"}</Btn>
             </div>
           </div>
 
@@ -1049,8 +1190,8 @@ const MatterConversations = ({ matterId, client }) => {
                   onFocus={e => e.target.style.borderColor = "#3F7653"}
                   onBlur={e => e.target.style.borderColor = T.border} />
                 <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-                  <Btn variant="ghost" size="sm" style={{ padding: "6px 8px" }} title="Attach file"><Icon name="upload" size={14} color={T.textSecondary} /></Btn>
-                  <Btn size="sm" disabled={!replyText.trim()} style={{ padding: "6px 10px" }} title="Send"><Icon name="send" size={14} color={T.bg} /></Btn>
+                  <Btn variant="ghost" size="sm" style={{ padding: "6px 8px" }} title="Attach file" onClick={() => toast("File picker would open — attach documents to this message")}><Icon name="upload" size={14} color={T.textSecondary} /></Btn>
+                  <Btn size="sm" disabled={!replyText.trim()} style={{ padding: "6px 10px" }} title="Send" onClick={() => { toast("Reply sent"); setReplyText(""); }}><Icon name="send" size={14} color={T.bg} /></Btn>
                 </div>
               </div>
             </div>
@@ -1130,7 +1271,7 @@ const MatterDetailPage = ({ matterId, nav, currentUser }) => {
       <TabBar tabs={[
         { id: "overview", label: "Overview" },
         { id: "conversations", label: "Conversations", count: Q.convsForMatter(matterId).length },
-        { id: "rates", label: "Rates" },
+        { id: "rates", label: "Rates & Origination" },
         { id: "documents", label: "Documents", count: docs.length },
         { id: "time", label: canSeeAllTime ? "Time" : "My Time", count: timeEntries.length },
         ...(canSeeBilling ? [{ id: "billing", label: "Billing", count: invoices.length }] : []),
@@ -1143,6 +1284,100 @@ const MatterDetailPage = ({ matterId, nav, currentUser }) => {
               <div style={{ fontSize: "13px", fontWeight: 700, color: T.text, marginBottom: 10 }}>Description</div>
               <p style={{ margin: 0, fontSize: "13px", color: T.textSecondary, lineHeight: 1.6 }}>{matter.description}</p>
             </Card>
+
+            {/* Retainer tracking card */}
+            {(matter.billingType === "retainer" || matter.retainer?.hasRetainer) && (() => {
+              const ret = matter.retainer || {};
+              const clientTrustBal = Q.trustBalance(matter.clientId);
+              const unbilledOnMatter = timeEntries.filter(e => e.status !== "billed").reduce((s, e) => s + (e.durationMinutes / 60) * e.rateAtEntry, 0);
+              const netAvailable = clientTrustBal - unbilledOnMatter;
+              const belowMin = clientTrustBal < (ret.minimumBalance || 0);
+              return (
+                <Card style={{ padding: 18, marginBottom: 16, border: belowMin ? "1.5px solid rgba(192,57,43,0.3)" : "1px solid rgba(63,118,83,0.15)", background: belowMin ? "rgba(192,57,43,0.03)" : "rgba(63,118,83,0.02)" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
+                    <div style={{ fontSize: "13px", fontWeight: 700, color: T.text }}>Retainer / Trust Account</div>
+                    {belowMin ? (
+                      <Badge color={T.red} bg={T.redBg}>Below Minimum</Badge>
+                    ) : (
+                      <Badge color="#3F7653" bg={T.accentBg}>Funded</Badge>
+                    )}
+                  </div>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: 12, marginBottom: 14 }}>
+                    <div><div style={{ fontSize: "10px", color: T.textTertiary, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.4px" }}>Trust Balance</div><div style={{ fontSize: "18px", fontWeight: 700, fontFamily: T.mono, color: clientTrustBal > 0 ? "#3F7653" : T.red }}>{fmt.currency(clientTrustBal)}</div></div>
+                    <div><div style={{ fontSize: "10px", color: T.textTertiary, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.4px" }}>Unbilled Work</div><div style={{ fontSize: "18px", fontWeight: 700, fontFamily: T.mono, color: T.orange }}>{fmt.currency(unbilledOnMatter)}</div></div>
+                    <div><div style={{ fontSize: "10px", color: T.textTertiary, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.4px" }}>Net Available</div><div style={{ fontSize: "18px", fontWeight: 700, fontFamily: T.mono, color: netAvailable > 0 ? T.text : T.red }}>{fmt.currency(netAvailable)}</div></div>
+                    <div><div style={{ fontSize: "10px", color: T.textTertiary, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.4px" }}>Minimum</div><div style={{ fontSize: "18px", fontWeight: 700, fontFamily: T.mono, color: T.textTertiary }}>{fmt.currency(ret.minimumBalance || 0)}</div></div>
+                  </div>
+                  {/* Visual bar */}
+                  <div style={{ height: 12, background: T.surfaceRaised, borderRadius: 6, overflow: "hidden", marginBottom: 10, position: "relative" }}>
+                    <div style={{ width: `${Math.min((unbilledOnMatter / Math.max(clientTrustBal, 1)) * 100, 100)}%`, height: "100%", background: unbilledOnMatter > clientTrustBal ? T.red : T.orange, borderRadius: 6 }} />
+                    {ret.minimumBalance > 0 && <div style={{ position: "absolute", left: `${Math.min((ret.minimumBalance / Math.max(ret.retainerAmount || clientTrustBal, 1)) * 100, 100)}%`, top: 0, bottom: 0, width: 2, background: T.red, opacity: 0.5 }} />}
+                  </div>
+                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: "11px", color: T.textTertiary }}>
+                    <span>Retainer: {fmt.currency(ret.retainerAmount)} · Replenish to: {fmt.currency(ret.replenishTo)}</span>
+                    <span>{ret.autoNotify ? "Auto-notify when below minimum ✓" : ""}</span>
+                  </div>
+                  {belowMin && (
+                    <div style={{ marginTop: 10, display: "flex", gap: 8 }}>
+                      <Btn size="sm" style={{ fontSize: "11px" }} onClick={() => toast("Email sent to client requesting trust replenishment to $10,000")}>Send Replenishment Request</Btn>
+                      <Btn variant="ghost" size="sm" style={{ fontSize: "11px" }} onClick={() => toast("Trust application modal would open — select invoice to pay from trust balance")}>Apply Trust to Invoice</Btn>
+                    </div>
+                  )}
+                </Card>
+              );
+            })()}
+
+            {/* Flat fee milestones card */}
+            {matter.billingType === "flat_fee" && matter.flatFee && (
+              <Card style={{ padding: 18, marginBottom: 16, border: "1px solid rgba(74,153,167,0.15)", background: "rgba(74,153,167,0.02)" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
+                  <div style={{ fontSize: "13px", fontWeight: 700, color: T.text }}>Flat Fee — Milestones</div>
+                  <span style={{ fontFamily: T.mono, fontWeight: 700, color: T.text, fontSize: "16px" }}>{fmt.currency(matter.flatFee.totalFee)}</span>
+                </div>
+                {/* Progress bar */}
+                {(() => {
+                  const invoiced = matter.flatFee.milestones.filter(ms => ms.status === "invoiced").reduce((s, ms) => s + ms.amount, 0);
+                  const pct = (invoiced / matter.flatFee.totalFee * 100).toFixed(0);
+                  return (
+                    <div style={{ marginBottom: 14 }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", fontSize: "11px", color: T.textTertiary, marginBottom: 4 }}>
+                        <span>{fmt.currency(invoiced)} invoiced of {fmt.currency(matter.flatFee.totalFee)}</span>
+                        <span>{pct}%</span>
+                      </div>
+                      <div style={{ height: 10, background: T.surfaceRaised, borderRadius: 5, overflow: "hidden" }}>
+                        <div style={{ width: `${pct}%`, height: "100%", background: `linear-gradient(90deg, #3F7653, #4A99A7)`, borderRadius: 5 }} />
+                      </div>
+                    </div>
+                  );
+                })()}
+                {/* Milestone list */}
+                {matter.flatFee.milestones.map((ms, i) => (
+                  <div key={ms.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 0", borderBottom: i < matter.flatFee.milestones.length - 1 ? `1px solid ${T.borderSubtle}` : "none" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                      <div style={{ width: 22, height: 22, borderRadius: "50%", background: ms.status === "invoiced" ? T.accentBg : T.surfaceRaised, border: `1.5px solid ${ms.status === "invoiced" ? "#3F7653" : T.border}`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "10px", fontWeight: 800, color: ms.status === "invoiced" ? "#3F7653" : T.textDim }}>
+                        {ms.status === "invoiced" ? "✓" : i + 1}
+                      </div>
+                      <div>
+                        <div style={{ fontSize: "13px", fontWeight: 600, color: T.text }}>{ms.name}</div>
+                        {ms.invoicedDate && <div style={{ fontSize: "11px", color: T.textTertiary }}>Invoiced {fmt.dateShort(ms.invoicedDate)}</div>}
+                      </div>
+                    </div>
+                    <div style={{ textAlign: "right" }}>
+                      <div style={{ fontFamily: T.mono, fontWeight: 700, color: ms.status === "invoiced" ? "#3F7653" : T.text }}>{fmt.currency(ms.amount)}</div>
+                      <StatusBadge status={ms.status === "invoiced" ? "paid" : "pending"} />
+                    </div>
+                  </div>
+                ))}
+                <div style={{ marginTop: 12 }}>
+                  <Btn size="sm" style={{ fontSize: "11px" }} onClick={() => toast("Invoice generated for next milestone — USCIS Response & Approval: $5,000")}>Invoice Next Milestone</Btn>
+                </div>
+                {/* Internal time tracking note */}
+                <div style={{ marginTop: 12, padding: "8px 10px", background: T.surfaceRaised, borderRadius: T.radius, fontSize: "11px", color: T.textTertiary, lineHeight: 1.5 }}>
+                  <strong>Note:</strong> Time is tracked for internal profitability analysis but not billed to the client. {(() => { const hrs = timeEntries.reduce((s, e) => s + e.durationMinutes, 0) / 60; const cost = timeEntries.reduce((s, e) => s + (e.durationMinutes / 60) * e.rateAtEntry, 0); return `${hrs.toFixed(1)}h logged (${fmt.currency(cost)} equivalent) against ${fmt.currency(matter.flatFee.totalFee)} flat fee.`; })()}
+                </div>
+              </Card>
+            )}
+
             <Card style={{ padding: 18 }}>
               <div style={{ fontSize: "13px", fontWeight: 700, color: T.text, marginBottom: 10 }}>Recent Documents</div>
               {docs.slice(0, 4).map(d => (
@@ -1165,6 +1400,8 @@ const MatterDetailPage = ({ matterId, nav, currentUser }) => {
               <InfoRow label="Billing" value={fmt.billingType(matter.billingType)} />
               <InfoRow label="Opened" value={fmt.date(matter.openDate)} />
               {matter.closeDate && <InfoRow label="Closed" value={fmt.date(matter.closeDate)} />}
+              {matter.retainer?.hasRetainer && <InfoRow label="Retainer" value={fmt.currency(matter.retainer.retainerAmount)} />}
+              {matter.flatFee && <InfoRow label="Total Fee" value={fmt.currency(matter.flatFee.totalFee)} />}
             </Card>
             <Card style={{ padding: 18 }}>
               <div style={{ fontSize: "13px", fontWeight: 700, color: T.text, marginBottom: 10 }}>Tags</div>
@@ -1189,14 +1426,87 @@ const MatterDetailPage = ({ matterId, nav, currentUser }) => {
           return { ...user, defaultRate: user.hourlyRate, overrideRate: override?.overrideRate || null, effectiveRate: override?.overrideRate || user.hourlyRate, reason: override?.reason || null, setBy: override?.setBy ? Q.user(override.setBy) : null, hours };
         }).filter(Boolean);
 
+        // Origination splits for this matter
+        const origData = Q.originationForMatter(matterId);
+        const splits = origData?.splits || [];
+        const totalSplitPct = splits.reduce((s, sp) => s + sp.pct, 0);
+
+        // Compensation impact preview
+        const matterRevenue = Q.invoicesForMatter(matterId).reduce((s, i) => s + i.amountPaid, 0);
+        const primaryOriginator = splits.length > 0 ? splits.reduce((a, b) => a.pct > b.pct ? a : b) : null;
+        const primaryTier = primaryOriginator ? Q.tierForRole(Q.user(primaryOriginator.userId)?.role) : null;
+        const origPoolRate = primaryTier?.originationRate || 0.25;
+        const origPool = matterRevenue * origPoolRate;
+
         return (
           <div>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+            {/* ── ORIGINATION SPLITS ── */}
+            <div style={{ marginBottom: 24 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+                <div>
+                  <div style={{ fontSize: "14px", fontWeight: 700, color: T.text }}>Origination Credit</div>
+                  <div style={{ fontSize: "12px", color: T.textTertiary }}>Determines how origination compensation is split for this matter. Total must equal 100%.</div>
+                </div>
+                {Q.isAdmin(currentUser.role) && <Btn size="sm" variant="ghost" onClick={() => toast("Origination split editor would open — adjust percentages, must total 100%")}><Icon name="edit" size={13} color={T.textSecondary} /> Edit Splits</Btn>}
+              </div>
+
+              <Card style={{ padding: 0 }}>
+                <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr 1fr", padding: "10px 18px", borderBottom: `1px solid ${T.border}`, fontSize: "10px", fontWeight: 700, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.5px" }}>
+                  <span>Originator</span><span style={{ textAlign: "center" }}>Split %</span><span style={{ textAlign: "right" }}>Tier Rate</span><span style={{ textAlign: "right" }}>Collected</span><span style={{ textAlign: "right" }}>Credit</span>
+                </div>
+                {splits.map(sp => {
+                  const u = Q.user(sp.userId);
+                  if (!u) return null;
+                  const tier = Q.tierForRole(u.role);
+                  const credit = origPool * sp.pct;
+                  return (
+                    <div key={sp.userId} style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr 1fr", padding: "14px 18px", borderBottom: `1px solid ${T.borderSubtle}`, alignItems: "center" }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                        <div style={{ width: 32, height: 32, borderRadius: "50%", background: T.goldBg, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "11px", fontWeight: 800, color: T.gold }}>{u.firstName[0]}{u.lastName[0]}</div>
+                        <div>
+                          <div style={{ fontSize: "13px", fontWeight: 600, color: T.text }}>{u.firstName} {u.lastName}</div>
+                          <div style={{ fontSize: "11px", color: T.textTertiary }}>{tier?.name || fmt.role(u.role)}{primaryOriginator?.userId === sp.userId ? " · Primary" : ""}</div>
+                        </div>
+                      </div>
+                      <div style={{ textAlign: "center" }}>
+                        <span style={{ fontFamily: T.mono, fontSize: "18px", fontWeight: 800, color: "#3F7653" }}>{(sp.pct * 100).toFixed(0)}%</span>
+                      </div>
+                      <div style={{ textAlign: "right", fontSize: "12px", color: T.textTertiary }}>{(origPoolRate * 100).toFixed(0)}% of collected</div>
+                      <div style={{ textAlign: "right", fontFamily: T.mono, fontSize: "13px", color: T.textTertiary }}>{fmt.currency(matterRevenue)}</div>
+                      <div style={{ textAlign: "right", fontFamily: T.mono, fontSize: "15px", fontWeight: 700, color: "#3F7653" }}>{fmt.currency(credit)}</div>
+                    </div>
+                  );
+                })}
+                {splits.length === 0 && (
+                  <div style={{ padding: "20px 18px", textAlign: "center", color: T.textDim, fontSize: "12.5px" }}>
+                    No origination splits assigned. <span style={{ color: "#3F7653", cursor: "pointer", fontWeight: 600 }}>Assign now</span>
+                  </div>
+                )}
+              </Card>
+
+              {/* Summary card */}
+              {splits.length > 0 && (
+                <Card style={{ padding: "12px 18px", marginTop: 8, background: T.surfaceRaised, border: `1px solid ${T.borderSubtle}` }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <div style={{ fontSize: "12px", color: T.textTertiary }}>
+                      Origination pool: <strong style={{ color: T.text }}>{(origPoolRate * 100).toFixed(0)}%</strong> of {fmt.currency(matterRevenue)} collected = <strong style={{ color: "#3F7653", fontFamily: T.mono }}>{fmt.currency(origPool)}</strong>
+                      {totalSplitPct !== 1 && <span style={{ color: T.red, fontWeight: 700, marginLeft: 10 }}>⚠ Splits total {(totalSplitPct * 100).toFixed(0)}% — must be 100%</span>}
+                    </div>
+                    <div style={{ fontSize: "11px", color: T.textTertiary }}>
+                      Primary: {Q.user(primaryOriginator?.userId)?.firstName} {Q.user(primaryOriginator?.userId)?.lastName} ({primaryTier?.name} tier → {(origPoolRate * 100).toFixed(0)}% pool rate)
+                    </div>
+                  </div>
+                </Card>
+              )}
+            </div>
+
+            {/* ── BILLING RATES ── */}
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
               <div>
                 <div style={{ fontSize: "14px", fontWeight: 700, color: T.text }}>Billing Rates</div>
                 <div style={{ fontSize: "12px", color: T.textTertiary }}>Override standard rates for this matter. Changes apply to new time entries only.</div>
               </div>
-              <Btn size="sm" variant="ghost"><Icon name="plus" size={13} color={T.textSecondary} /> Add Person</Btn>
+              <Btn size="sm" variant="ghost" onClick={() => toast("Attorney picker would open — add a team member to this matter")}><Icon name="plus" size={13} color={T.textSecondary} /> Add Person</Btn>
             </div>
 
             <Card style={{ padding: 0 }}>
@@ -1212,7 +1522,7 @@ const MatterDetailPage = ({ matterId, nav, currentUser }) => {
                       <div style={{ fontSize: "11px", color: T.textTertiary }}>{fmt.role(person.role)}{matter.responsibleAttorneyId === person.id ? " · Lead" : ""}</div>
                     </div>
                   </div>
-                  <div style={{ textAlign: "right", fontFamily: T.mono, fontSize: "13px", color: T.textTertiary }}>{fmt.currency(person.defaultRate)}/hr</div>
+                  <div style={{ textAlign: "right", fontFamily: T.mono, fontSize: "13px", color: T.textTertiary }}>{person.defaultRate ? `${fmt.currency(person.defaultRate)}/hr` : "—"}</div>
                   <div style={{ textAlign: "right" }}>
                     {person.overrideRate ? (
                       <span style={{ fontFamily: T.mono, fontSize: "13px", fontWeight: 700, color: "#D4851F" }}>{fmt.currency(person.overrideRate)}/hr</span>
@@ -1220,7 +1530,7 @@ const MatterDetailPage = ({ matterId, nav, currentUser }) => {
                       <span style={{ fontSize: "12px", color: T.textDim }}>—</span>
                     )}
                   </div>
-                  <div style={{ textAlign: "right", fontFamily: T.mono, fontSize: "14px", fontWeight: 700, color: person.overrideRate ? "#D4851F" : "#3F7653" }}>{fmt.currency(person.effectiveRate)}/hr</div>
+                  <div style={{ textAlign: "right", fontFamily: T.mono, fontSize: "14px", fontWeight: 700, color: person.overrideRate ? "#D4851F" : "#3F7653" }}>{person.effectiveRate ? `${fmt.currency(person.effectiveRate)}/hr` : "—"}</div>
                   <div style={{ textAlign: "right", fontFamily: T.mono, fontSize: "12px", color: T.textTertiary }}>{person.hours.toFixed(1)}h</div>
                   <div style={{ paddingLeft: 14 }}>
                     {person.reason ? (
@@ -1230,15 +1540,15 @@ const MatterDetailPage = ({ matterId, nav, currentUser }) => {
                     )}
                   </div>
                   <div style={{ textAlign: "right" }}>
-                    <Btn variant="ghost" size="sm">{person.overrideRate ? "Edit" : "Set Rate"}</Btn>
+                    <Btn variant="ghost" size="sm" onClick={() => toast(`Rate override editor would open for ${person.firstName} ${person.lastName}`)}>{person.overrideRate ? "Edit" : "Set Rate"}</Btn>
                   </div>
                 </div>
               ))}
             </Card>
 
             {team.some(p => p.overrideRate) && (
-              <div style={{ marginTop: 12, padding: "10px 14px", background: T.surfaceRaised, borderRadius: T.radius, fontSize: "11.5px", color: T.textTertiary, lineHeight: 1.5 }}>
-                <strong style={{ color: T.textSecondary }}>Note:</strong> Rate overrides apply to time entries recorded after the override was set. Existing time entries retain their original rate. The "Effective" column shows the rate that will be used for new entries.
+              <div style={{ marginTop: 10, padding: "10px 14px", background: T.surfaceRaised, borderRadius: T.radius, fontSize: "11.5px", color: T.textTertiary, lineHeight: 1.5 }}>
+                <strong style={{ color: T.textSecondary }}>Note:</strong> Rate overrides apply to time entries recorded after the override was set. Existing time entries retain their original rate.
               </div>
             )}
           </div>
@@ -1248,7 +1558,7 @@ const MatterDetailPage = ({ matterId, nav, currentUser }) => {
       {tab === "documents" && (
         <div>
           <div style={{ marginBottom: 14, display: "flex", justifyContent: "flex-end" }}>
-            <Btn size="sm"><Icon name="upload" size={13} color={T.bg} /> Upload</Btn>
+            <Btn size="sm" onClick={() => toast("File upload dialog would open — drag & drop or browse for documents")}><Icon name="upload" size={13} color={T.bg} /> Upload</Btn>
           </div>
           <Table data={docs} columns={[
             { header: "Document", render: r => (<div style={{ display: "flex", alignItems: "center", gap: 8 }}><Icon name="documents" size={15} color={T.gold} /><div><div style={{ fontWeight: 600, fontSize: "13px" }}>{r.title}</div><div style={{ fontSize: "11px", color: T.textTertiary }}>{r.description?.slice(0, 60)}</div></div></div>) },
@@ -1345,8 +1655,8 @@ const DocumentsPage = ({ nav }) => {
           <p style={{ margin: "2px 0 0", fontSize: "13px", color: T.textTertiary }}>{DB.documents.length} documents · {DB.documents.filter(d => d.checkedOut).length} checked out · {filtered.length} shown</p>
         </div>
         <div style={{ display: "flex", gap: 8 }}>
-          <Btn variant="ghost" size="sm"><Icon name="download" size={13} color={T.textSecondary} /> Abbado Drive</Btn>
-          <Btn size="sm"><Icon name="upload" size={13} color={T.bg} /> Upload</Btn>
+          <Btn variant="ghost" size="sm" onClick={() => toast("Abbado Drive mounts as a network drive — open documents directly in Word/Excel")}><Icon name="download" size={13} color={T.textSecondary} /> Abbado Drive</Btn>
+          <Btn size="sm" onClick={() => toast("File upload dialog would open — drag & drop or browse for documents")}><Icon name="upload" size={13} color={T.bg} /> Upload</Btn>
         </div>
       </div>
 
@@ -1420,12 +1730,12 @@ const DocumentsPage = ({ nav }) => {
                 <div style={{ padding: "8px 12px", background: T.orangeBg, borderRadius: T.radius, border: "1px solid rgba(212,133,31,0.2)", marginBottom: 10 }}>
                   <div style={{ fontSize: "11px", fontWeight: 700, color: T.orange, textTransform: "uppercase", letterSpacing: "0.3px" }}>Checked Out</div>
                   <div style={{ fontSize: "12px", color: T.textSecondary, marginTop: 2 }}>By {selectedDoc.checkedOut.userName} · since {fmt.relative(selectedDoc.checkedOut.since)}</div>
-                  <Btn size="sm" style={{ marginTop: 8, fontSize: "11px" }}>Check In (New Version)</Btn>
+                  <Btn size="sm" style={{ marginTop: 8, fontSize: "11px" }} onClick={() => toast("Document checked in — version 4 created with change note")}>Check In (New Version)</Btn>
                 </div>
               ) : (
                 <div style={{ display: "flex", gap: 6 }}>
-                  <Btn size="sm" style={{ fontSize: "11px" }}><Icon name="download" size={12} color={T.bg} /> Check Out</Btn>
-                  <Btn variant="ghost" size="sm" style={{ fontSize: "11px" }}><Icon name="download" size={12} color={T.textSecondary} /> Download (Read Only)</Btn>
+                  <Btn size="sm" style={{ fontSize: "11px" }} onClick={() => toast("Document checked out — locked for editing. Other users can only view read-only.")}><Icon name="download" size={12} color={T.bg} /> Check Out</Btn>
+                  <Btn variant="ghost" size="sm" style={{ fontSize: "11px" }} onClick={() => toast("Read-only copy downloaded to your device")}><Icon name="download" size={12} color={T.textSecondary} /> Download (Read Only)</Btn>
                 </div>
               )}
             </Card>
@@ -1526,9 +1836,9 @@ const DocumentsPage = ({ nav }) => {
                       </div>
                       {i > 0 && (
                         <div style={{ display: "flex", gap: 6, marginTop: 6 }}>
-                          <Btn variant="ghost" size="sm" style={{ fontSize: "10px", padding: "3px 8px" }}>Download</Btn>
-                          <Btn variant="ghost" size="sm" style={{ fontSize: "10px", padding: "3px 8px" }}>Revert to this</Btn>
-                          {i === 1 && <Btn variant="ghost" size="sm" style={{ fontSize: "10px", padding: "3px 8px" }}>Compare with current</Btn>}
+                          <Btn variant="ghost" size="sm" style={{ fontSize: "10px", padding: "3px 8px" }} onClick={() => toast("Previous version downloaded")}>Download</Btn>
+                          <Btn variant="ghost" size="sm" style={{ fontSize: "10px", padding: "3px 8px" }} onClick={() => toast("Document reverted to this version — previous current version preserved in history")}>Revert to this</Btn>
+                          {i === 1 && <Btn variant="ghost" size="sm" style={{ fontSize: "10px", padding: "3px 8px" }} onClick={() => toast("Version comparison view would open — showing tracked changes between versions")}>Compare with current</Btn>}
                         </div>
                       )}
                     </div>
@@ -1596,7 +1906,7 @@ const DocumentsPage = ({ nav }) => {
                 </div>
 
                 <div style={{ marginTop: 14 }}>
-                  <Btn variant="ghost" size="sm" style={{ fontSize: "11px" }}><Icon name="plus" size={12} color={T.textSecondary} /> Link Related Document</Btn>
+                  <Btn variant="ghost" size="sm" style={{ fontSize: "11px" }} onClick={() => toast("Document picker would open — search and link related documents")}><Icon name="plus" size={12} color={T.textSecondary} /> Link Related Document</Btn>
                 </div>
               </Card>
             )}
@@ -1623,7 +1933,7 @@ const ClientsListPage = ({ nav }) => {
     <div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
         <div><h1 style={{ margin: 0, fontSize: "22px", fontWeight: 700, color: T.text }}>Clients</h1></div>
-        <Btn size="sm"><Icon name="plus" size={13} color={T.bg} /> New Client</Btn>
+        <Btn size="sm" onClick={() => toast("New Client form would open — name, type, contact info, responsible attorney, originating attorney")}><Icon name="plus" size={13} color={T.bg} /> New Client</Btn>
       </div>
       <div style={{ display: "flex", gap: 10, marginBottom: 16 }}>
         <Input value={search} onChange={setSearch} placeholder="Search clients..." icon="search" style={{ flex: 1 }} />
@@ -1636,7 +1946,8 @@ const ClientsListPage = ({ nav }) => {
           { header: "Matters", render: r => Q.mattersForClient(r.id).length, align: "center" },
           { header: "Billed", render: r => <span style={{ fontFamily: T.mono }}>{fmt.currency(Q.totalBilled(Q.invoicesForClient(r.id)))}</span>, align: "right", nowrap: true },
           { header: "Outstanding", render: r => { const o = Q.totalOutstanding(Q.invoicesForClient(r.id)); return <span style={{ fontFamily: T.mono, color: o > 0 ? T.orange : T.textTertiary }}>{fmt.currency(o)}</span>; }, align: "right", nowrap: true },
-          { header: "Attorney", render: r => { const u = Q.user(r.originatingAttorneyId); return u ? `${u.firstName} ${u.lastName[0]}.` : "—"; } },
+          { header: "Responsible", render: r => { const u = Q.user(r.responsibleAttorneyId); return u ? `${u.firstName} ${u.lastName[0]}.` : "—"; } },
+          { header: "Originator", render: r => { const u = Q.user(r.originatingAttorneyId); return u ? `${u.firstName} ${u.lastName[0]}.` : "—"; } },
         ]} />
       </Card>
     </div>
@@ -1647,6 +1958,10 @@ const MattersListPage = ({ nav }) => {
   const [search, setSearch] = useState("");
   const [area, setArea] = useState("all");
   const [status, setStatus] = useState("all");
+  const [showNew, setShowNew] = useState(false);
+  const [newBillingType, setNewBillingType] = useState("hourly");
+  const [milestoneCount, setMilestoneCount] = useState(3);
+
   const filtered = DB.matters.filter(m => {
     if (area !== "all" && m.practiceArea !== area) return false;
     if (status !== "all" && m.status !== status) return false;
@@ -1657,7 +1972,7 @@ const MattersListPage = ({ nav }) => {
     <div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
         <div><h1 style={{ margin: 0, fontSize: "22px", fontWeight: 700, color: T.text }}>Matters</h1></div>
-        <Btn size="sm"><Icon name="plus" size={13} color={T.bg} /> New Matter</Btn>
+        <Btn size="sm" onClick={() => setShowNew(true)}><Icon name="plus" size={13} color={T.bg} /> New Matter</Btn>
       </div>
       <div style={{ display: "flex", gap: 10, marginBottom: 16 }}>
         <Input value={search} onChange={setSearch} placeholder="Search by name or number..." icon="search" style={{ flex: 1 }} />
@@ -1671,10 +1986,230 @@ const MattersListPage = ({ nav }) => {
           { header: "Area", render: r => <Badge color={T.purple} bg={T.purpleBg}>{fmt.practiceArea(r.practiceArea)}</Badge>, nowrap: true },
           { header: "Status", render: r => <StatusBadge status={r.status} />, nowrap: true },
           { header: "Billing", render: r => fmt.billingType(r.billingType) },
+          { header: "Originator", render: r => { const orig = Q.originationForMatter(r.id); if (!orig) return <span style={{ color: T.textDim }}>—</span>; return <div>{orig.splits.map((sp, i) => { const u = Q.user(sp.userId); return u ? <span key={sp.userId} style={{ fontSize: "11.5px" }}>{i > 0 ? ", " : ""}{u.firstName} {u.lastName[0]}.{sp.pct < 1 ? <span style={{ fontFamily: T.mono, fontSize: "10px", color: T.textTertiary }}> ({(sp.pct * 100).toFixed(0)}%)</span> : ""}</span> : null; })}</div>; } },
           { header: "Docs", render: r => Q.docsForMatter(r.id).length, align: "center" },
           { header: "Unbilled", render: r => <span style={{ fontFamily: T.mono }}>{fmt.hoursDecimal(fmt.mins(Q.unbilledTime(Q.timeForMatter(r.id))))}h</span>, align: "right", nowrap: true },
         ]} />
       </Card>
+
+      {/* ── NEW MATTER MODAL ── */}
+      <Modal open={showNew} onClose={() => { setShowNew(false); setNewBillingType("hourly"); }} title="New Matter" width={620}>
+        <div style={{ maxHeight: "70vh", overflow: "auto" }}>
+          {/* Core fields */}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 14 }}>
+            <div style={{ gridColumn: "1 / -1" }}>
+              <div style={{ fontSize: "11px", fontWeight: 600, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 4 }}>Matter Name</div>
+              <input placeholder="e.g., Series B Financing" style={{ width: "100%", padding: "9px 12px", border: `1px solid ${T.border}`, borderRadius: T.radius, fontSize: "13px", fontFamily: T.font, boxSizing: "border-box" }} />
+            </div>
+            <div>
+              <div style={{ fontSize: "11px", fontWeight: 600, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 4 }}>Client</div>
+              <select style={{ width: "100%", padding: "9px 12px", border: `1px solid ${T.border}`, borderRadius: T.radius, fontSize: "13px", fontFamily: T.font }}>
+                <option value="">Select client...</option>
+                {DB.clients.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+              </select>
+            </div>
+            <div>
+              <div style={{ fontSize: "11px", fontWeight: 600, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 4 }}>Responsible Attorney</div>
+              <select style={{ width: "100%", padding: "9px 12px", border: `1px solid ${T.border}`, borderRadius: T.radius, fontSize: "13px", fontFamily: T.font }}>
+                {DB.users.filter(u => !["admin", "billing_manager"].includes(u.role)).map(u => <option key={u.id} value={u.id}>{u.firstName} {u.lastName}</option>)}
+              </select>
+            </div>
+            <div>
+              <div style={{ fontSize: "11px", fontWeight: 600, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 4 }}>Practice Area</div>
+              <select style={{ width: "100%", padding: "9px 12px", border: `1px solid ${T.border}`, borderRadius: T.radius, fontSize: "13px", fontFamily: T.font }}>
+                {["corporate", "immigration", "real_estate", "employment", "ip", "litigation", "tax", "family", "criminal", "other"].map(a => <option key={a} value={a}>{fmt.practiceArea(a)}</option>)}
+              </select>
+            </div>
+            <div>
+              <div style={{ fontSize: "11px", fontWeight: 600, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 4 }}>Open Date</div>
+              <input type="date" defaultValue="2026-03-18" style={{ width: "100%", padding: "9px 12px", border: `1px solid ${T.border}`, borderRadius: T.radius, fontSize: "13px", fontFamily: T.font, boxSizing: "border-box" }} />
+            </div>
+          </div>
+
+          <div style={{ marginBottom: 14 }}>
+            <div style={{ fontSize: "11px", fontWeight: 600, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 4 }}>Description</div>
+            <textarea rows={2} placeholder="Brief matter description..." style={{ width: "100%", padding: "9px 12px", border: `1px solid ${T.border}`, borderRadius: T.radius, fontSize: "13px", fontFamily: T.font, resize: "vertical", boxSizing: "border-box" }} />
+          </div>
+
+          {/* ── BILLING TYPE SELECTION ── */}
+          <div style={{ marginBottom: 14 }}>
+            <div style={{ fontSize: "11px", fontWeight: 600, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 }}>Billing Type</div>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: 8 }}>
+              {[
+                { id: "hourly", label: "Hourly", desc: "Bill by the hour", icon: "time" },
+                { id: "flat_fee", label: "Flat Fee", desc: "Fixed price, milestone billing", icon: "billing" },
+                { id: "retainer", label: "Retainer", desc: "Trust-funded, draw down", icon: "building" },
+                { id: "contingency", label: "Contingency", desc: "% of recovery", icon: "sparkle" },
+              ].map(bt => (
+                <div key={bt.id} onClick={() => setNewBillingType(bt.id)}
+                  style={{ padding: "12px 10px", borderRadius: T.radius, border: `2px solid ${newBillingType === bt.id ? "#3F7653" : T.border}`, cursor: "pointer", textAlign: "center", transition: "all 0.15s", background: newBillingType === bt.id ? T.accentBg : "transparent" }}>
+                  <Icon name={bt.icon} size={18} color={newBillingType === bt.id ? "#3F7653" : T.textTertiary} />
+                  <div style={{ fontSize: "12px", fontWeight: 700, color: T.text, marginTop: 5 }}>{bt.label}</div>
+                  <div style={{ fontSize: "10px", color: T.textTertiary, marginTop: 2 }}>{bt.desc}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* ── HOURLY CONFIG ── */}
+          {newBillingType === "hourly" && (
+            <Card style={{ padding: 14, marginBottom: 14, background: T.surfaceRaised }}>
+              <div style={{ fontSize: "11px", fontWeight: 700, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 }}>Hourly Settings</div>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                <div>
+                  <div style={{ fontSize: "11px", color: T.textTertiary, marginBottom: 4 }}>Rate Source</div>
+                  <select style={{ width: "100%", padding: "8px 12px", border: `1px solid ${T.border}`, borderRadius: T.radius, fontSize: "13px", fontFamily: T.font }}>
+                    <option>Use standard attorney rates</option>
+                    <option>Set custom matter rates</option>
+                  </select>
+                </div>
+                <div>
+                  <div style={{ fontSize: "11px", color: T.textTertiary, marginBottom: 4 }}>Budget Cap (optional)</div>
+                  <input type="number" placeholder="No cap" style={{ width: "100%", padding: "8px 12px", border: `1px solid ${T.border}`, borderRadius: T.radius, fontSize: "13px", fontFamily: T.font, boxSizing: "border-box" }} />
+                </div>
+              </div>
+              <label style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 10, fontSize: "12px", color: T.text }}>
+                <input type="checkbox" style={{ accentColor: "#3F7653" }} /> Require retainer before starting work
+              </label>
+            </Card>
+          )}
+
+          {/* ── FLAT FEE CONFIG ── */}
+          {newBillingType === "flat_fee" && (
+            <Card style={{ padding: 14, marginBottom: 14, background: "rgba(74,153,167,0.04)", border: "1px solid rgba(74,153,167,0.15)" }}>
+              <div style={{ fontSize: "11px", fontWeight: 700, color: T.blue, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 }}>Flat Fee Configuration</div>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 12 }}>
+                <div>
+                  <div style={{ fontSize: "11px", color: T.textTertiary, marginBottom: 4 }}>Total Fee</div>
+                  <input type="number" placeholder="15000" style={{ width: "100%", padding: "8px 12px", border: `1px solid ${T.border}`, borderRadius: T.radius, fontSize: "13px", fontFamily: T.font, boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <div style={{ fontSize: "11px", color: T.textTertiary, marginBottom: 4 }}>Number of Milestones</div>
+                  <select value={milestoneCount} onChange={e => setMilestoneCount(parseInt(e.target.value))} style={{ width: "100%", padding: "8px 12px", border: `1px solid ${T.border}`, borderRadius: T.radius, fontSize: "13px", fontFamily: T.font }}>
+                    {[1, 2, 3, 4, 5, 6].map(n => <option key={n} value={n}>{n} milestone{n > 1 ? "s" : ""}</option>)}
+                  </select>
+                </div>
+              </div>
+              <div style={{ fontSize: "11px", fontWeight: 600, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 6 }}>Milestones</div>
+              {Array.from({ length: milestoneCount }).map((_, i) => (
+                <div key={i} style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: 8, marginBottom: 6 }}>
+                  <input placeholder={`Milestone ${i + 1} — e.g., ${["Engagement & Assessment", "Drafting & Filing", "Review & Approval", "Final Delivery", "Post-Closing", "Wrap-Up"][i] || "Description"}`}
+                    style={{ padding: "7px 10px", border: `1px solid ${T.border}`, borderRadius: T.radius, fontSize: "12px", fontFamily: T.font }} />
+                  <input type="number" placeholder="Amount ($)"
+                    style={{ padding: "7px 10px", border: `1px solid ${T.border}`, borderRadius: T.radius, fontSize: "12px", fontFamily: T.font }} />
+                </div>
+              ))}
+              <label style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 8, fontSize: "12px", color: T.text }}>
+                <input type="checkbox" defaultChecked style={{ accentColor: "#3F7653" }} /> Track attorney time for internal profitability analysis
+              </label>
+            </Card>
+          )}
+
+          {/* ── RETAINER CONFIG ── */}
+          {newBillingType === "retainer" && (
+            <Card style={{ padding: 14, marginBottom: 14, background: "rgba(63,118,83,0.03)", border: "1px solid rgba(63,118,83,0.15)" }}>
+              <div style={{ fontSize: "11px", fontWeight: 700, color: "#3F7653", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 }}>Retainer / Trust Configuration</div>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12, marginBottom: 12 }}>
+                <div>
+                  <div style={{ fontSize: "11px", color: T.textTertiary, marginBottom: 4 }}>Retainer Amount</div>
+                  <input type="number" placeholder="10000" style={{ width: "100%", padding: "8px 12px", border: `1px solid ${T.border}`, borderRadius: T.radius, fontSize: "13px", fontFamily: T.font, boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <div style={{ fontSize: "11px", color: T.textTertiary, marginBottom: 4 }}>Minimum Balance</div>
+                  <input type="number" placeholder="2500" style={{ width: "100%", padding: "8px 12px", border: `1px solid ${T.border}`, borderRadius: T.radius, fontSize: "13px", fontFamily: T.font, boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <div style={{ fontSize: "11px", color: T.textTertiary, marginBottom: 4 }}>Replenish To</div>
+                  <input type="number" placeholder="10000" style={{ width: "100%", padding: "8px 12px", border: `1px solid ${T.border}`, borderRadius: T.radius, fontSize: "13px", fontFamily: T.font, boxSizing: "border-box" }} />
+                </div>
+              </div>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 10 }}>
+                <div>
+                  <div style={{ fontSize: "11px", color: T.textTertiary, marginBottom: 4 }}>Billing Against Retainer</div>
+                  <select style={{ width: "100%", padding: "8px 12px", border: `1px solid ${T.border}`, borderRadius: T.radius, fontSize: "13px", fontFamily: T.font }}>
+                    <option>Hourly — draw down from trust as time is billed</option>
+                    <option>Monthly fixed — deduct set amount each month</option>
+                  </select>
+                </div>
+                <div>
+                  <div style={{ fontSize: "11px", color: T.textTertiary, marginBottom: 4 }}>Rate Source</div>
+                  <select style={{ width: "100%", padding: "8px 12px", border: `1px solid ${T.border}`, borderRadius: T.radius, fontSize: "13px", fontFamily: T.font }}>
+                    <option>Use standard attorney rates</option>
+                    <option>Set custom matter rates</option>
+                    <option>Discounted rates (set on Rates tab after creation)</option>
+                  </select>
+                </div>
+              </div>
+              <div style={{ padding: "8px 10px", background: T.surfaceRaised, borderRadius: T.radius, fontSize: "11px", color: T.textTertiary, lineHeight: 1.5, marginBottom: 10 }}>
+                A trust account will be set up for this client (if one doesn't already exist). The client must deposit the retainer amount before work begins. Invoices are automatically applied against the trust balance. When the balance drops below the minimum, the client and responsible attorney are notified.
+              </div>
+              <div style={{ display: "flex", gap: 12 }}>
+                <label style={{ display: "flex", alignItems: "center", gap: 6, fontSize: "12px", color: T.text }}>
+                  <input type="checkbox" defaultChecked style={{ accentColor: "#3F7653" }} /> Auto-notify client when below minimum
+                </label>
+                <label style={{ display: "flex", alignItems: "center", gap: 6, fontSize: "12px", color: T.text }}>
+                  <input type="checkbox" defaultChecked style={{ accentColor: "#3F7653" }} /> Auto-notify responsible attorney
+                </label>
+              </div>
+            </Card>
+          )}
+
+          {/* ── CONTINGENCY CONFIG ── */}
+          {newBillingType === "contingency" && (
+            <Card style={{ padding: 14, marginBottom: 14, background: T.surfaceRaised }}>
+              <div style={{ fontSize: "11px", fontWeight: 700, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 }}>Contingency Fee Configuration</div>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                <div>
+                  <div style={{ fontSize: "11px", color: T.textTertiary, marginBottom: 4 }}>Fee Percentage</div>
+                  <input type="number" placeholder="33.3" style={{ width: "100%", padding: "8px 12px", border: `1px solid ${T.border}`, borderRadius: T.radius, fontSize: "13px", fontFamily: T.font, boxSizing: "border-box" }} />
+                </div>
+                <div>
+                  <div style={{ fontSize: "11px", color: T.textTertiary, marginBottom: 4 }}>Estimated Recovery</div>
+                  <input type="number" placeholder="500000" style={{ width: "100%", padding: "8px 12px", border: `1px solid ${T.border}`, borderRadius: T.radius, fontSize: "13px", fontFamily: T.font, boxSizing: "border-box" }} />
+                </div>
+              </div>
+              <label style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 10, fontSize: "12px", color: T.text }}>
+                <input type="checkbox" defaultChecked style={{ accentColor: "#3F7653" }} /> Track attorney time for internal records
+              </label>
+            </Card>
+          )}
+
+          {/* ── ORIGINATION SPLIT ── */}
+          <Card style={{ padding: 14, marginBottom: 14, background: "rgba(225,229,82,0.06)", border: "1px solid rgba(225,229,82,0.2)" }}>
+            <div style={{ fontSize: "11px", fontWeight: 700, color: T.gold, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 }}>Origination Credit Split</div>
+            <div style={{ fontSize: "11.5px", color: T.textTertiary, lineHeight: 1.5, marginBottom: 12 }}>
+              Who gets origination credit for bringing in this matter? The primary originator's compensation tier determines the pool rate. Splits must total 100%.
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: 8, marginBottom: 8 }}>
+              <div style={{ fontSize: "10px", fontWeight: 700, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.4px" }}>Attorney</div>
+              <div style={{ fontSize: "10px", fontWeight: 700, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.4px" }}>Split %</div>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: 8, marginBottom: 6 }}>
+              <select style={{ padding: "8px 12px", border: `1px solid ${T.border}`, borderRadius: T.radius, fontSize: "13px", fontFamily: T.font }}>
+                {DB.users.filter(u => !["admin", "billing_manager"].includes(u.role)).map(u => <option key={u.id} value={u.id}>{u.firstName} {u.lastName} ({Q.tierForRole(u.role)?.name})</option>)}
+              </select>
+              <input type="number" defaultValue="100" placeholder="100" style={{ padding: "8px 12px", border: `1px solid ${T.border}`, borderRadius: T.radius, fontSize: "13px", fontFamily: T.font, textAlign: "center" }} />
+            </div>
+            <Btn variant="ghost" size="sm" style={{ fontSize: "11px" }} onClick={() => toast("Additional origination split row added — select attorney and enter percentage")}><Icon name="plus" size={11} color={T.textSecondary} /> Add Split (for co-origination)</Btn>
+          </Card>
+
+          {/* Tags */}
+          <div style={{ marginBottom: 16 }}>
+            <div style={{ fontSize: "11px", fontWeight: 600, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 4 }}>Tags (optional)</div>
+            <input placeholder="financing, series-b, preferred-stock" style={{ width: "100%", padding: "9px 12px", border: `1px solid ${T.border}`, borderRadius: T.radius, fontSize: "13px", fontFamily: T.font, boxSizing: "border-box" }} />
+          </div>
+        </div>
+
+        <div style={{ display: "flex", justifyContent: "space-between", borderTop: `1px solid ${T.border}`, paddingTop: 14 }}>
+          <Btn variant="ghost" size="sm" onClick={() => nav("conflicts")}>
+            <Icon name="shield" size={13} color={T.textSecondary} /> Run Conflict Check First
+          </Btn>
+          <div style={{ display: "flex", gap: 8 }}>
+            <Btn variant="ghost" onClick={() => { setShowNew(false); setNewBillingType("hourly"); }}>Cancel</Btn>
+            <Btn onClick={() => { setShowNew(false); setNewBillingType("hourly"); }}>Create Matter</Btn>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };
@@ -1709,7 +2244,7 @@ const TimeKeepingPage = ({ currentUser }) => {
             {isBillingTier ? `${DB.timeEntries.length} total entries` : `${visibleEntries.length} entries visible · ${myEntries.length} mine`}
           </p>
         </div>
-        <Btn size="sm"><Icon name="plus" size={13} color={T.bg} /> New Entry</Btn>
+        <Btn size="sm" onClick={() => toast("New time entry form would open — matter, date, duration, description, billable toggle")}><Icon name="plus" size={13} color={T.bg} /> New Entry</Btn>
       </div>
 
       {/* Personal summary */}
@@ -1761,7 +2296,7 @@ const BillingPage = () => {
     <div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
         <h1 style={{ margin: 0, fontSize: "22px", fontWeight: 700, color: T.text }}>Billing & Invoices</h1>
-        <Btn size="sm"><Icon name="plus" size={13} color={T.bg} /> Generate Invoice</Btn>
+        <Btn size="sm" onClick={() => toast("Invoice generator would open — select matter, date range, include unbilled time and expenses")}><Icon name="plus" size={13} color={T.bg} /> Generate Invoice</Btn>
       </div>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12, marginBottom: 24 }}>
         <Card style={{ padding: "14px 16px" }}><Stat label="Collected" value={fmt.currency(totalCollected)} color={T.green} /></Card>
@@ -2033,7 +2568,7 @@ const EntitiesPage = ({ nav }) => {
     <div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
         <div><h1 style={{ margin: 0, fontSize: "22px", fontWeight: 700, color: T.text }}>Entities</h1><p style={{ margin: "2px 0 0", fontSize: "13px", color: T.textTertiary }}>{DB.entities.length} entities · {DB.complianceTasks.filter(ct => ct.status !== "completed").length} pending tasks</p></div>
-        <Btn size="sm"><Icon name="plus" size={13} color={T.bg} /> New Entity</Btn>
+        <Btn size="sm" onClick={() => toast("New Entity form would open — legal name, type, state of formation, officers, registered agent")}><Icon name="plus" size={13} color={T.bg} /> New Entity</Btn>
       </div>
       <div style={{ display: "flex", gap: 10, marginBottom: 16 }}>
         <Input value={search} onChange={setSearch} placeholder="Search entities..." icon="search" style={{ flex: 1 }} />
@@ -2149,7 +2684,7 @@ const PortalControlsPage = ({ nav }) => {
                         </div>
                       </div>
                       <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                        <Btn variant="ghost" size="sm" disabled={!ps.enabled}><Icon name="mail" size={12} color={T.textSecondary} /> Send Link</Btn>
+                        <Btn variant="ghost" size="sm" disabled={!ps.enabled} onClick={() => toast("Magic link email sent to portal user")}><Icon name="mail" size={12} color={T.textSecondary} /> Send Link</Btn>
                         <StatusBadge status={pu.status} />
                       </div>
                     </div>
@@ -2158,7 +2693,7 @@ const PortalControlsPage = ({ nav }) => {
               ) : (
                 <div style={{ padding: "12px 0", fontSize: "12px", color: T.textDim }}>No portal users configured</div>
               )}
-              <Btn size="sm" variant="ghost" disabled={!ps.enabled}><Icon name="plus" size={12} color={T.textSecondary} /> Add Portal User</Btn>
+              <Btn size="sm" variant="ghost" disabled={!ps.enabled} onClick={() => toast("Add portal user form would open — first name, last name, email, title")}><Icon name="plus" size={12} color={T.textSecondary} /> Add Portal User</Btn>
             </Card>
 
             {/* Shared Documents */}
@@ -2181,7 +2716,7 @@ const PortalControlsPage = ({ nav }) => {
                             <div style={{ fontSize: "11px", color: T.textTertiary }}>{doc.currentVersion.fileName} · v{doc.currentVersion.versionNumber}</div>
                           </div>
                         </div>
-                        <Btn variant="ghost" size="sm" style={{ color: T.red, fontSize: "11px" }}>Unshare</Btn>
+                        <Btn variant="ghost" size="sm" style={{ color: T.red, fontSize: "11px" }} onClick={() => toast("Document unshared from client portal")}>Unshare</Btn>
                       </div>
                     );
                   })}
@@ -2646,7 +3181,7 @@ const PreBillPage = ({ currentUser }) => {
           <h1 style={{ margin: 0, fontSize: "22px", fontWeight: 700, color: T.text }}>Pre-Bill Review</h1>
           <p style={{ margin: "2px 0 0", fontSize: "13px", color: T.textTertiary }}>Monthly billing cycle · {visibleBills.length} pre-bills awaiting review</p>
         </div>
-        {isBillingTier && <Btn size="sm"><Icon name="plus" size={13} color={T.bg} /> Generate Pre-Bills</Btn>}
+        {isBillingTier && <Btn size="sm" onClick={() => toast("Pre-bills generated for all matters with unbilled time — review and approve before sending")}><Icon name="plus" size={13} color={T.bg} /> Generate Pre-Bills</Btn>}
       </div>
 
       <TabBar tabs={[
@@ -2730,8 +3265,8 @@ const PreBillPage = ({ currentUser }) => {
               {/* Actions */}
               <div style={{ display: "flex", justifyContent: "space-between", marginTop: 14 }}>
                 <div style={{ display: "flex", gap: 8 }}>
-                  <Btn variant="ghost" size="sm" style={{ color: T.red }}>Write Off All</Btn>
-                  <Btn variant="ghost" size="sm">Defer to Next Month</Btn>
+                  <Btn variant="ghost" size="sm" style={{ color: T.red }} onClick={() => toast("All entries in this pre-bill would be written off — recorded in write-off ledger")}>Write Off All</Btn>
+                  <Btn variant="ghost" size="sm" onClick={() => toast("This pre-bill deferred to next billing cycle")}>Defer to Next Month</Btn>
                 </div>
                 <div style={{ display: "flex", gap: 8 }}>
                   <Btn variant="ghost" size="sm" onClick={() => setSelectedBill(null)}>Cancel</Btn>
@@ -2758,8 +3293,8 @@ const PreBillPage = ({ currentUser }) => {
             { header: "Approved", render: r => <span style={{ fontSize: "12px" }}>{fmt.dateShort(r.approvedAt)} by {r.approvedBy}</span>, nowrap: true },
             { header: "", render: () => isBillingTier ? (
               <div style={{ display: "flex", gap: 6 }}>
-                <Btn size="sm" variant="ghost">Edit</Btn>
-                <Btn size="sm">Finalize & Send</Btn>
+                <Btn size="sm" variant="ghost" onClick={() => toast("Pre-bill reopened for editing")}>Edit</Btn>
+                <Btn size="sm" onClick={() => toast("Invoice finalized and sent to client via email — PDF generated with Founders Law branding")}>Finalize & Send</Btn>
               </div>
             ) : null, align: "right" },
           ]} />
@@ -2793,7 +3328,7 @@ const UsersPage = () => {
     <div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24 }}>
         <div><h1 style={{ margin: 0, fontSize: "22px", fontWeight: 700, color: T.text }}>User Management</h1><p style={{ margin: "2px 0 0", fontSize: "13px", color: T.textTertiary }}>{DB.users.length} firm users</p></div>
-        <Btn size="sm"><Icon name="plus" size={13} color={T.bg} /> Add User</Btn>
+        <Btn size="sm" onClick={() => toast("New user form would open — name, email, role, hourly rate, bar number")}><Icon name="plus" size={13} color={T.bg} /> Add User</Btn>
       </div>
       <Card style={{ padding: 0 }}>
         <Table data={DB.users} columns={[
@@ -2829,7 +3364,7 @@ const UsersPage = () => {
               </div>
               <div style={{ marginBottom: 18 }}><div style={{ fontSize: "11px", fontWeight: 600, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 4 }}>Bar Number</div><input defaultValue={u.barNumber || ""} style={{ width: "100%", padding: "8px 12px", border: `1px solid ${T.border}`, borderRadius: T.radius, fontSize: "13px", fontFamily: T.font }} /></div>
               <div style={{ display: "flex", justifyContent: "space-between" }}>
-                <Btn variant="ghost" size="sm" style={{ color: T.red }}>Deactivate User</Btn>
+                <Btn variant="ghost" size="sm" style={{ color: T.red }} onClick={() => toast("User would be deactivated — removed from active roster, historical data preserved")}>Deactivate User</Btn>
                 <div style={{ display: "flex", gap: 8 }}><Btn variant="ghost" onClick={() => setEditingUser(null)}>Cancel</Btn><Btn onClick={() => setEditingUser(null)}>Save Changes</Btn></div>
               </div>
             </div>
@@ -2869,7 +3404,7 @@ const SettingsPage = () => {
             <div><div style={{ fontSize: "11px", fontWeight: 600, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 4 }}>Address</div><input defaultValue={fs.address.street1} style={{ width: "100%", padding: "8px 12px", border: `1px solid ${T.border}`, borderRadius: T.radius, fontSize: "13px", fontFamily: T.font }} /></div>
             <div><div style={{ fontSize: "11px", fontWeight: 600, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 4 }}>Website</div><input defaultValue={fs.website} style={{ width: "100%", padding: "8px 12px", border: `1px solid ${T.border}`, borderRadius: T.radius, fontSize: "13px", fontFamily: T.font }} /></div>
           </div>
-          <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 20 }}><Btn>Save Changes</Btn></div>
+          <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 20 }}><Btn onClick={() => toast("Settings saved successfully")}>Save Changes</Btn></div>
         </Card>
       )}
 
@@ -2880,7 +3415,7 @@ const SettingsPage = () => {
             <div><div style={{ fontSize: "11px", fontWeight: 600, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 4 }}>Invoice Prefix</div><input defaultValue={fs.billingDefaults.invoicePrefix} style={{ width: "100%", padding: "8px 12px", border: `1px solid ${T.border}`, borderRadius: T.radius, fontSize: "13px", fontFamily: T.font }} /></div>
             <div><div style={{ fontSize: "11px", fontWeight: 600, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 4 }}>Trust Bank</div><input defaultValue={fs.billingDefaults.trustBankName} style={{ width: "100%", padding: "8px 12px", border: `1px solid ${T.border}`, borderRadius: T.radius, fontSize: "13px", fontFamily: T.font }} /></div>
           </div>
-          <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 20 }}><Btn>Save Changes</Btn></div>
+          <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 20 }}><Btn onClick={() => toast("Settings saved successfully")}>Save Changes</Btn></div>
         </Card>
       )}
 
@@ -2896,7 +3431,7 @@ const SettingsPage = () => {
                 {int.workspace && <div style={{ fontSize: "12px", color: T.textTertiary, marginBottom: 8 }}>{int.workspace}</div>}
                 {int.lastSync && <div style={{ fontSize: "11px", color: T.textDim }}>Last synced: {fmt.dateShort(int.lastSync.split("T")[0])}</div>}
                 <div style={{ marginTop: 12 }}>
-                  <Btn variant={int.status === "connected" ? "ghost" : "gold"} size="sm">
+                  <Btn variant={int.status === "connected" ? "ghost" : "gold"} size="sm" onClick={() => toast(int.status === "connected" ? "Integration configuration panel would open" : "OAuth connection flow would start")}>
                     {int.status === "connected" ? "Configure" : "Connect"}
                   </Btn>
                 </div>
@@ -2955,14 +3490,14 @@ const SettingsPage = () => {
         <Card style={{ padding: 0 }}>
           <div style={{ padding: "14px 18px", borderBottom: `1px solid ${T.border}`, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <div style={{ fontSize: "14px", fontWeight: 700, color: T.text }}>Compensation Tiers</div>
-            <Btn size="sm"><Icon name="plus" size={13} color={T.bg} /> Add Tier</Btn>
+            <Btn size="sm" onClick={() => toast("New compensation tier form would open — name, origination rate, production rate, applicable roles")}><Icon name="plus" size={13} color={T.bg} /> Add Tier</Btn>
           </div>
           <Table data={DB.compensationTiers} columns={[
             { header: "Tier", render: r => <span style={{ fontWeight: 700, fontSize: "14px" }}>{r.name}</span> },
             { header: "Origination Rate", render: r => <span style={{ fontFamily: T.mono, fontSize: "16px", fontWeight: 700, color: "#3F7653" }}>{(r.originationRate * 100).toFixed(0)}%</span>, align: "center" },
             { header: "Production Rate", render: r => <span style={{ fontFamily: T.mono, fontSize: "16px", fontWeight: 700, color: "#3F7653" }}>{(r.productionRate * 100).toFixed(1)}%</span>, align: "center" },
             { header: "Applies To", render: r => <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>{r.roles.map(role => <Badge key={role} color={T.textTertiary} bg={T.surfaceRaised}>{fmt.role(role)}</Badge>)}</div> },
-            { header: "", render: () => <Btn variant="ghost" size="sm">Edit</Btn>, align: "right" },
+            { header: "", render: () => <Btn variant="ghost" size="sm" onClick={() => toast("Tier editor would open — adjust rates, effective date required")}>Edit</Btn>, align: "right" },
           ]} />
           <div style={{ padding: "12px 18px", background: T.surfaceRaised, fontSize: "12px", color: T.textTertiary, lineHeight: 1.5 }}>
             Changes to compensation tiers take effect from the date specified. Historical calculations are not affected. Rates are applied to collected revenue only.
@@ -2982,14 +3517,22 @@ const ReportsPage = () => {
   const [groupBy, setGroupBy] = useState("month");
   const [filterAtty, setFilterAtty] = useState("all");
 
-  const totalRevenue = DB.invoices.reduce((s, i) => s + i.amountPaid, 0);
-  const totalBilled = DB.invoices.reduce((s, i) => s + i.total, 0);
-  const outstanding = DB.invoices.reduce((s, i) => s + i.balanceDue, 0);
+  // ── FILTERED DATA — all reports use these instead of raw DB ──
+  const rUsers = filterAtty === "all" ? DB.users.filter(u => u.role !== "admin") : DB.users.filter(u => u.id === filterAtty);
+  const rTimeEntries = filterAtty === "all" ? DB.timeEntries : DB.timeEntries.filter(t => t.userId === filterAtty);
+  const rMatterIds = filterAtty === "all" ? DB.matters.map(m => m.id) : [...new Set(rTimeEntries.map(t => t.matterId).concat(DB.matters.filter(m => m.responsibleAttorneyId === filterAtty).map(m => m.id)))];
+  const rInvoices = filterAtty === "all" ? DB.invoices : DB.invoices.filter(i => rMatterIds.includes(i.matterId));
+  const rExpenses = filterAtty === "all" ? DB.expenses : DB.expenses.filter(e => e.userId === filterAtty || rMatterIds.includes(e.matterId));
+  const rMatters = filterAtty === "all" ? DB.matters : DB.matters.filter(m => rMatterIds.includes(m.id));
+
+  const totalRevenue = rInvoices.reduce((s, i) => s + i.amountPaid, 0);
+  const totalBilled = rInvoices.reduce((s, i) => s + i.total, 0);
+  const outstanding = rInvoices.reduce((s, i) => s + i.balanceDue, 0);
   const realization = totalBilled > 0 ? (totalRevenue / totalBilled * 100).toFixed(1) : 0;
-  const totalHours = DB.timeEntries.filter(e => e.billable).reduce((s, e) => s + e.durationMinutes, 0) / 60;
-  const billedHours = DB.timeEntries.filter(e => e.status === "billed").reduce((s, e) => s + e.durationMinutes, 0) / 60;
+  const totalHours = rTimeEntries.filter(e => e.billable).reduce((s, e) => s + e.durationMinutes, 0) / 60;
+  const billedHours = rTimeEntries.filter(e => e.status === "billed").reduce((s, e) => s + e.durationMinutes, 0) / 60;
   const utilization = totalHours > 0 ? (billedHours / totalHours * 100).toFixed(1) : 0;
-  const totalExpenses = DB.expenses.filter(e => e.billable).reduce((s, e) => s + e.amount, 0);
+  const totalExpenses = rExpenses.filter(e => e.billable).reduce((s, e) => s + e.amount, 0);
   const avgDaysToPay = 22; // Mock
 
   const reportCategories = [
@@ -3021,7 +3564,7 @@ const ReportsPage = () => {
         <div><h1 style={{ margin: 0, fontSize: "22px", fontWeight: 700, color: T.text }}>Reports</h1><p style={{ margin: "2px 0 0", fontSize: "13px", color: T.textTertiary }}>Financial analytics and firm performance</p></div>
         <div style={{ display: "flex", gap: 8 }}>
           <Select value={dateRange} onChange={setDateRange} options={[{ value: "ytd", label: "Year to Date" }, { value: "q1", label: "Q1 2026" }, { value: "last_month", label: "Last Month" }, { value: "last_quarter", label: "Last Quarter" }, { value: "custom", label: "Custom Range" }]} />
-          <Btn variant="ghost" size="sm"><Icon name="download" size={13} color={T.textSecondary} /> Export</Btn>
+          <Btn variant="ghost" size="sm" onClick={() => toast("Report exported as CSV — check your downloads folder")}><Icon name="download" size={13} color={T.textSecondary} /> Export</Btn>
         </div>
       </div>
 
@@ -3062,28 +3605,84 @@ const ReportsPage = () => {
 
           {activeReport === "revenue" && (
             <div>
-              {/* Simple bar chart */}
+              {filterAtty !== "all" && <div style={{ padding: "8px 14px", background: T.accentBg, borderRadius: T.radius, marginBottom: 12, fontSize: "12px", color: "#3F7653", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}>Filtered: showing only {rUsers[0]?.firstName} {rUsers[0]?.lastName}'s data <span style={{ cursor: "pointer", marginLeft: "auto" }} onClick={() => setFilterAtty("all")}>✕ Clear</span></div>}
+              {/* Bar chart — groups by selected dimension */}
               <Card style={{ padding: 20, marginBottom: 16 }}>
-                <div style={{ fontSize: "14px", fontWeight: 700, color: T.text, marginBottom: 16 }}>Revenue by Month</div>
+                <div style={{ fontSize: "14px", fontWeight: 700, color: T.text, marginBottom: 16 }}>Revenue by {groupBy === "month" ? "Month" : groupBy === "client" ? "Client" : groupBy === "attorney" ? "Attorney" : "Practice Area"}{filterAtty !== "all" ? ` — ${rUsers[0]?.firstName} ${rUsers[0]?.lastName}` : ""}</div>
                 <div style={{ display: "flex", alignItems: "flex-end", gap: 12, height: 160 }}>
-                  {[{ month: "Jan", amt: 48000 }, { month: "Feb", amt: 31000 }, { month: "Mar", amt: 19750 }].map((m, i) => (
-                    <div key={i} style={{ flex: 1, textAlign: "center" }}>
-                      <div style={{ background: `linear-gradient(180deg, #3F7653, #213B2B)`, height: `${(m.amt / 50000) * 140}px`, borderRadius: "4px 4px 0 0", minHeight: 20, display: "flex", alignItems: "flex-start", justifyContent: "center", paddingTop: 6 }}>
-                        <span style={{ fontSize: "11px", fontFamily: T.mono, fontWeight: 700, color: "#FCF8F1" }}>{fmt.currency(m.amt)}</span>
+                  {(() => {
+                    let bars = [];
+                    if (groupBy === "month") {
+                      const months = [{ label: "Jan", key: "2026-01" }, { label: "Feb", key: "2026-02" }, { label: "Mar", key: "2026-03" }];
+                      bars = months.map(m => ({ label: m.label, amt: rInvoices.filter(i => i.issueDate?.startsWith(m.key)).reduce((s, i) => s + i.amountPaid, 0) }));
+                    } else if (groupBy === "client") {
+                      const clientIds = [...new Set(rInvoices.map(i => i.clientId))];
+                      bars = clientIds.map(cid => { const c = Q.client(cid); return { label: c?.name?.split(" ")[0] || "—", amt: rInvoices.filter(i => i.clientId === cid).reduce((s, i) => s + i.amountPaid, 0) }; }).sort((a, b) => b.amt - a.amt);
+                    } else if (groupBy === "attorney") {
+                      bars = rUsers.map(u => ({ label: `${u.firstName} ${u.lastName[0]}.`, amt: rTimeEntries.filter(t => t.userId === u.id && t.billable).reduce((s, t) => s + (t.durationMinutes / 60) * t.rateAtEntry, 0) })).sort((a, b) => b.amt - a.amt);
+                    } else {
+                      const areas = {};
+                      rMatters.forEach(m => { if (!areas[m.practiceArea]) areas[m.practiceArea] = 0; Q.invoicesForMatter(m.id).forEach(i => { if (rInvoices.includes(i)) areas[m.practiceArea] += i.amountPaid; }); });
+                      bars = Object.entries(areas).map(([k, v]) => ({ label: fmt.practiceArea(k).slice(0, 8), amt: v })).sort((a, b) => b.amt - a.amt);
+                    }
+                    const maxAmt = Math.max(...bars.map(b => b.amt), 1);
+                    return bars.map((b, i) => (
+                      <div key={i} style={{ flex: 1, textAlign: "center", minWidth: 0 }}>
+                        <div style={{ background: b.amt > 0 ? `linear-gradient(180deg, #3F7653, #213B2B)` : T.surfaceRaised, height: `${b.amt > 0 ? Math.max((b.amt / maxAmt) * 140, 20) : 20}px`, borderRadius: "4px 4px 0 0", minHeight: 20, display: "flex", alignItems: "flex-start", justifyContent: "center", paddingTop: 6 }}>
+                          <span style={{ fontSize: "10px", fontFamily: T.mono, fontWeight: 700, color: b.amt > 0 ? "#FCF8F1" : T.textDim }}>{fmt.currency(b.amt)}</span>
+                        </div>
+                        <div style={{ fontSize: "10.5px", color: T.textTertiary, marginTop: 6, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{b.label}</div>
                       </div>
-                      <div style={{ fontSize: "12px", color: T.textTertiary, marginTop: 6 }}>{m.month}</div>
-                    </div>
-                  ))}
+                    ));
+                  })()}
                 </div>
               </Card>
+              {/* Table — changes columns based on groupBy */}
               <Card style={{ padding: 0 }}>
-                <Table data={DB.users.filter(u => u.role !== "admin")} columns={[
-                  { header: "Attorney", render: r => <span style={{ fontWeight: 600 }}>{r.firstName} {r.lastName}</span> },
-                  { header: "Role", render: r => <Badge color={T.textTertiary} bg={T.surfaceRaised}>{fmt.role(r.role)}</Badge> },
-                  { header: "Hours", render: r => { const h = DB.timeEntries.filter(t => t.userId === r.id && t.billable).reduce((s, t) => s + t.durationMinutes, 0) / 60; return <span style={{ fontFamily: T.mono }}>{h.toFixed(1)}</span>; }, align: "right" },
-                  { header: "Billed", render: r => { const b = DB.timeEntries.filter(t => t.userId === r.id && t.billable).reduce((s, t) => s + (t.durationMinutes / 60) * t.rateAtEntry, 0); return <span style={{ fontFamily: T.mono }}>{fmt.currency(b)}</span>; }, align: "right" },
-                  { header: "Comp", render: r => { const c = Q.computeUserComp(r.id); return <span style={{ fontFamily: T.mono, fontWeight: 700, color: "#3F7653" }}>{fmt.currency(c?.total || 0)}</span>; }, align: "right" },
-                ]} />
+                {groupBy === "attorney" && (
+                  <Table data={rUsers} columns={[
+                    { header: "Attorney", render: r => <span style={{ fontWeight: 600 }}>{r.firstName} {r.lastName}</span> },
+                    { header: "Role", render: r => <Badge color={T.textTertiary} bg={T.surfaceRaised}>{fmt.role(r.role)}</Badge> },
+                    { header: "Hours", render: r => { const h = rTimeEntries.filter(t => t.userId === r.id && t.billable).reduce((s, t) => s + t.durationMinutes, 0) / 60; return <span style={{ fontFamily: T.mono }}>{h.toFixed(1)}</span>; }, align: "right" },
+                    { header: "Billed", render: r => { const b = rTimeEntries.filter(t => t.userId === r.id && t.billable).reduce((s, t) => s + (t.durationMinutes / 60) * t.rateAtEntry, 0); return <span style={{ fontFamily: T.mono }}>{fmt.currency(b)}</span>; }, align: "right" },
+                    { header: "Comp", render: r => { const c = Q.computeUserComp(r.id); return <span style={{ fontFamily: T.mono, fontWeight: 700, color: "#3F7653" }}>{fmt.currency(c?.total || 0)}</span>; }, align: "right" },
+                  ]} />
+                )}
+                {groupBy === "client" && (
+                  <Table data={(filterAtty === "all" ? DB.clients : DB.clients.filter(c => rMatters.some(m => m.clientId === c.id))).map(c => {
+                    const inv = rInvoices.filter(i => i.clientId === c.id);
+                    return { ...c, billed: inv.reduce((s, i) => s + i.total, 0), collected: inv.reduce((s, i) => s + i.amountPaid, 0), outstanding: inv.reduce((s, i) => s + i.balanceDue, 0) };
+                  }).filter(c => c.billed > 0).sort((a, b) => b.collected - a.collected)} columns={[
+                    { header: "Client", render: r => <span style={{ fontWeight: 600 }}>{r.name}</span> },
+                    { header: "Billed", render: r => <span style={{ fontFamily: T.mono }}>{fmt.currency(r.billed)}</span>, align: "right" },
+                    { header: "Collected", render: r => <span style={{ fontFamily: T.mono, color: T.green }}>{fmt.currency(r.collected)}</span>, align: "right" },
+                    { header: "Outstanding", render: r => <span style={{ fontFamily: T.mono, color: r.outstanding > 0 ? T.orange : T.green }}>{fmt.currency(r.outstanding)}</span>, align: "right" },
+                  ]} />
+                )}
+                {groupBy === "practice" && (
+                  <Table data={(() => {
+                    const areas = {};
+                    rMatters.forEach(m => { if (!areas[m.practiceArea]) areas[m.practiceArea] = { area: m.practiceArea, billed: 0, collected: 0, matters: 0, hours: 0 }; areas[m.practiceArea].matters++; const inv = rInvoices.filter(i => i.matterId === m.id); inv.forEach(i => { areas[m.practiceArea].billed += i.total; areas[m.practiceArea].collected += i.amountPaid; }); areas[m.practiceArea].hours += rTimeEntries.filter(t => t.matterId === m.id).reduce((s, t) => s + t.durationMinutes, 0) / 60; });
+                    return Object.values(areas).sort((a, b) => b.collected - a.collected);
+                  })()} columns={[
+                    { header: "Practice Area", render: r => <Badge color={T.purple} bg={T.purpleBg}>{fmt.practiceArea(r.area)}</Badge> },
+                    { header: "Matters", render: r => <span style={{ fontFamily: T.mono }}>{r.matters}</span>, align: "center" },
+                    { header: "Hours", render: r => <span style={{ fontFamily: T.mono }}>{r.hours.toFixed(1)}</span>, align: "right" },
+                    { header: "Billed", render: r => <span style={{ fontFamily: T.mono }}>{fmt.currency(r.billed)}</span>, align: "right" },
+                    { header: "Collected", render: r => <span style={{ fontFamily: T.mono, fontWeight: 700, color: "#3F7653" }}>{fmt.currency(r.collected)}</span>, align: "right" },
+                  ]} />
+                )}
+                {groupBy === "month" && (
+                  <Table data={[{ month: "January 2026", key: "2026-01" }, { month: "February 2026", key: "2026-02" }, { month: "March 2026", key: "2026-03" }].map(m => {
+                    const inv = rInvoices.filter(i => i.issueDate?.startsWith(m.key));
+                    return { ...m, billed: inv.reduce((s, i) => s + i.total, 0), collected: inv.reduce((s, i) => s + i.amountPaid, 0), invoices: inv.length };
+                  })} columns={[
+                    { header: "Month", render: r => <span style={{ fontWeight: 600 }}>{r.month}</span> },
+                    { header: "Invoices", render: r => <span style={{ fontFamily: T.mono }}>{r.invoices}</span>, align: "center" },
+                    { header: "Billed", render: r => <span style={{ fontFamily: T.mono }}>{fmt.currency(r.billed)}</span>, align: "right" },
+                    { header: "Collected", render: r => <span style={{ fontFamily: T.mono, fontWeight: 700, color: "#3F7653" }}>{fmt.currency(r.collected)}</span>, align: "right" },
+                  ]} />
+                )}
               </Card>
             </div>
           )}
@@ -3115,7 +3714,7 @@ const ReportsPage = () => {
           {activeReport === "unbilled" && (
             <Card style={{ padding: 0 }}>
               <div style={{ padding: "14px 18px", borderBottom: `1px solid ${T.border}`, fontSize: "14px", fontWeight: 700, color: T.text }}>Unbilled Time & Expenses</div>
-              <Table data={DB.timeEntries.filter(e => e.status !== "billed").map(e => ({ ...e, matter: DB.matters.find(m => m.id === e.matterId), user: Q.user(e.userId) }))} columns={[
+              <Table data={rTimeEntries.filter(e => e.status !== "billed").map(e => ({ ...e, matter: DB.matters.find(m => m.id === e.matterId), user: Q.user(e.userId) }))} columns={[
                 { header: "Attorney", render: r => <span style={{ fontWeight: 600 }}>{r.user?.firstName} {r.user?.lastName}</span> },
                 { header: "Matter", render: r => <span style={{ fontSize: "12px" }}>{r.matter?.matterNumber}</span> },
                 { header: "Date", render: r => fmt.dateShort(r.date), nowrap: true },
@@ -3141,9 +3740,9 @@ const ReportsPage = () => {
           {activeReport === "utilization" && (
             <Card style={{ padding: 20 }}>
               <div style={{ fontSize: "14px", fontWeight: 700, color: T.text, marginBottom: 16 }}>Utilization by Attorney</div>
-              {DB.users.filter(u => u.role !== "admin").map(u => {
-                const billable = DB.timeEntries.filter(t => t.userId === u.id && t.billable).reduce((s, t) => s + t.durationMinutes, 0) / 60;
-                const nonBillable = DB.timeEntries.filter(t => t.userId === u.id && !t.billable).reduce((s, t) => s + t.durationMinutes, 0) / 60;
+              {rUsers.map(u => {
+                const billable = rTimeEntries.filter(t => t.userId === u.id && t.billable).reduce((s, t) => s + t.durationMinutes, 0) / 60;
+                const nonBillable = rTimeEntries.filter(t => t.userId === u.id && !t.billable).reduce((s, t) => s + t.durationMinutes, 0) / 60;
                 const total = billable + nonBillable || 1;
                 const pct = (billable / Math.max(total, 1) * 100).toFixed(0);
                 return (
@@ -3164,7 +3763,7 @@ const ReportsPage = () => {
           {activeReport === "revenue_client" && (
             <Card style={{ padding: 0 }}>
               <div style={{ padding: "14px 18px", borderBottom: `1px solid ${T.border}`, fontSize: "14px", fontWeight: 700, color: T.text }}>Revenue by Client</div>
-              <Table data={DB.clients.map(c => {
+              <Table data={(filterAtty === "all" ? DB.clients : DB.clients.filter(c => rMatters.some(m => m.clientId === c.id))).map(c => {
                 const inv = Q.invoicesForClient(c.id);
                 return { ...c, billed: inv.reduce((s, i) => s + i.total, 0), collected: inv.reduce((s, i) => s + i.amountPaid, 0), outstanding: inv.reduce((s, i) => s + i.balanceDue, 0), matters: Q.mattersForClient(c.id).length };
               }).sort((a, b) => b.collected - a.collected)} columns={[
@@ -3183,7 +3782,7 @@ const ReportsPage = () => {
               <div style={{ fontSize: "14px", fontWeight: 700, color: T.text, marginBottom: 16 }}>Revenue by Practice Area</div>
               {(() => {
                 const areas = {};
-                DB.matters.forEach(m => { if (!areas[m.practiceArea]) areas[m.practiceArea] = { billed: 0, collected: 0, matters: 0 }; areas[m.practiceArea].matters++; const inv = Q.invoicesForMatter(m.id); inv.forEach(i => { areas[m.practiceArea].billed += i.total; areas[m.practiceArea].collected += i.amountPaid; }); });
+                rMatters.forEach(m => { if (!areas[m.practiceArea]) areas[m.practiceArea] = { billed: 0, collected: 0, matters: 0 }; areas[m.practiceArea].matters++; const inv = Q.invoicesForMatter(m.id); inv.forEach(i => { areas[m.practiceArea].billed += i.total; areas[m.practiceArea].collected += i.amountPaid; }); });
                 const sorted = Object.entries(areas).sort((a, b) => b[1].collected - a[1].collected);
                 const maxAmt = Math.max(...sorted.map(([, v]) => v.collected), 1);
                 return sorted.map(([area, data]) => (
@@ -3206,28 +3805,43 @@ const ReportsPage = () => {
 
           {activeReport === "collected_vs_billed" && (
             <Card style={{ padding: 20 }}>
-              <div style={{ fontSize: "14px", fontWeight: 700, color: T.text, marginBottom: 16 }}>Collected vs Billed</div>
+              <div style={{ fontSize: "14px", fontWeight: 700, color: T.text, marginBottom: 16 }}>Collected vs Billed — by {groupBy === "month" ? "Month" : groupBy === "client" ? "Client" : groupBy === "attorney" ? "Attorney" : "Practice Area"}</div>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 16, marginBottom: 20 }}>
                 <Card style={{ padding: 14, background: T.surfaceRaised }}><Stat label="Total Billed" value={fmt.currency(totalBilled)} /></Card>
                 <Card style={{ padding: 14, background: T.surfaceRaised }}><Stat label="Total Collected" value={fmt.currency(totalRevenue)} color={T.green} /></Card>
                 <Card style={{ padding: 14, background: T.surfaceRaised }}><Stat label="Realization Rate" value={`${realization}%`} color={parseFloat(realization) > 80 ? T.green : T.orange} /></Card>
               </div>
+              {/* Grouped comparison bars */}
               <div style={{ display: "flex", alignItems: "flex-end", gap: 16, height: 180 }}>
-                {[{ month: "Jan", billed: 52000, collected: 48000 }, { month: "Feb", billed: 38000, collected: 31000 }, { month: "Mar", billed: 28000, collected: 19750 }].map((m, i) => (
-                  <div key={i} style={{ flex: 1, display: "flex", gap: 4, alignItems: "flex-end" }}>
-                    <div style={{ flex: 1, textAlign: "center" }}>
-                      <div style={{ background: "rgba(63,118,83,0.2)", height: `${(m.billed / 55000) * 160}px`, borderRadius: "4px 4px 0 0", display: "flex", alignItems: "flex-start", justifyContent: "center", paddingTop: 4 }}>
-                        <span style={{ fontSize: "9px", fontFamily: T.mono, color: T.textTertiary }}>{fmt.currency(m.billed)}</span>
+                {(() => {
+                  let groups = [];
+                  if (groupBy === "month") {
+                    groups = [{ label: "Jan", key: "2026-01" }, { label: "Feb", key: "2026-02" }, { label: "Mar", key: "2026-03" }].map(m => ({ label: m.label, billed: rInvoices.filter(i => i.issueDate?.startsWith(m.key)).reduce((s, i) => s + i.total, 0), collected: rInvoices.filter(i => i.issueDate?.startsWith(m.key)).reduce((s, i) => s + i.amountPaid, 0) }));
+                  } else if (groupBy === "client") {
+                    const cids = [...new Set(rInvoices.map(i => i.clientId))];
+                    groups = cids.map(cid => { const c = Q.client(cid); const inv = rInvoices.filter(i => i.clientId === cid); return { label: c?.name?.split(" ")[0] || "—", billed: inv.reduce((s, i) => s + i.total, 0), collected: inv.reduce((s, i) => s + i.amountPaid, 0) }; });
+                  } else if (groupBy === "attorney") {
+                    groups = rUsers.map(u => { const mids = rTimeEntries.filter(t => t.userId === u.id).map(t => t.matterId); const inv = rInvoices.filter(i => mids.includes(i.matterId)); return { label: `${u.firstName[0]}. ${u.lastName}`, billed: inv.reduce((s, i) => s + i.total, 0), collected: inv.reduce((s, i) => s + i.amountPaid, 0) }; });
+                  } else {
+                    const areas = {};
+                    rMatters.forEach(m => { const inv = rInvoices.filter(i => i.matterId === m.id); if (!areas[m.practiceArea]) areas[m.practiceArea] = { billed: 0, collected: 0 }; inv.forEach(i => { areas[m.practiceArea].billed += i.total; areas[m.practiceArea].collected += i.amountPaid; }); });
+                    groups = Object.entries(areas).map(([k, v]) => ({ label: fmt.practiceArea(k).slice(0, 8), ...v }));
+                  }
+                  const maxAmt = Math.max(...groups.map(g => Math.max(g.billed, g.collected)), 1);
+                  return groups.map((g, i) => (
+                    <div key={i} style={{ flex: 1, textAlign: "center", minWidth: 0 }}>
+                      <div style={{ display: "flex", gap: 3, alignItems: "flex-end", justifyContent: "center" }}>
+                        <div style={{ width: "45%", background: "rgba(63,118,83,0.2)", height: `${g.billed > 0 ? Math.max((g.billed / maxAmt) * 150, 10) : 10}px`, borderRadius: "3px 3px 0 0", display: "flex", alignItems: "flex-start", justifyContent: "center", paddingTop: 3 }}>
+                          <span style={{ fontSize: "8px", fontFamily: T.mono, color: T.textTertiary }}>{fmt.currency(g.billed)}</span>
+                        </div>
+                        <div style={{ width: "45%", background: "#3F7653", height: `${g.collected > 0 ? Math.max((g.collected / maxAmt) * 150, 10) : 10}px`, borderRadius: "3px 3px 0 0", display: "flex", alignItems: "flex-start", justifyContent: "center", paddingTop: 3 }}>
+                          <span style={{ fontSize: "8px", fontFamily: T.mono, color: "#fff" }}>{fmt.currency(g.collected)}</span>
+                        </div>
                       </div>
+                      <div style={{ fontSize: "10px", color: T.textTertiary, marginTop: 5, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{g.label}</div>
                     </div>
-                    <div style={{ flex: 1, textAlign: "center" }}>
-                      <div style={{ background: "#3F7653", height: `${(m.collected / 55000) * 160}px`, borderRadius: "4px 4px 0 0", display: "flex", alignItems: "flex-start", justifyContent: "center", paddingTop: 4 }}>
-                        <span style={{ fontSize: "9px", fontFamily: T.mono, color: "#fff" }}>{fmt.currency(m.collected)}</span>
-                      </div>
-                    </div>
-                    <div style={{ position: "absolute", marginTop: 4, width: "100%" }}></div>
-                  </div>
-                ))}
+                  ));
+                })()}
               </div>
               <div style={{ display: "flex", justifyContent: "center", gap: 20, marginTop: 10 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: "11px", color: T.textTertiary }}><div style={{ width: 12, height: 12, background: "rgba(63,118,83,0.2)", borderRadius: 2 }} /> Billed</div>
@@ -3242,13 +3856,13 @@ const ReportsPage = () => {
                 <div style={{ fontSize: "14px", fontWeight: 700, color: T.text }}>Invoice Status Summary</div>
                 <div style={{ display: "flex", gap: 12, marginTop: 10 }}>
                   {["paid", "sent", "draft", "overdue", "void"].map(status => {
-                    const count = DB.invoices.filter(i => i.status === status).length;
-                    const amt = DB.invoices.filter(i => i.status === status).reduce((s, i) => s + i.total, 0);
+                    const count = rInvoices.filter(i => i.status === status).length;
+                    const amt = rInvoices.filter(i => i.status === status).reduce((s, i) => s + i.total, 0);
                     return count > 0 ? <Card key={status} style={{ padding: "8px 14px", flex: 1, background: T.surfaceRaised }}><div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}><StatusBadge status={status} /><span style={{ fontFamily: T.mono, fontWeight: 700 }}>{count}</span></div><div style={{ fontSize: "11px", fontFamily: T.mono, color: T.textTertiary, marginTop: 2 }}>{fmt.currency(amt)}</div></Card> : null;
                   })}
                 </div>
               </div>
-              <Table data={DB.invoices.sort((a, b) => b.issueDate.localeCompare(a.issueDate))} columns={[
+              <Table data={rInvoices.slice().sort((a, b) => b.issueDate.localeCompare(a.issueDate))} columns={[
                 { header: "Invoice", render: r => <span style={{ fontFamily: T.mono, fontWeight: 600, color: T.gold }}>{r.invoiceNumber}</span>, nowrap: true },
                 { header: "Client", render: r => Q.client(r.clientId)?.name },
                 { header: "Status", render: r => <StatusBadge status={r.status} />, nowrap: true },
@@ -3271,10 +3885,10 @@ const ReportsPage = () => {
                 <Card style={{ padding: 14, background: T.surfaceRaised }}><Stat label="Total Lost Revenue" value={fmt.currency(3650)} color={T.red} /><div style={{ fontSize: "10px", color: T.textTertiary, marginTop: 2 }}>{(3650 / totalBilled * 100).toFixed(1)}% of billed</div></Card>
               </div>
               <Table data={[
-                { date: "2026-03-05", type: "Time Write-Off", matter: "FL-2026-0001", description: "Non-billable research already covered by retainer", amount: 1350, attorney: "Sarah Chen" },
-                { date: "2026-02-20", type: "Time Write-Off", matter: "FL-2026-0002", description: "Immigration petition revision — firm error", amount: 1100, attorney: "Marcus Williams" },
-                { date: "2026-02-15", type: "Discount", matter: "FL-2026-0001", description: "Courtesy discount — longstanding client", amount: 1200, attorney: "Sarah Chen" },
-              ]} columns={[
+                { date: "2026-03-05", type: "Time Write-Off", matter: "FL-2026-0001", description: "Non-billable research already covered by retainer", amount: 1350, attorney: "Sarah Chen", userId: "u1" },
+                { date: "2026-02-20", type: "Time Write-Off", matter: "FL-2026-0002", description: "Immigration petition revision — firm error", amount: 1100, attorney: "Marcus Williams", userId: "u2" },
+                { date: "2026-02-15", type: "Discount", matter: "FL-2026-0001", description: "Courtesy discount — longstanding client", amount: 1200, attorney: "Sarah Chen", userId: "u1" },
+              ].filter(r => filterAtty === "all" || r.userId === filterAtty)} columns={[
                 { header: "Date", render: r => fmt.dateShort(r.date), nowrap: true },
                 { header: "Type", render: r => <Badge color={r.type.includes("Write") ? T.red : T.orange} bg={r.type.includes("Write") ? T.redBg : T.orangeBg}>{r.type}</Badge>, nowrap: true },
                 { header: "Matter", render: r => <span style={{ fontFamily: T.mono, fontSize: "11px" }}>{r.matter}</span>, nowrap: true },
@@ -3294,7 +3908,7 @@ const ReportsPage = () => {
                 <Card style={{ padding: 14, background: T.surfaceRaised }}><Stat label="Slowest Client" value="38 days" color={T.orange} /><div style={{ fontSize: "10px", color: T.textTertiary, marginTop: 2 }}>GreenLeaf Properties</div></Card>
                 <Card style={{ padding: 14, background: T.surfaceRaised }}><Stat label="Under 30 days" value="75%" color={T.green} /></Card>
               </div>
-              {DB.clients.map(c => {
+              {(filterAtty === "all" ? DB.clients : DB.clients.filter(c => rMatters.some(m => m.clientId === c.id))).map(c => {
                 const days = c.id === "c1" ? 8 : c.id === "c2" ? 22 : 38;
                 return (
                   <div key={c.id} style={{ display: "flex", alignItems: "center", gap: 14, padding: "10px 0", borderBottom: `1px solid ${T.borderSubtle}` }}>
@@ -3312,8 +3926,8 @@ const ReportsPage = () => {
           {activeReport === "hours_attorney" && (
             <Card style={{ padding: 0 }}>
               <div style={{ padding: "14px 18px", borderBottom: `1px solid ${T.border}`, fontSize: "14px", fontWeight: 700, color: T.text }}>Hours by Attorney</div>
-              <Table data={DB.users.filter(u => !["admin", "billing_manager"].includes(u.role)).map(u => {
-                const entries = DB.timeEntries.filter(t => t.userId === u.id);
+              <Table data={rUsers.filter(u => !["admin", "billing_manager"].includes(u.role)).map(u => {
+                const entries = rTimeEntries.filter(t => t.userId === u.id);
                 const billable = entries.filter(e => e.billable);
                 const nonBillable = entries.filter(e => !e.billable);
                 return { ...u, totalHours: entries.reduce((s, e) => s + e.durationMinutes, 0) / 60, billableHours: billable.reduce((s, e) => s + e.durationMinutes, 0) / 60, nonBillableHours: nonBillable.reduce((s, e) => s + e.durationMinutes, 0) / 60, billableAmt: billable.reduce((s, e) => s + (e.durationMinutes / 60) * e.rateAtEntry, 0), entries: entries.length };
@@ -3333,7 +3947,7 @@ const ReportsPage = () => {
               <div style={{ fontSize: "14px", fontWeight: 700, color: T.text, marginBottom: 16 }}>Hours by Practice Area</div>
               {(() => {
                 const areas = {};
-                DB.timeEntries.forEach(t => { const m = DB.matters.find(x => x.id === t.matterId); if (!m) return; const pa = m.practiceArea; if (!areas[pa]) areas[pa] = { hours: 0, amount: 0, entries: 0 }; areas[pa].hours += t.durationMinutes / 60; areas[pa].amount += (t.durationMinutes / 60) * t.rateAtEntry; areas[pa].entries++; });
+                rTimeEntries.forEach(t => { const m = DB.matters.find(x => x.id === t.matterId); if (!m) return; const pa = m.practiceArea; if (!areas[pa]) areas[pa] = { hours: 0, amount: 0, entries: 0 }; areas[pa].hours += t.durationMinutes / 60; areas[pa].amount += (t.durationMinutes / 60) * t.rateAtEntry; areas[pa].entries++; });
                 const sorted = Object.entries(areas).sort((a, b) => b[1].hours - a[1].hours);
                 const maxH = Math.max(...sorted.map(([, v]) => v.hours), 1);
                 return sorted.map(([area, data]) => (
@@ -3355,8 +3969,8 @@ const ReportsPage = () => {
             <Card style={{ padding: 20 }}>
               <div style={{ fontSize: "14px", fontWeight: 700, color: T.text, marginBottom: 16 }}>Billable vs Non-Billable</div>
               {(() => {
-                const billable = DB.timeEntries.filter(e => e.billable).reduce((s, e) => s + e.durationMinutes, 0) / 60;
-                const nonBillable = DB.timeEntries.filter(e => !e.billable).reduce((s, e) => s + e.durationMinutes, 0) / 60;
+                const billable = rTimeEntries.filter(e => e.billable).reduce((s, e) => s + e.durationMinutes, 0) / 60;
+                const nonBillable = rTimeEntries.filter(e => !e.billable).reduce((s, e) => s + e.durationMinutes, 0) / 60;
                 const total = billable + nonBillable || 1;
                 const pctB = (billable / total * 100).toFixed(0);
                 return (
@@ -3370,9 +3984,9 @@ const ReportsPage = () => {
                       <div style={{ width: `${pctB}%`, background: "#3F7653", display: "flex", alignItems: "center", justifyContent: "center" }}><span style={{ fontSize: "12px", fontWeight: 700, color: "#fff" }}>Billable {pctB}%</span></div>
                       <div style={{ width: `${100 - parseInt(pctB)}%`, background: "rgba(107,112,137,0.15)", display: "flex", alignItems: "center", justifyContent: "center" }}><span style={{ fontSize: "12px", fontWeight: 600, color: T.textTertiary }}>{(100 - parseInt(pctB))}%</span></div>
                     </div>
-                    {DB.users.filter(u => !["admin", "billing_manager"].includes(u.role)).map(u => {
-                      const b = DB.timeEntries.filter(t => t.userId === u.id && t.billable).reduce((s, t) => s + t.durationMinutes, 0) / 60;
-                      const nb = DB.timeEntries.filter(t => t.userId === u.id && !t.billable).reduce((s, t) => s + t.durationMinutes, 0) / 60;
+                    {rUsers.filter(u => !["admin", "billing_manager"].includes(u.role)).map(u => {
+                      const b = rTimeEntries.filter(t => t.userId === u.id && t.billable).reduce((s, t) => s + t.durationMinutes, 0) / 60;
+                      const nb = rTimeEntries.filter(t => t.userId === u.id && !t.billable).reduce((s, t) => s + t.durationMinutes, 0) / 60;
                       const ut = b + nb || 1;
                       const up = (b / ut * 100).toFixed(0);
                       return (
@@ -3396,7 +4010,7 @@ const ReportsPage = () => {
             <Card style={{ padding: 20 }}>
               <div style={{ fontSize: "14px", fontWeight: 700, color: T.text, marginBottom: 16 }}>Origination Leaderboard</div>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }}>
-                {DB.users.map(u => {
+                {rUsers.length > 0 ? rUsers.map(u => {
                   const comp = Q.computeUserComp(u.id);
                   if (!comp || comp.origination.credit === 0) return null;
                   return (
@@ -3408,7 +4022,7 @@ const ReportsPage = () => {
                       <div style={{ marginTop: 8 }}>{comp.origination.details.map((d, i) => <div key={i} style={{ fontSize: "11px", color: T.textSecondary, padding: "2px 0" }}>{d.matterNumber} — {fmt.currency(d.credit)}</div>)}</div>
                     </Card>
                   );
-                }).filter(Boolean)}
+                }).filter(Boolean) : null}
               </div>
             </Card>
           )}
@@ -3416,10 +4030,10 @@ const ReportsPage = () => {
           {activeReport === "production_board" && (
             <Card style={{ padding: 0 }}>
               <div style={{ padding: "14px 18px", borderBottom: `1px solid ${T.border}`, fontSize: "14px", fontWeight: 700, color: T.text }}>Production by Attorney</div>
-              <Table data={DB.users.filter(u => !["admin", "billing_manager"].includes(u.role)).map(u => {
+              <Table data={rUsers.filter(u => !["admin", "billing_manager"].includes(u.role)).map(u => {
                 const comp = Q.computeUserComp(u.id);
-                const hours = DB.timeEntries.filter(t => t.userId === u.id && t.billable).reduce((s, t) => s + t.durationMinutes, 0) / 60;
-                const billed = DB.timeEntries.filter(t => t.userId === u.id && t.billable).reduce((s, t) => s + (t.durationMinutes / 60) * t.rateAtEntry, 0);
+                const hours = rTimeEntries.filter(t => t.userId === u.id && t.billable).reduce((s, t) => s + t.durationMinutes, 0) / 60;
+                const billed = rTimeEntries.filter(t => t.userId === u.id && t.billable).reduce((s, t) => s + (t.durationMinutes / 60) * t.rateAtEntry, 0);
                 return { ...u, hours, billed, production: comp?.production.credit || 0, rate: comp?.production.rate || 0 };
               }).sort((a, b) => b.production - a.production)} columns={[
                 { header: "Attorney", render: r => <div><span style={{ fontWeight: 600 }}>{r.firstName} {r.lastName}</span><div style={{ fontSize: "11px", color: T.textTertiary }}>{fmt.role(r.role)}</div></div> },
@@ -3434,12 +4048,12 @@ const ReportsPage = () => {
           {activeReport === "client_profit" && (
             <Card style={{ padding: 0 }}>
               <div style={{ padding: "14px 18px", borderBottom: `1px solid ${T.border}`, fontSize: "14px", fontWeight: 700, color: T.text }}>Client Profitability</div>
-              <Table data={DB.clients.map(c => {
+              <Table data={(filterAtty === "all" ? DB.clients : DB.clients.filter(c => rMatters.some(m => m.clientId === c.id))).map(c => {
                 const inv = Q.invoicesForClient(c.id);
                 const collected = inv.reduce((s, i) => s + i.amountPaid, 0);
                 const time = Q.timeForClient(c.id);
                 const costOfTime = time.reduce((s, t) => s + (t.durationMinutes / 60) * (t.rateAtEntry * 0.35), 0); // Assume 35% cost
-                const expenses = DB.expenses.filter(e => DB.matters.some(m => m.clientId === c.id && m.id === e.matterId)).reduce((s, e) => s + e.amount, 0);
+                const expenses = rExpenses.filter(e => DB.matters.some(m => m.clientId === c.id && m.id === e.matterId)).reduce((s, e) => s + e.amount, 0);
                 const profit = collected - costOfTime - expenses;
                 const margin = collected > 0 ? (profit / collected * 100).toFixed(0) : 0;
                 return { ...c, collected, costOfTime, expenses, profit, margin, hours: time.reduce((s, t) => s + t.durationMinutes, 0) / 60 };
@@ -3462,7 +4076,7 @@ const ReportsPage = () => {
                 <Card style={{ padding: 14, background: T.surfaceRaised }}><Stat label="Total Active" value={DB.clients.filter(c => c.status === "active").length} color={T.green} /></Card>
                 <Card style={{ padding: 14, background: T.surfaceRaised }}><Stat label="Avg Revenue/Client" value={fmt.currency(totalRevenue / Math.max(DB.clients.length, 1))} /></Card>
               </div>
-              <Table data={DB.clients.sort((a, b) => b.createdAt.localeCompare(a.createdAt))} columns={[
+              <Table data={(filterAtty === "all" ? DB.clients : DB.clients.filter(c => rMatters.some(m => m.clientId === c.id))).slice().sort((a, b) => b.createdAt.localeCompare(a.createdAt))} columns={[
                 { header: "Client", render: r => <span style={{ fontWeight: 600 }}>{r.name}</span> },
                 { header: "Type", render: r => <Badge color={T.textTertiary} bg={T.surfaceRaised}>{r.type}</Badge>, nowrap: true },
                 { header: "Since", render: r => fmt.dateShort(r.createdAt), nowrap: true },
@@ -3477,7 +4091,7 @@ const ReportsPage = () => {
           {activeReport === "trust_transactions" && (
             <Card style={{ padding: 0 }}>
               <div style={{ padding: "14px 18px", borderBottom: `1px solid ${T.border}`, fontSize: "14px", fontWeight: 700, color: T.text }}>Trust Transaction History</div>
-              <Table data={DB.trustTransactions.sort((a, b) => b.date.localeCompare(a.date))} columns={[
+              <Table data={(filterAtty === "all" ? DB.trustTransactions : DB.trustTransactions.filter(tt => { const clientMatterIds = rMatters.map(m => m.clientId); return clientMatterIds.includes(tt.clientId); })).slice().sort((a, b) => b.date.localeCompare(a.date))} columns={[
                 { header: "Date", render: r => fmt.dateShort(r.date), nowrap: true },
                 { header: "Client", render: r => Q.client(r.clientId)?.name },
                 { header: "Type", render: r => <Badge color={r.type === "deposit" ? "#3F7653" : T.red} bg={r.type === "deposit" ? T.accentBg : T.redBg}>{r.type}</Badge>, nowrap: true },
@@ -3544,7 +4158,7 @@ const ExpensesPage = ({ currentUser }) => {
         <div style={{ marginBottom: 12 }}><div style={{ fontSize: "11px", fontWeight: 600, color: T.textTertiary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 4 }}>Description</div><input placeholder="Filing fee description..." style={{ width: "100%", padding: "8px 12px", border: `1px solid ${T.border}`, borderRadius: T.radius, fontSize: "13px", fontFamily: T.font }} /></div>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
           <label style={{ display: "flex", alignItems: "center", gap: 6, fontSize: "13px", color: T.text }}><input type="checkbox" defaultChecked style={{ accentColor: "#3F7653" }} /> Billable to client</label>
-          <Btn variant="ghost" size="sm"><Icon name="upload" size={13} color={T.textSecondary} /> Upload Receipt</Btn>
+          <Btn variant="ghost" size="sm" onClick={() => toast("Receipt file picker would open — attach PDF or image of receipt")}><Icon name="upload" size={13} color={T.textSecondary} /> Upload Receipt</Btn>
         </div>
         <div style={{ display: "flex", justifyContent: "flex-end", gap: 8 }}><Btn variant="ghost" onClick={() => setShowAdd(false)}>Cancel</Btn><Btn onClick={() => setShowAdd(false)}>Save Expense</Btn></div>
       </Modal>
@@ -3570,7 +4184,7 @@ const TrustPage = () => {
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 24 }}>
         <div><h1 style={{ margin: 0, fontSize: "22px", fontWeight: 700, color: T.text }}>Trust Accounting</h1><p style={{ margin: "2px 0 0", fontSize: "13px", color: T.textTertiary }}>{account.name} · {account.bank} · ****{account.accountLast4}</p></div>
         <div style={{ display: "flex", gap: 8 }}>
-          <Btn variant="ghost" size="sm"><Icon name="drive" size={13} color={T.textSecondary} /> Reconciliation</Btn>
+          <Btn variant="ghost" size="sm" onClick={() => toast("Three-way reconciliation wizard would open — upload bank statement to compare")}><Icon name="drive" size={13} color={T.textSecondary} /> Reconciliation</Btn>
           <Btn size="sm" onClick={() => setShowDeposit(true)}><Icon name="plus" size={13} color={T.bg} /> Record Deposit</Btn>
         </div>
       </div>
@@ -3610,7 +4224,7 @@ const TrustPage = () => {
           <div style={{ padding: "14px 18px", borderBottom: `1px solid ${T.border}`, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <div style={{ fontSize: "14px", fontWeight: 700, color: T.text }}>{selectedClient ? DB.clients.find(c => c.id === selectedClient)?.name : "All"} — Transactions</div>
             <div style={{ display: "flex", gap: 6 }}>
-              <Btn variant="ghost" size="sm">Apply to Invoice</Btn>
+              <Btn variant="ghost" size="sm" onClick={() => toast("Invoice selector would open — choose an outstanding invoice to pay from trust balance")}>Apply to Invoice</Btn>
             </div>
           </div>
           <Table data={selectedTxns.sort((a, b) => b.date.localeCompare(a.date))} columns={[
@@ -3772,14 +4386,14 @@ const CalendarPage = ({ nav, currentUser }) => {
                     <div style={{ fontSize: "12px", color: T.textTertiary }}>{googleConn.email}</div>
                     <div style={{ fontSize: "11px", color: T.textDim, marginTop: 1 }}>↔ Two-way · "{googleConn.calendarName}" · Last synced {fmt.relative(googleConn.lastSync)}</div>
                     <div style={{ display: "flex", gap: 6, marginTop: 10 }}>
-                      <Btn variant="ghost" size="sm" style={{ fontSize: "11px", padding: "5px 10px" }}>Sync Now</Btn>
-                      <Btn variant="ghost" size="sm" style={{ fontSize: "11px", padding: "5px 10px", color: T.red }}>Disconnect</Btn>
+                      <Btn variant="ghost" size="sm" style={{ fontSize: "11px", padding: "5px 10px" }} onClick={() => toast("Calendar sync triggered — syncing events with Google Calendar")}>Sync Now</Btn>
+                      <Btn variant="ghost" size="sm" style={{ fontSize: "11px", padding: "5px 10px", color: T.red }} onClick={() => toast("Google Calendar disconnected", "warning")}>Disconnect</Btn>
                     </div>
                   </div>
                 ) : (
                   <div>
                     <div style={{ fontSize: "11.5px", color: T.textTertiary, lineHeight: 1.5, marginBottom: 10 }}>Events sync both directions. Compliance deadlines, matter deadlines, and meetings appear in your Google Calendar.</div>
-                    <Btn size="sm" style={{ fontSize: "12px" }}>Connect Google Calendar</Btn>
+                    <Btn size="sm" style={{ fontSize: "12px" }} onClick={() => toast("Google OAuth flow would start — sign in and select a calendar")}>Connect Google Calendar</Btn>
                   </div>
                 )}
               </div>
@@ -3802,16 +4416,16 @@ const CalendarPage = ({ nav, currentUser }) => {
                     <div style={{ fontSize: "12px", color: T.textTertiary }}>{appleConn.email}</div>
                     <div style={{ fontSize: "11px", color: T.textDim, marginTop: 1 }}>Subscribe feed · "{appleConn.calendarName}" · Auto-updates</div>
                     <div style={{ display: "flex", gap: 6, marginTop: 10 }}>
-                      <Btn variant="ghost" size="sm" style={{ fontSize: "11px", padding: "5px 10px" }}>Copy Feed URL</Btn>
-                      <Btn variant="ghost" size="sm" style={{ fontSize: "11px", padding: "5px 10px", color: T.red }}>Remove</Btn>
+                      <Btn variant="ghost" size="sm" style={{ fontSize: "11px", padding: "5px 10px" }} onClick={() => toast("Subscribe URL copied to clipboard")}>Copy Feed URL</Btn>
+                      <Btn variant="ghost" size="sm" style={{ fontSize: "11px", padding: "5px 10px", color: T.red }} onClick={() => toast("Apple Calendar subscription removed", "warning")}>Remove</Btn>
                     </div>
                   </div>
                 ) : (
                   <div>
                     <div style={{ fontSize: "11.5px", color: T.textTertiary, lineHeight: 1.5, marginBottom: 10 }}>Get a subscribe URL to add to Apple Calendar. Abbado events appear automatically. Or connect via CalDAV for two-way sync.</div>
                     <div style={{ display: "flex", gap: 6 }}>
-                      <Btn size="sm" style={{ fontSize: "12px" }}>Generate Subscribe URL</Btn>
-                      <Btn variant="ghost" size="sm" style={{ fontSize: "12px" }}>Connect CalDAV</Btn>
+                      <Btn size="sm" style={{ fontSize: "12px" }} onClick={() => toast("Subscribe URL generated — add this to Apple Calendar: webcal://api.abbado.founderslaw.com/cal/...")}>Generate Subscribe URL</Btn>
+                      <Btn variant="ghost" size="sm" style={{ fontSize: "12px" }} onClick={() => toast("CalDAV setup wizard would open — enter your iCloud credentials for two-way sync")}>Connect CalDAV</Btn>
                     </div>
                   </div>
                 )}
@@ -3927,6 +4541,15 @@ export default function App() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQ, setSearchQ] = useState("");
   const [currentUserId, setCurrentUserId] = useState("u0"); // Default: Neilton (admin)
+  const [toast, setToast] = useState(null);
+
+  // Global toast function — any component can call this
+  const showToast = useCallback((msg, type = "success") => {
+    setToast({ msg, type, id: Date.now() });
+    setTimeout(() => setToast(null), 3000);
+  }, []);
+  // Make globally accessible for nested components
+  useEffect(() => { window.__toast = showToast; }, [showToast]);
 
   const currentUser = DB.users.find(u => u.id === currentUserId) || DB.users[0];
   const isAdmin = Q.isAdmin(currentUser.role);
@@ -3993,6 +4616,14 @@ export default function App() {
         input::placeholder, textarea::placeholder { color: ${T.textDim}; }
         select { color-scheme: light; }
       `}</style>
+
+      {/* ── TOAST NOTIFICATION ── */}
+      {toast && (
+        <div key={toast.id} style={{ position: "fixed", top: 20, right: 20, zIndex: 9999, padding: "12px 20px", borderRadius: T.radiusMd, background: toast.type === "success" ? "#213B2B" : toast.type === "warning" ? "#D4851F" : toast.type === "error" ? "#C0392B" : "#213B2B", color: "#FCF8F1", fontSize: "13px", fontWeight: 600, fontFamily: T.font, boxShadow: "0 8px 30px rgba(33,59,43,0.3)", display: "flex", alignItems: "center", gap: 10, animation: "slideIn 0.3s ease", maxWidth: 440 }}>
+          <span>{toast.type === "success" ? "✓" : toast.type === "warning" ? "⚠" : "ℹ"}</span>
+          {toast.msg}
+        </div>
+      )}
 
       {/* ---- SIDEBAR ---- */}
       <aside style={{ width: 220, background: "#213B2B", borderRight: `1px solid rgba(255,255,255,0.08)`, display: "flex", flexDirection: "column", flexShrink: 0 }}>
